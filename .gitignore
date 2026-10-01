@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Local data, recordings, and derived model artifacts
+02 - DATASETs/raw/
+02 - DATASETs/processed/
+*.wav
+*.mp3
+*.m4a
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+
+# Common experiment output
+outputs/
+checkpoints/
+wandb/
