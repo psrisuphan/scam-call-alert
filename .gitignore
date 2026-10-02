@@ -25,3 +25,9 @@ env/
 outputs/
 checkpoints/
 wandb/
+
+# Course materials kept local and out of Git
+01 - PLANs/course-lecture-sheets/
+
+# Local agent handoff instructions
+AGENTS.md
