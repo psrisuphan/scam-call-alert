@@ -1,7 +1,5 @@
 # 00 - DATA PREPARATION
 
-Status: confirmed instruction plan. Dataset acquisition and preparation have not been executed.
-
 ## Purpose and scope
 
 Obtain the two datasets specified in the proposal and produce valid, labeled, traceable conversation records ready for splitting.
