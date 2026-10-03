@@ -1,103 +1,122 @@
-# 00 - Data preparation
+# 00 - Data preparation plan
 
-## Goal
+## Objective
 
-Build traceable, reviewed Thai call datasets for binary Scam vs Not Scam classification. Keep primary and supplemental sources separate so we can run controlled experiments comparing primary-only training against primary-plus-supplemental training. One sample equals one complete phone dialogue. The classifier takes conversation text as its only input.
+Acquire, inspect, clean, and format the raw Thai phone dialogue datasets into versioned, traceable JSONL files for binary Scam vs Not Scam classification.
 
 Course references:
-- Chapter 2: slides 29, 32-44, 46-54, 62-70 (dataset quality, inspection, organization, and labeling)
+- Chapter 2: slides 29, 32-44, 46-54, 62-70 (dataset management, quality dimensions, inspection, and labeling)
 - Lab 1: Task 1 (inspection, distributions, quality issues) and Task 2 (before-and-after checks)
 - Chapter 6: slides 15-18 (group splits and data leakage prevention)
 
-## Status checklist
+Proposal references:
+- Section 4: Data and Dataset (Scam Dialogue Thai Translated and Thai Call Center Call Log)
+- Section 4.1: Label mapping
+- Section 5: Data Preparation pipeline step ("จัดการข้อมูลซ้ำหรือไม่สมบูรณ์ หากพบ label ที่กำกวมให้ไม่นำมาใช้")
+- Section 7.1: Task 1 responsibility (Data Scientist, Member 1)
 
-- [x] Download raw sources and pin revisions, versions, and SHA-256 checksums.
-- [x] Build and run `02 - DATASETs/inspection.ipynb` end-to-end.
-- [x] Log source row counts, category distributions, sample calls, and quality flags.
-- [x] Create review queues, candidate duplicate groups, and labeling guidelines.
-- [x] Deduplicate exact text copies and link related call templates into split groups.
-- [x] Export versioned dataset files (`02 - DATASETs/processed/v1/`) with full decision logs.
-- [x] Verify final row counts, label balance, provenance fields, and zero pending decisions.
+---
 
-Section 00 is complete for dataset version v1. The prepared pool has 1,440 conversations: 1,273 primary and 167 supplemental. We excluded 38 rows with logged reasons (19 duplicate copies, 13 ambiguous Unknow calls, 5 corrupted texts, and 1 truncated dialogue).
+## Inputs
 
-See [the presentation findings report](../02%20-%20DATASETs/reports/data_preparation_findings_v1.md) for full counts, category tables, and presentation slide talking points.
+1. **Primary source:** Scam Dialogue Thai Translated (Hugging Face `thirdExec/scam-dialogue-thai-translated`, commit `e814ce89`).
+   - 1,280 dialogues across 8 categories (160 each; 640 Scam, 640 Not Scam).
+   - Text column: `translated dialogue`.
+2. **Supplemental source:** Thai Call Center Call Log (Kaggle `jxxn03x/thai-call-center-call-log-dataset`, version 1).
+   - 198 logs across 5 categories (Scam 73, General 49, Official 37, Verification-call 26, Unknow 13).
+   - Text column: `Text`.
 
-## Raw inputs
+---
 
-| Source | Role | Raw rows | Categories and distribution | Source labels |
-| --- | --- | ---: | --- | --- |
-| Scam Dialogue Thai Translated (Primary) | Primary | 1,280 | 8 categories (160 rows each) | 640 Scam (1), 640 Not Scam (0) |
-| Thai Call Center Call Log (Supplemental) | Supplemental | 198 | Scam 73, General 49, Official 37, Verification-call 26, Unknow 13 | 5 text categories |
+## Step-by-step execution plan
 
-Raw source files remain read-only in `02 - DATASETs/raw/`. Source URLs, commit hashes, and file checksums are recorded in `02 - DATASETs/sources.json`.
+### Step 1: Data acquisition and checksum verification
+1. Download raw Parquet and CSV files using public endpoints.
+2. Extract the Kaggle CSV from its archive.
+3. Validate SHA-256 hashes against `sources.json` before touching the data.
+4. Keep all raw files read-only in `02 - DATASETs/raw/`.
 
-Use column `translated dialogue` for primary text and column `Text` for supplemental text.
-
-## Automated inspection findings
-
-[See the detailed inspection report](../02%20-%20DATASETs/reports/data_quality_v1.md).
-
-| Check | Count | Note |
-| --- | ---: | --- |
-| Missing or blank text | 0 | All 1,478 raw rows contain text |
-| Exact duplicate groups | 12 | 32 total rows; 20 redundant copies (18 in Kaggle Scam, 1 in Kaggle Unknow, 1 in Primary) |
-| Exact duplicate label conflicts | 0 | Same-text rows share the same source label |
-| Near-duplicate candidate pairs | 46 | Character 3-5 gram TF-IDF cosine similarity >= 0.90 |
-| Near-duplicate label conflicts | 0 | No high-similarity pairs had opposing labels |
-| Cross-source duplicate pairs | 0 | Primary and supplemental sources share no identical texts |
-| Repeated source IDs in Kaggle CSV | 6 | IDs `00101`, `00130`, and `00140` appear twice each |
-| Rows with no Thai characters | 21 | Punctuation-only placeholders or pure English text |
-| Short text under 100 characters | 104 | Short OTP messages, alerts, or quick chats |
-| Rows with control or replacement characters | 5 | Encoding artifacts (`\ufffd`) |
-
-Flags identify rows needing manual review. A flag does not automatically mean a row is defective.
-
-Because Kaggle reused three ID numbers across different conversations, source `Id` cannot serve as a unique primary key. We assign zero-based row indices (`kaggle_000000` through `kaggle_000197`) and keep the original `Id` string as metadata.
-
-Standardizing line endings (`\r\n` to `\n`) and stripping edge whitespace changed zero characters across the raw datasets.
-
-## Five quality dimensions
-
-1. Completeness: Zero empty rows. Five corrupted rows and one truncated dialogue were excluded.
-2. Accuracy: Source labels were verified. Primary balanced classes were retained. Supplemental categories were mapped (Scam to 1; General, Official, and Verification-call to 0). Ambiguous Unknow calls were excluded.
-3. Consistency: Schemas, field names, and binary labels (0 and 1) are standardized. Unique IDs use row indices. Exact duplicates were pruned to one representative.
-4. Representativeness: Both datasets contain synthetic dialogues. Translated scenarios include western government agencies (IRS, SSA, FTC) that do not represent Thai call patterns.
-5. Reliability: All raw downloads are pinned by revision hash and SHA-256 checksum.
-
-## Data preparation rules
-
-Follows `02 - DATASETs/labeling_guideline.md`:
-- Target labels: `0 = Not Scam`, `1 = Scam`.
-- Supplemental mapping: `Scam` (73 rows) -> `1`; `General` (49), `Official` (37), and `Verification-call` (26) -> `0`.
-- Ambiguous data: `Unknow` (13 rows) excluded due to ambiguous labels and incomplete content.
-- Duplicate data: 18 redundant Scam copies pruned in Kaggle; 1 redundant copy pruned in Primary (`hf_001143`).
-- Corrupted/truncated data: 5 rows with `\ufffd` and 1 truncated row in Primary excluded.
-
-## Prepared dataset outputs (v1)
-
-Stored in `02 - DATASETs/processed/v1/`:
-- `primary.jsonl`: 1,273 records (634 Scam, 639 Not Scam)
-- `supplemental.jsonl`: 167 records (55 Scam, 112 Not Scam)
-- `decisions.jsonl`: audit log for all 1,478 raw rows
-- `exclusions.jsonl`: 38 excluded rows with reason codes
-- `groups.jsonl`: split groups linking related call templates (14 multi-sample groups)
-- `summary.json`: row counts and checksums
-
-Summary report: `02 - DATASETs/reports/preparation_v1.json`.
-Detailed presentation report: `02 - DATASETs/reports/data_preparation_findings_v1.md`.
-
-To rebuild the dataset:
+Execution command:
 ```bash
-uv run --no-project --with pyarrow==25.0.1 python '02 - DATASETs/prepare.py'
+python '02 - DATASETs/download.py'
 ```
-The script refuses to overwrite an existing `v1/` directory. To test the build cleanly, use `02 - DATASETs/test_prepare.py`.
 
-## Evidence files
+### Step 2: Quality inspection and flagging
+1. Run automated inspection across all 1,478 raw dialogues.
+2. Check for empty strings, null values, or placeholder texts ("...").
+3. Check for replacement characters (`\ufffd`) and non-standard control bytes.
+4. Measure character length distributions and flag texts under 100 characters.
+5. Check for pure English texts or missing Thai characters.
+6. Check for ID collisions in the raw files.
+7. Log all aggregate counts and flagged rows into `reports/inspection_v1.json`.
 
-- Inspection notebook: `02 - DATASETs/inspection.ipynb`
-- Executed notebook (local): `02 - DATASETs/inspection.executed.ipynb`
-- Quality metrics: `02 - DATASETs/reports/inspection_v1.json`
-- Inspection report: `02 - DATASETs/reports/data_quality_v1.md`
-- Row-level decision log: `02 - DATASETs/processed/v1/decisions.jsonl`
-- Automated unit test: `02 - DATASETs/test_prepare.py`
+Execution command:
+```bash
+uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python -m ipykernel install --user
+# Run 02 - DATASETs/inspection.ipynb end-to-end
+```
+
+### Step 3: Duplicate and template detection
+1. **Exact duplicates:** Match strings by collapsing internal whitespace while preserving lettercase and punctuation. For identical texts sharing the same label, keep the earliest row and mark redundant copies for pruning.
+2. **Near duplicates:** Extract character 3-5 gram TF-IDF features and compute pairwise cosine similarity. Pairs with similarity >= 0.90 represent template variants.
+3. **Leakage prevention:** Cluster near-duplicate pairs into connected `group_id` components. Save these clusters to `groups.jsonl` so stage 01 can keep related calls in the same split partition.
+
+### Step 4: Label mapping and ambiguity handling
+Follow the labeling rules defined in the proposal:
+1. **Primary labels:** Retain source labels (`1 = Scam`, `0 = Not Scam`).
+2. **Supplemental labels:**
+   - Map `Scam` (73 raw) to `1 = Scam`.
+   - Map non-scam categories (`General` 49, `Official` 37, `Verification-call` 26) to `0 = Not Scam`.
+3. **Ambiguity pruning:** Exclude the 13 `Unknow` category calls because their labels are ambiguous and their dialogues consist of silence or audio complaints.
+4. **Defect pruning:** Exclude 5 dialogues with `\ufffd` replacement characters, 1 dialogue cut off mid-sentence, and 19 redundant exact duplicate copies.
+
+### Step 5: Dataset generation and provenance logging
+1. Generate clean JSONL files in `02 - DATASETs/processed/v1/`.
+2. Assign sequential zero-based IDs (`hf_000000` to `hf_001279`, `kaggle_000000` to `kaggle_000197`).
+3. Normalize line endings (`\r\n` to `\n`) and trim edge whitespace. Preserve all original speaker tags, phone numbers, URLs, and punctuation.
+4. Write row-level audit records to `decisions.jsonl` and log all excluded dialogues to `exclusions.jsonl`.
+5. Enforce overwrite protection: abort if target directory exists.
+
+Execution command:
+```bash
+uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python '02 - DATASETs/prepare.py'
+```
+
+### Step 6: Automated verification and testing
+1. Assert record counts match expected totals: exactly 1,440 retained rows (1,273 primary, 167 supplemental) and 38 excluded rows.
+2. Assert zero duplicate texts in retained data.
+3. Assert all retained labels are valid integers (0 or 1).
+4. Assert every retained dialogue belongs to exactly one group in `groups.jsonl`.
+5. Test reproduction in an isolated temporary sandbox to verify byte-identical output.
+6. Test tamper detection to verify that altering raw bytes causes an immediate failure.
+
+Execution command:
+```bash
+uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python '02 - DATASETs/test_prepare.py'
+```
+
+---
+
+## Deliverables and artifacts
+
+| Artifact | Location | Purpose |
+| --- | --- | --- |
+| Download script | `02 - DATASETs/download.py` | Fetch and hash-check raw data |
+| Inspection notebook | `02 - DATASETs/inspection.ipynb` | Exploratory data analysis and quality flags |
+| Preparation script | `02 - DATASETs/prepare.py` | Deterministic clean dataset build |
+| Verification test suite | `02 - DATASETs/test_prepare.py` | Automated tests and sandbox reproduction |
+| Primary clean dataset | `02 - DATASETs/processed/v1/primary.jsonl` | 1,273 primary dialogues |
+| Supplemental clean dataset | `02 - DATASETs/processed/v1/supplemental.jsonl` | 167 supplemental dialogues |
+| Decision audit log | `02 - DATASETs/processed/v1/decisions.jsonl` | Full provenance for all 1,478 raw rows |
+| Exclusion log | `02 - DATASETs/processed/v1/exclusions.jsonl` | 38 excluded records with reason codes |
+| Split groups | `02 - DATASETs/processed/v1/groups.jsonl` | 14 multi-row template clusters for Stage 01 |
+| Findings report | `02 - DATASETs/reports/data_preparation_findings_v1.md` | Detailed report and presentation slides |
+
+---
+
+## Stop condition
+
+Stage 00 is complete when:
+- `processed/v1/` contains 1,273 primary and 167 supplemental clean records.
+- All unit tests in `test_prepare.py` pass.
+- No dataset splitting or model training has occurred.
