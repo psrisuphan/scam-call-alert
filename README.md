@@ -19,11 +19,7 @@ The datasets contain simulated conversations. Results should therefore be interp
 ## Repository layout
 
 - `00 - DOCUMENTs/` - project idea and full proposal
-- `01 - PLANs/` - planning materials
+- [01 - PLANs/](01%20-%20PLANs/README.md) - implementation plans and workflow guide
 - `02 - DATASETs/` - dataset workspace
 - `03 - MODEL DEVELOPMENT/` - model experiments
 - `04 - APPLICATION DEVELOPMENT/` - mobile application prototype
-
-## Current status
-
-Project planning and implementation have not started. The proposal is the current source of scope and requirements.

@@ -27,21 +27,29 @@ The structure below is the intended organization. Future plan files remain propo
 └── course-lecture-sheets/
 ```
 
-## Purpose of each plan
+## Tasks and planning progress
 
-| Plan | Purpose |
-|---|---|
-| [00 - Data Preparation](00%20-%20DATA%20PREPARATION.md) | Obtain the datasets and prepare labeled, audited conversation records ready for splitting. |
-| 01 - Data Split and Experiment Design | Define train/test separation, cross-validation, grouping, and the experiment comparison protocol. |
-| 02 - Data Preprocessing and Model Inputs | Define preprocessing, model input preparation, and where each operation is applied. |
-| 03/00 - Model Training | Define the procedure for training candidate models using the approved data and input pipeline. |
-| 03/01 - Hyperparameter Tuning and Model Selection | Define how to search configurations and select the model using validation results. |
-| 03/02 - Final Model Evaluation and Error Analysis | Evaluate the selected model on held-out data and examine its errors. |
-| 03/03 - Model Freeze and App Handoff | Prepare the model and supporting artifacts for application integration. |
-| 04/00 - Speech-to-Text Evaluation | Define how to evaluate Thai transcription from prepared audio. |
-| 04/01 - Mobile Emulator Prototype and Integration | Connect audio, transcription, classification, and warnings in the prototype. |
-| 05 - End-to-End System Evaluation | Evaluate the complete audio-to-warning workflow and its system behavior. |
-| 06 - Final Results and Limitations Report | Assemble the methods, experimental results, system measurements, and limitations into the final report. |
+Each plan is one task. Use these states:
+
+- **Unplanned:** the plan has not been confirmed and written.
+- **Planned:** the plan is confirmed and written; implementation is not complete.
+- **Finished:** implementation meets the plan's completion criteria.
+
+Update a task when its plan is saved or its implementation is completed. A written plan alone does not mean the task is finished. Individual plan files do not need status fields.
+
+| Plan | Purpose | State |
+|---|---|---|
+| [00 - Data Preparation](00%20-%20DATA%20PREPARATION.md) | Obtain the datasets and prepare labeled, audited conversation records ready for splitting. | Planned |
+| [01 - Data Split and Experiment Design](01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md) | Define train/test separation, cross-validation, conditional grouping, and shared experiment data conditions. | Planned |
+| 02 - Data Preprocessing and Model Inputs | Define preprocessing, model input preparation, and where each operation is applied. | Unplanned |
+| 03/00 - Model Training | Define the procedure for training candidate models using the approved data and input pipeline. | Unplanned |
+| 03/01 - Hyperparameter Tuning and Model Selection | Define how to search configurations and select the model using validation results. | Unplanned |
+| 03/02 - Final Model Evaluation and Error Analysis | Evaluate the selected model on held-out data and examine its errors. | Unplanned |
+| 03/03 - Model Freeze and App Handoff | Prepare the model and supporting artifacts for application integration. | Unplanned |
+| 04/00 - Speech-to-Text Evaluation | Define how to evaluate Thai transcription from prepared audio. | Unplanned |
+| 04/01 - Mobile Emulator Prototype and Integration | Connect audio, transcription, classification, and warnings in the prototype. | Unplanned |
+| 05 - End-to-End System Evaluation | Evaluate the complete audio-to-warning workflow and its system behavior. | Unplanned |
+| 06 - Final Results and Limitations Report | Assemble the methods, experimental results, system measurements, and limitations into the final report. | Unplanned |
 
 ## How to follow the plans
 
