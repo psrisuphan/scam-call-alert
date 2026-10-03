@@ -1,0 +1,74 @@
+{
+  "inspection_version": "v1",
+  "status": "automated_inspection_complete_manual_review_pending",
+  "source_checksums": {
+    "raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet": "84c5190cf0e584262c156e49d1b801c61f611c542a472d75f188c52ca33b580e",
+    "raw/thai-call-center-call-log/thai-call-center-call-log-dataset.zip": "df47b5c2075619ac41adfc68f016def1c5591af8b9bd8a77a6b6ce9d8f928f61",
+    "raw/thai-call-center-call-log/Dataset.csv": "615fde01d5704da4ff2c5d5f39d1729e108cac40598d518b487480337cbca992"
+  },
+  "software": {
+    "python": "3.11.16",
+    "pyarrow": "25.0.1",
+    "scikit-learn": "1.9.1"
+  },
+  "counts": {
+    "primary": 1280,
+    "supplemental": 198
+  },
+  "source_label_counts": {
+    "primary": {
+      "1": 640,
+      "0": 640
+    },
+    "supplemental": {
+      "Scam": 73,
+      "General": 49,
+      "Verification-call": 26,
+      "Official": 37,
+      "Unknow": 13
+    }
+  },
+  "category_counts": {
+    "primary": {
+      "Social security number scams": 160,
+      "Refund scams": 160,
+      "Technical support scams": 160,
+      "Reward scams": 160,
+      "Legitimate delivery confirmation calls": 160,
+      "Genuine insurance sales calls": 160,
+      "Legitimate telemarketing calls": 160,
+      "Wrong number calls": 160
+    },
+    "supplemental": {
+      "Scam": 73,
+      "General": 49,
+      "Verification-call": 26,
+      "Official": 37,
+      "Unknow": 13
+    }
+  },
+  "flag_counts": {
+    "control_or_replacement_character": 5,
+    "duplicate_source_id": 6,
+    "exact_duplicate": 32,
+    "near_duplicate_candidate": 47,
+    "no_thai_characters": 21,
+    "short_text_under_100_characters": 104,
+    "unresolved_label": 13
+  },
+  "formatting_changed_rows": 0,
+  "exact_duplicate_groups": 12,
+  "exact_redundant_copies": 20,
+  "exact_label_conflict_groups": 0,
+  "exact_cross_source_groups": 0,
+  "near_candidate_pairs": 46,
+  "near_label_conflict_pairs": 0,
+  "near_cross_source_pairs": 0,
+  "review_queue_counts": {
+    "primary": 72,
+    "supplemental": 198
+  },
+  "rows_excluded": 0,
+  "labels_changed": 0,
+  "approved_training_rows": null
+}
