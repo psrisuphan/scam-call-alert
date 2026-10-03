@@ -14,7 +14,7 @@ This task covers acquisition, source inspection, conversion to the confirmed CSV
 02 - DATASETs/
 ├── raw/
 │   └── Original dataset files in their downloaded formats
-└── processed/
+└── prepared/
     ├── prepared.csv
     ├── README.md
     ├── source_manifest.csv
@@ -25,7 +25,7 @@ This task covers acquisition, source inspection, conversion to the confirmed CSV
 | Location or file | Purpose and required contents |
 |---|---|
 | `raw/` | Original downloads, unchanged and distinguishable by source. |
-| `prepared.csv` | One retained conversation per row using the schema in section 4. Intermediate input to Plan 01. |
+| `prepared.csv` | One retained conversation per row using the schema in section 4. Canonical preparation output retained as the input to Plan 01. |
 | `README.md` | Directory/file descriptions, current preparation stage, completed operations, deferred operations, and next task. |
 | `source_manifest.csv` | Source URL, download date, available version, local source-file path, checksum and its algorithm, license information, and original record count for each source file. Record unavailable information explicitly. |
 | `preparation_report.md` | Rules and rationale, source-field mapping, identifier convention, label definitions, findings, before/after counts, limitations, and completion-check results. |
@@ -158,7 +158,9 @@ In `README.md`, state the actual completed operations and explicitly state that 
 
 Complete this task only when all checks pass, documentation is complete, and owner review is resolved. Deliver `prepared.csv`, the source manifest, audit, report, and README. The source mapping and near-duplicate method approval checkpoints are mandatory implementation steps.
 
-Plan 01 creates the train/test files and CV assignments. After it verifies that every prepared record is assigned exactly once to train or test, remove the intermediate `prepared.csv` to avoid duplicate record storage. Preserve the documentation and audit, and update the README to reflect the new stage. Any later source/preparation change requires a documented version and reconsideration of affected split assignments.
+Retain `02 - DATASETs/prepared/prepared.csv` and its preparation documentation as the completed output of this task. Pass them, including confirmed conversation relationships, to [Plan 01 - Data Split and Experiment Design](01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md). Plan 01 defines the split artifacts and their verification. Do not perform splitting or model-oriented preprocessing during this task.
+
+Any later source/preparation change must be versioned and communicated to downstream workers so affected artifacts can be regenerated under their respective plans.
 
 ## References and rationale
 
