@@ -151,6 +151,14 @@ Using only training-pool records:
 
 Do not silently truncate or exclude valid conversations. Test data must not determine the policy.
 
+Distinguish fixed design settings from rules learned from project data:
+
+- A fixed limit chosen from documented checkpoint constraints and an owner-approved resource budget may be shared across folds. Training-pool length summaries describe coverage; they must not silently become fitted parameters.
+- A data-derived rule, such as a token-length percentile, must be derived separately from each fold's eligible training records, excluding validation records and any source excluded by the training condition. Apply that frozen rule to the fold's validation inputs. For later final training, derive it from the eligible full training pool and freeze it before test evaluation.
+- Comparing length strategies using prediction scores belongs to the tuning plan and uses validation results, never final test results.
+
+Record whether the approved policy is fixed or data-derived. For a data-derived policy, save the fitted value and training-subset identity for each run; do not reuse one globally fitted value across CV folds.
+
 If chunking is proposed, Plan 02 defines window construction. Implementation must wait until the relevant model-development plans resolve window-label handling and prediction aggregation.
 
 Record the approved policy in configuration and apply it consistently to subsequent training, validation, and final-evaluation inputs.
@@ -236,6 +244,8 @@ Hand off the component, configuration, report, and README to model development. 
 - [Full Proposal](../00%20-%20DOCUMENTs/Full%20Proposal/Phoebe_FullProposal.docx), section 5: consistent speaker/transcript formatting, preserved dialogue content/order, and model-specific tokenizers.
 - [L03 - Data Preprocessing and Feature Engineering](course-lecture-sheets/Pattern%20Recognition%20L03_Data%20Preprocessing%20and%20Feature%20Engineering_final.pdf), PDF p. 7 and pp. 21, 24, 27, 43: consistent representations, sampling tradeoffs, meaning-preserving augmentation, training-only augmentation, and leakage prevention.
 - [L06 - Experimental Design and System Evaluation](course-lecture-sheets/Pattern%20Recognition%20L06_Experimental%20Design%20and%20System%20Evaluation.pdf), PDF pp. 9–11: controlled comparison supporting the speaker-input ablation.
+- [L05 - Model Selection and Hyperparameter Tuning](course-lecture-sheets/Pattern%20Recognition%20L05_Model%20Selection%20%26%20Hyperparameter%20Tuning.pdf), PDF pp. 32–33: consistent pipelines and fitting preprocessing separately within each CV training portion.
+- L06, PDF p. 18: fit data-dependent transformations within each training split, then transform validation/test inputs with the frozen result.
 - [AI-in-the-Loop authors' project](https://supreme-lab.github.io/ai-in-the-loop/) and [cited paper](https://petsymposium.org/popets/2026/popets-2026-0006.pdf): multi-turn scam-dialogue research context; these do not establish that both-speaker input outperforms caller-only.
 - Official documentation for each selected checkpoint/tokenizer must be verified and recorded during implementation for preparation, limits, special tokens, and padding.
 
