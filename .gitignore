@@ -10,8 +10,12 @@ env/
 .ipynb_checkpoints/
 
 # Local data, recordings, and derived model artifacts
-02 - DATASETs/raw/
-02 - DATASETs/processed/
+02 - DATASETs/raw/**
+02 - DATASETs/processed/**
+!02 - DATASETs/raw/**/
+!02 - DATASETs/processed/**/
+!02 - DATASETs/raw/**/.gitkeep
+!02 - DATASETs/processed/**/.gitkeep
 *.wav
 *.mp3
 *.m4a
