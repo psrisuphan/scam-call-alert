@@ -11,11 +11,11 @@ env/
 
 # Local data, recordings, and derived model artifacts
 02 - DATASETs/raw/**
-02 - DATASETs/processed/**
+02 - DATASETs/prepared/**
 !02 - DATASETs/raw/**/
-!02 - DATASETs/processed/**/
+!02 - DATASETs/prepared/**/
 !02 - DATASETs/raw/**/.gitkeep
-!02 - DATASETs/processed/**/.gitkeep
+!02 - DATASETs/prepared/**/.gitkeep
 *.wav
 *.mp3
 *.m4a
