@@ -1,0 +1,238 @@
+{
+  "status": "finished",
+  "role_mappings": {
+    "primary": {
+      "ผู้โทร": "Caller",
+      "ผู้รับ": "Receiver",
+      "caller": "Caller",
+      "receiver": "Receiver",
+      "ผู้รับสาย": "Receiver",
+      "คนรับ": "Receiver",
+      "ตัวรับสัญญาณ": "Receiver",
+      "ผู้รับเงิน": "Receiver",
+      "ผู้โทรเข้า": "Caller",
+      "ราเชล": "Caller"
+    },
+    "supplemental": {
+      "Call": "Caller",
+      "User": "Receiver"
+    }
+  },
+  "representations": [
+    "whole_conversation",
+    "caller_only"
+  ],
+  "label_to_id": {
+    "Not Scam": 0,
+    "Scam": 1
+  },
+  "padding": "dynamic_longest",
+  "truncation_side": "right",
+  "length_approval": {
+    "status": "approved",
+    "reviewer": "Bukutsu (owner)",
+    "reference": "Owner reply: yep sound good, approving limits 510/510/512/512 and keeping the beginning when text exceeds them.",
+    "scope": "Fixed checkpoint-bound/resource-budget settings shared across folds and both representations; not fitted from data."
+  },
+  "augmentation": false,
+  "resampling": false,
+  "new_vocabulary_tokens": false,
+  "dependencies": {
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "huggingface_hub": "0.36.2",
+    "sentencepiece": "0.2.2",
+    "protobuf": "7.36.2"
+  },
+  "training_csv_sha256": "763abee35dd052b248d18dc78b5888b94062f75cdfeb7756ad3ce5683e2119d4",
+  "assignments_sha256": "4f7a1e012f8a4883a15d8e99ab38f5da4d10a07cb0335ec09cbcee0bd914147a",
+  "models": {
+    "wangchanberta": {
+      "checkpoint": "airesearch/wangchanberta-base-att-spm-uncased",
+      "revision": "b81d38df6b4755dbedec0bfea863c9956cbb963e",
+      "tokenizer_class": "CamembertTokenizerFast",
+      "pad_token_id": 1,
+      "padding_side": "right",
+      "special_tokens_count": 2,
+      "model_input_names": [
+        "input_ids",
+        "attention_mask"
+      ],
+      "tokenizer_reported_max_length": 1000000000000000019884624838656,
+      "verified_config_limit": 510,
+      "checkpoint_preparation": {
+        "status": "approved",
+        "method": "space_marker_only",
+        "rationale": "Owner approved minimal space-marker handling without repetition removal; this deliberately differs from full upstream normalization."
+      },
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 510
+      },
+      "sources": [
+        "https://huggingface.co/airesearch/wangchanberta-base-att-spm-uncased/blob/b81d38df6b4755dbedec0bfea863c9956cbb963e/config.json",
+        "https://huggingface.co/airesearch/wangchanberta-base-att-spm-uncased/blob/b81d38df6b4755dbedec0bfea863c9956cbb963e/tokenizer_config.json",
+        "https://huggingface.co/airesearch/wangchanberta-base-att-spm-uncased/blob/b81d38df6b4755dbedec0bfea863c9956cbb963e/README.md"
+      ],
+      "documentation_sha256": {
+        "README.md": "5d03cf6a7b442b71c747d0c0cf2ac2b85b3a40df58095549babae34c00463c7c",
+        "tokenizer_config.json": "c34101fd36f98e577bdfd1d7b8e7f0dfd2f1d4adec604a9acb62f494c7ee2db9",
+        "config.json": "217475384be787878bf422fb7f439c682eac073de8295a01189a8290a15b5acd"
+      },
+      "model_input_fields": [
+        "input_ids",
+        "attention_mask"
+      ]
+    },
+    "phayathaibert": {
+      "checkpoint": "clicknext/phayathaibert",
+      "revision": "a81ece95beb7a24271905d30c23887d343193c62",
+      "tokenizer_class": "CamembertTokenizerFast",
+      "pad_token_id": 1,
+      "padding_side": "right",
+      "special_tokens_count": 2,
+      "model_input_names": [
+        "input_ids",
+        "attention_mask"
+      ],
+      "tokenizer_reported_max_length": 510,
+      "verified_config_limit": 510,
+      "checkpoint_preparation": {
+        "status": "approved",
+        "method": "space_marker_only",
+        "rationale": "Owner approved minimal space-marker handling without repetition removal; this deliberately differs from full upstream normalization."
+      },
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 510
+      },
+      "sources": [
+        "https://huggingface.co/clicknext/phayathaibert/blob/a81ece95beb7a24271905d30c23887d343193c62/config.json",
+        "https://huggingface.co/clicknext/phayathaibert/blob/a81ece95beb7a24271905d30c23887d343193c62/tokenizer_config.json",
+        "https://huggingface.co/clicknext/phayathaibert/blob/a81ece95beb7a24271905d30c23887d343193c62/README.md"
+      ],
+      "documentation_sha256": {
+        "README.md": "15fd2c532e62b0805d0084429dbed3b93c8aa5a5ac9a793ffe6e9750bd833f31",
+        "tokenizer_config.json": "b83cd8e6e869239c7db4a771e37e29e921a49b65b90a3028294f82e359eb525b",
+        "config.json": "e21233d37e0a15c6b2ce3945a162414e8accc3a6643fbcdd14e986f3c06724c2"
+      },
+      "model_input_fields": [
+        "input_ids",
+        "attention_mask"
+      ]
+    },
+    "hplt": {
+      "checkpoint": "HPLT/hplt_gpt_bert_base_3_0_tha_Thai",
+      "revision": "a7876746d32bf9ee5b2cc00bbb4acd4714b1c88a",
+      "tokenizer_class": "PreTrainedTokenizerFast",
+      "pad_token_id": 0,
+      "padding_side": "right",
+      "special_tokens_count": 2,
+      "model_input_names": [
+        "input_ids",
+        "token_type_ids",
+        "attention_mask"
+      ],
+      "tokenizer_reported_max_length": 1000000000000000019884624838656,
+      "verified_config_limit": 16384,
+      "checkpoint_preparation": {
+        "status": "approved",
+        "method": "native_tokenizer",
+        "rationale": "Native tokenizer applies its documented built-in normalization; no manual content changes."
+      },
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 512
+      },
+      "sources": [
+        "https://huggingface.co/HPLT/hplt_gpt_bert_base_3_0_tha_Thai/blob/a7876746d32bf9ee5b2cc00bbb4acd4714b1c88a/config.json",
+        "https://huggingface.co/HPLT/hplt_gpt_bert_base_3_0_tha_Thai/blob/a7876746d32bf9ee5b2cc00bbb4acd4714b1c88a/tokenizer_config.json",
+        "https://huggingface.co/HPLT/hplt_gpt_bert_base_3_0_tha_Thai/blob/a7876746d32bf9ee5b2cc00bbb4acd4714b1c88a/README.md",
+        "https://huggingface.co/HPLT/hplt_gpt_bert_base_3_0_tha_Thai/blob/a7876746d32bf9ee5b2cc00bbb4acd4714b1c88a/modeling_gptbert.py#L934"
+      ],
+      "documentation_sha256": {
+        "README.md": "a217f36954768345e2569c6551339e96351cfacdd98c686aad2bc6cecb793652",
+        "tokenizer_config.json": "3325eaf9e6cb6024d0d507c93ace235b93e4c37b06f91ec6be738612ec75f731",
+        "config.json": "8e81176a025cd3ecf0dbd3cb9a0c55aad6f342db646eb662c52b6f38a2062c25",
+        "modeling_gptbert.py": "b219768390f4cb81d4e8c77454580f6cdbe26deee69c99c202e7a12e0a788377"
+      },
+      "model_input_fields": [
+        "input_ids",
+        "attention_mask"
+      ]
+    },
+    "xlmr": {
+      "checkpoint": "FacebookAI/xlm-roberta-base",
+      "revision": "e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
+      "tokenizer_class": "XLMRobertaTokenizerFast",
+      "pad_token_id": 1,
+      "padding_side": "right",
+      "special_tokens_count": 2,
+      "model_input_names": [
+        "input_ids",
+        "attention_mask"
+      ],
+      "tokenizer_reported_max_length": 512,
+      "verified_config_limit": 512,
+      "checkpoint_preparation": {
+        "status": "approved",
+        "method": "native_tokenizer",
+        "rationale": "Native tokenizer applies its documented built-in normalization; no manual content changes."
+      },
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 512
+      },
+      "sources": [
+        "https://huggingface.co/FacebookAI/xlm-roberta-base/blob/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/config.json",
+        "https://huggingface.co/FacebookAI/xlm-roberta-base/blob/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/tokenizer_config.json",
+        "https://huggingface.co/FacebookAI/xlm-roberta-base/blob/e73636d4f797dec63c3081bb6ed5c7b0bb3f2089/README.md"
+      ],
+      "documentation_sha256": {
+        "README.md": "bec9f2cd81f7396a64ee474145117d81139906443a21480cbe4993c97cb499aa",
+        "tokenizer_config.json": "994f46754c5bf4014f1aa92d34b1374319c3a6b3f702105cd5b742beaecd18ce",
+        "config.json": "d66ed8cd4f2a93b358c245e50736fa389ed4f35c0bae7aad0b32abb20c62b579"
+      },
+      "model_input_fields": [
+        "input_ids",
+        "attention_mask"
+      ]
+    }
+  },
+  "role_review": {
+    "status": "approved",
+    "proposals": {
+      "ผู้รับสาย": "Receiver",
+      "คนรับ": "Receiver",
+      "ตัวรับสัญญาณ": "Receiver",
+      "ผู้รับเงิน": "Receiver",
+      "ผู้โทรเข้า": "Caller",
+      "ราเชล": "Caller"
+    },
+    "evidence": "Training-only Thai and selected eligible original English fields inspected; owner confirmed the proposed handling.",
+    "trailing_empty_turns": {
+      "sample_ids": [
+        "hf_000382",
+        "hf_000484",
+        "hf_000512"
+      ],
+      "proposed_action": "Preserve the empty neutral marker as present; do not fabricate dialogue, discard turns, or remove records. Keep the source and split CSVs unchanged.",
+      "status": "approved"
+    },
+    "boundary_recovery": {
+      "status": "approved",
+      "sample_id": "hf_000424",
+      "source_fragment": "ตัวรับ R:",
+      "original_english_fragment": "Windows key plus R. receiver: Okay...",
+      "proposed_action": "Keep keyboard key R in caller speech; recover Receiver boundary after it. Log structural before/after rule without changing source CSV.",
+      "transcript_sha256": "880a7f2d68adeef8f48a7fa556efae1b7fa5b415ae2316cb86ac7fb682f2806e",
+      "before": "ตัวรับ R:",
+      "after": "R ผู้รับ:"
+    },
+    "approval_reference": "Owner reply: ok lets go, following the summary of speaker mappings, hf_000424 boundary recovery, empty trailing turns, and minimal Thai checkpoint preparation."
+  }
+}

@@ -41,7 +41,7 @@ Update a task when its plan is saved or its implementation is completed. A writt
 |---|---|---|
 | [00 - Data Preparation](00%20-%20DATA%20PREPARATION.md) | Obtain the datasets and prepare labeled, audited conversation records ready for splitting. | Finished |
 | [01 - Data Split and Experiment Design](01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md) | Define train/test separation, cross-validation, conditional grouping, and shared experiment data conditions. | Finished |
-| [02 - Data Preprocessing and Model Inputs](02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md) | Define preprocessing, model input preparation, and where each operation is applied. | Planned |
+| [02 - Data Preprocessing and Model Inputs](02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md) | Define preprocessing, model input preparation, and where each operation is applied. | Finished |
 | [03/00 - Model Training](03%20-%20MODEL%20DEVELOPMENT/00%20-%20MODEL%20TRAINING.md) | Define the procedure for training candidate models using the approved data and input pipeline. | Planned |
 | 03/01 - Hyperparameter Tuning and Model Selection | Define how to search configurations and select the model using validation results. | Unplanned |
 | 03/02 - Final Model Evaluation and Error Analysis | Evaluate the selected model on held-out data and examine its errors. | Unplanned |
