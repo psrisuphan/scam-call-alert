@@ -1,6 +1,6 @@
 # Data preparation findings report (v1)
 
-> Historical JSONL v1 work. It does not meet the current Stage 00 plan and is not an approved handoff. The plan requires CSV outputs, `Unknow` mapped to `Not Scam`, conservative exact matching, and owner-reviewed relationships. See [reconciliation](stage00_reconciliation.md).
+> Historical JSONL v1 work, superseded by [the CSV preparation report](preparation_csv_v2.md). These counts and rules are not the current handoff. See [reconciliation](stage00_reconciliation.md).
 
 Prepared for Scam Call Alert (Stage 00).
 

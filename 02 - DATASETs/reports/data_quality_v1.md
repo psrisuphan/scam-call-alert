@@ -1,6 +1,6 @@
 # Data quality inspection report (v1)
 
-Initial inspection snapshot taken before manual review. For current dataset counts and exclusion decisions, read [the data preparation findings report](data_preparation_findings_v1.md).
+Historical initial inspection snapshot. Its flags and detector settings are superseded by the CSV preparation. For current counts and decisions, read [the CSV preparation report](preparation_csv_v2.md).
 
 ## Raw dataset counts
 

@@ -1,6 +1,7 @@
 {
   "inspection_version": "v1",
-  "status": "automated_inspection_complete_manual_review_pending",
+  "status": "superseded_historical_inspection",
+  "superseded_by": "preparation_csv_v2.md",
   "source_checksums": {
     "raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet": "84c5190cf0e584262c156e49d1b801c61f611c542a472d75f188c52ca33b580e",
     "raw/thai-call-center-call-log/thai-call-center-call-log-dataset.zip": "df47b5c2075619ac41adfc68f016def1c5591af8b9bd8a77a6b6ce9d8f928f61",

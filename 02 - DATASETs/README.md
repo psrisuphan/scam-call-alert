@@ -1,153 +1,67 @@
 # Datasets
 
-> Historical JSONL v1 work. It does not meet the current Stage 00 plan and is not an approved handoff. The plan requires CSV outputs, `Unknow` mapped to `Not Scam`, conservative exact matching, and owner-reviewed relationships. See [reconciliation](reports/stage00_reconciliation.md).
+Stage 00 is complete under [the data preparation plan](../01%20-%20PLANs/00%20-%20DATA%20PREPARATION.md). The canonical output is `prepared/prepared.csv`, with 1,455 conversations: 1,276 primary and 179 supplemental.
 
-Raw downloads, inspection logs, review queues, and prepared splits for Scam Call Alert.
+## Files
 
-Raw files in `raw/` and processed outputs in `processed/` are excluded from Git via `.gitignore`. Source metadata (`sources.json`) and summary reports (`reports/`) remain tracked.
+- `raw/`: unchanged downloaded Parquet, archive, and CSV.
+- `sources.json`: pinned source revisions, checksums, license information, and original counts.
+- `download.py`: download missing sources, extract the supplemental CSV, and verify hashes. Existing raw files are never overwritten.
+- `prepare.py`: build the six-column CSV and its provenance, audit, report, and README.
+- `preparation_decisions.json`: input-bound owner approvals and contextual relationship reviews, including changed spans and reviewer identities.
+- `test_prepare.py`: integrity, review-gate, CSV, reproduction, duplicate, and download tests.
+- `inspection.ipynb`: read-only source inspection and candidate-review checks.
+- `prepared/`: local canonical output and its documentation. Split directories contain placeholders only.
+- [CSV preparation report](reports/preparation_csv_v2.md): tracked aggregate findings and build provenance.
 
-## Directory structure
+Raw files, prepared files, review transcripts, and executed notebooks stay local and ignored by Git. The source manifest, scripts, decisions, and aggregate reports make the build reproducible.
 
-```text
-02 - DATASETs/
-├── README.md
-├── sources.json
-├── prepare.py
-├── test_prepare.py
-├── inspection.ipynb
-├── labeling_guideline.md
-├── raw/
-│   ├── scam-dialogue-thai-translated/
-│   │   ├── README.md
-│   │   ├── pipeline.yaml
-│   │   ├── source-metadata.json
-│   │   └── data/train-00000-of-00001.parquet
-│   └── thai-call-center-call-log/
-│       ├── Dataset.csv
-│       ├── source-metadata.json
-│       └── thai-call-center-call-log-dataset.zip
-├── processed/
-│   └── v1/
-│       ├── primary.jsonl
-│       ├── supplemental.jsonl
-│       ├── decisions.jsonl
-│       ├── exclusions.jsonl
-│       ├── groups.jsonl
-│       └── summary.json
-├── reports/
-│   ├── inspection_v1.json
-│   ├── data_quality_v1.md
-│   ├── preparation_v1.json
-│   └── data_preparation_findings_v1.md
-└── review/
-    ├── decisions_v1.json
-    └── inspection_001/
-```
+## Reproduce
 
-## Current status
-
-Prepared dataset v1 is ready under `processed/v1/`:
-- Primary source: 1,273 conversations (634 Scam, 639 Not Scam)
-- Supplemental source: 167 conversations (55 Scam, 112 Not Scam)
-- Excluded rows: 38 conversations (19 duplicate copies, 13 ambiguous Unknow calls, 5 corrupted texts, 1 truncated dialogue)
-- No train/test split has been generated yet
-
-See [the data preparation findings report](reports/data_preparation_findings_v1.md) for full counts, category breakdowns, and presentation slides.
-
-## Primary dataset
-
-- Source: [thirdExec/scam-dialogue-thai-translated](https://huggingface.co/datasets/thirdExec/scam-dialogue-thai-translated)
-- Revision: `e814ce89312fbc3eefdd8b941035f633540dab13`
-- Raw file: `raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet`
-- Size: 1,280 rows (640 label 1, 640 label 0) across 8 categories (160 rows each)
-- Text column: `translated dialogue` (Thai conversation text)
-- Metadata columns: `dialogue` (English), `type` (English category), `label` (binary), `translated type` (Thai category)
-
-Upstream code note: The upstream Hugging Face README references `thai_dialogue` and `thai_type`. The downloaded Parquet file uses `translated dialogue` and `translated type`. Our pipeline uses `translated dialogue`.
-
-The upstream Parquet split is named `train`, but it holds the complete 1,280-row dataset. It is not our project split.
-
-License note: The Hugging Face dataset card lists no license. Check reuse and distribution terms before sharing derived model weights or processed texts.
-
-## Supplemental dataset
-
-- Source: [jxxn03x/thai-call-center-call-log-dataset](https://www.kaggle.com/datasets/jxxn03x/thai-call-center-call-log-dataset)
-- Version: `1`
-- Raw file: `raw/thai-call-center-call-log/Dataset.csv` (extracted from `thai-call-center-call-log-dataset.zip`)
-- Size: 198 rows (Kaggle description states 195; the CSV has 198)
-- Columns: `Id`, `Text`, `Type`
-
-| Category | Raw count | Retained in v1 |
-| --- | ---: | ---: |
-| Scam | 73 | 55 |
-| General | 49 | 49 |
-| Official | 37 | 37 |
-| Verification-call | 26 | 26 |
-| Unknow | 13 | 0 |
-| Total | 198 | 167 |
-
-Duplicate IDs in source: IDs `00101`, `00130`, and `00140` each appear twice. The project assigns unique IDs based on row index (`kaggle_000000` through `kaggle_000197`) and keeps the original `Id` string as a separate column.
-
-License note: Kaggle lists CC BY-NC-ND 4.0. Keep attribution and non-commercial terms in mind.
-
-## Downloading raw data
-
-Run from repository root:
+Run from the repository root:
 
 ```bash
-mkdir -p '02 - DATASETs/raw/scam-dialogue-thai-translated/data' \
-         '02 - DATASETs/raw/thai-call-center-call-log'
-
-curl -fL 'https://huggingface.co/datasets/thirdExec/scam-dialogue-thai-translated/resolve/e814ce89312fbc3eefdd8b941035f633540dab13/data/train-00000-of-00001.parquet' \
-  -o '02 - DATASETs/raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet'
-
-curl -fL 'https://www.kaggle.com/api/v1/datasets/download/jxxn03x/thai-call-center-call-log-dataset?datasetVersionNumber=1' \
-  -o '02 - DATASETs/raw/thai-call-center-call-log/thai-call-center-call-log-dataset.zip'
-
-python - <<'PY'
-from pathlib import Path
-from zipfile import ZipFile
-
-folder = Path('02 - DATASETs/raw/thai-call-center-call-log')
-with ZipFile(folder / 'thai-call-center-call-log-dataset.zip') as archive:
-    (folder / 'Dataset.csv').write_bytes(archive.read('Dataset.csv'))
-PY
+python '02 - DATASETs/download.py'
+uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python '02 - DATASETs/prepare.py'
+uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python '02 - DATASETs/test_prepare.py'
 ```
 
-File hashes are verified against `sources.json`.
+Preparation refuses to overwrite completed output files. Preserve an existing preparation before rebuilding. Source or decision changes require renewed review, versioned preparation, and downstream regeneration.
 
-## Inspection and preparation workflow
+For candidate inspection without finalizing data:
 
-1. Run automated inspection:
-   ```bash
-   uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python -m ipykernel install --user
-   ```
-   Run `inspection.ipynb` end-to-end. Output metrics write to `reports/inspection_v1.json`.
-2. Generate prepared v1:
-   ```bash
-   uv run --no-project --with pyarrow==25.0.1 python '02 - DATASETs/prepare.py'
-   ```
-   Outputs write to `processed/v1/`. The script fails if the directory already exists.
-3. Run verification tests:
-   ```bash
-   uv run --no-project --with pyarrow==25.0.1 python '02 - DATASETs/test_prepare.py'
-   ```
+```bash
+uv run --no-project --with pyarrow==25.0.1 --with scikit-learn==1.9.1 python '02 - DATASETs/prepare.py' --review-only
+```
 
-## Split guidelines for section 01
+This writes local review files to `review/plan00/`. It does not approve relationships or create a final dataset.
 
-The project proposal specifies an 80/20 train/test split with cross-validation on the training set.
+## Schema and decisions
 
-Split rules:
-- Respect `group_id`: all conversations sharing a `group_id` must stay in the same split partition.
-- Maintain label balance across splits.
-- Primary and supplemental sets will be tested separately and combined in ablation runs.
+`prepared.csv` has exactly these columns:
 
-## Version history
+`sample_id, source_dataset, source_record_id, original_label, label, transcript`
 
-| Version | Date | Status |
-| --- | --- | --- |
-| Source snapshot | 2026-10-03 | Raw downloads pinned and verified with SHA-256 |
-| Inspection v1 | 2026-10-03 | Automated checks, duplicate detection, and review queue generation |
-| Prepared v1 | 2026-10-03 | 1,440 retained rows, 38 exclusions, 14 related groups, clean decision logs |
+Labels are `Scam` and `Not Scam`. Numeric model encoding belongs to Plan 02. Transcripts preserve source content, speaker markers, whitespace, and turn order.
 
-Contact: Project team Phoebe (Kasetsart University).
+Supplemental `Unknow` maps to `Not Scam` under the owner-confirmed plan. This means not labeled Scam by the source; it does not independently verify benignity. Twelve of its thirteen raw rows remain after one exact duplicate removal.
+
+Exact comparison normalizes line endings and trims whole-text edges only. It preserves internal whitespace and punctuation. Representative preference is primary source, then lowest raw row.
+
+Three unrecoverably truncated primary calls are excluded. Three readable calls with replacement characters are retained unchanged by owner approval. No text repairs occurred.
+
+All 46 candidate pairs were reviewed in context by the coding assistant and recorded as related variants. Similarity alone did not determine the disposition. The detector may miss other relationships. Plan 01 constructs groups from the audit and obtains approval of the group-aware holdout procedure.
+
+## Handoff
+
+Prepared files include `source_manifest.csv`, `record_audit.csv`, `preparation_report.md`, and `README.md`. Audit rows preserve source file and zero-based row locators, including repeated supplemental IDs.
+
+Splitting, tokenization, augmentation, resampling, learned preprocessing, and model selection have not occurred. Continue with [Plan 01](../01%20-%20PLANs/01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md).
+
+## Limitations and history
+
+Both sources contain simulated conversations. Primary translation includes foreign scenarios. Neither preparation nor future holdout evaluation establishes performance on real calls.
+
+The primary license is undeclared; the supplemental license is CC BY-NC-ND 4.0. Confirm distribution rights separately before sharing prepared records.
+
+The earlier `processed/v1/` JSONL build and v1 reports used different rules and are superseded. They must not be used for Stage 01. [Reconciliation notes](reports/stage00_reconciliation.md) record the changes and approvals.

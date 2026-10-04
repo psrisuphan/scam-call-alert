@@ -1,6 +1,7 @@
 {
   "version": "v1",
-  "status": "prepared_per_proposal_docs",
+  "status": "superseded_historical_jsonl",
+  "superseded_by": "preparation_csv_v2.md",
   "counts": {
     "primary": {
       "original": 1280,
