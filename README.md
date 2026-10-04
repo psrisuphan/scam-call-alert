@@ -30,4 +30,6 @@ Stage 00 is complete. The included canonical CSV retains 1,455 conversations (1,
 
 Stage 01 is complete: 1,164 training records, 291 test records, and five shared, group-aware CV folds using seed 67. See [the split report](02%20-%20DATASETs/prepared/splits/split_report.md).
 
-The next task is [Stage 02: preprocessing and model inputs](01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md). No model-oriented preprocessing, augmentation, resampling, model selection, or training is included in this stage.
+[Stage 02: preprocessing and model inputs](01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md) is complete locally. Speaker handling, checkpoint preparation, and fixed prefix limits are approved. Both representations pass input checks across all 1,164 training records and four pinned tokenizers. Readable processed text and eight unpadded model-input exports are included at `03 - MODEL DEVELOPMENT/input-preparation/prepared/`, with numbered reproduction scripts 6-9. See [input-preparation instructions](03%20-%20MODEL%20DEVELOPMENT/input-preparation/README.md) and [the preprocessing report](03%20-%20MODEL%20DEVELOPMENT/input-preparation/preprocessing_report.md).
+
+The next task is [model training](01%20-%20PLANs/03%20-%20MODEL%20DEVELOPMENT/00%20-%20MODEL%20TRAINING.md). No augmentation, resampling, learned preprocessing, model selection, model training, or final test evaluation has occurred.

@@ -1,0 +1,922 @@
+{
+  "training_csv_sha256": "763abee35dd052b248d18dc78b5888b94062f75cdfeb7756ad3ce5683e2119d4",
+  "assignments_sha256": "4f7a1e012f8a4883a15d8e99ab38f5da4d10a07cb0335ec09cbcee0bd914147a",
+  "configuration_sha256": "5d86e0c49dfba7c3c0eb697e2eabe29c384500f5e46259ef977e9111777ff6b7",
+  "population": 1164,
+  "scope": "Full training pool only. No final-test file is loaded.",
+  "percentiles": "Linear interpolation at (n-1)*p; descriptive only, not fitted limits.",
+  "loss_estimate": "For a fixed prefix, retain budget minus required special tokens. Token loss is not semantic or prediction loss.",
+  "dependencies": {
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "huggingface_hub": "0.36.2",
+    "sentencepiece": "0.2.2",
+    "protobuf": "7.36.2"
+  },
+  "models": {
+    "wangchanberta": {
+      "revision": "b81d38df6b4755dbedec0bfea863c9956cbb963e",
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 510
+      },
+      "representations": {
+        "whole_conversation": {
+          "all": {
+            "records": 1164,
+            "min": 10,
+            "median": 368.0,
+            "p90": 555.0,
+            "p95": 584.0,
+            "max": 706,
+            "budget": 510,
+            "exceeding_budget": 209,
+            "exceeding_percent": 17.96,
+            "estimated_dropped_content_tokens": 11865,
+            "estimated_dropped_content_percent": 2.93
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 10,
+            "median": 368.0,
+            "p90": 555.0,
+            "p95": 584.0,
+            "max": 706,
+            "budget": 510,
+            "exceeding_budget": 209,
+            "exceeding_percent": 17.96,
+            "estimated_dropped_content_tokens": 11865,
+            "estimated_dropped_content_percent": 2.93
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 106,
+              "median": 393,
+              "p90": 560.0,
+              "p95": 590.0,
+              "max": 706,
+              "budget": 510,
+              "exceeding_budget": 209,
+              "exceeding_percent": 20.47,
+              "estimated_dropped_content_tokens": 11865,
+              "estimated_dropped_content_percent": 2.99
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 106,
+              "median": 329,
+              "p90": 431.0,
+              "p95": 452.5,
+              "max": 575,
+              "budget": 510,
+              "exceeding_budget": 5,
+              "exceeding_percent": 0.98,
+              "estimated_dropped_content_tokens": 142,
+              "estimated_dropped_content_percent": 0.09
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 171,
+              "median": 482.0,
+              "p90": 590.1,
+              "p95": 621.0,
+              "max": 706,
+              "budget": 510,
+              "exceeding_budget": 204,
+              "exceeding_percent": 40.0,
+              "estimated_dropped_content_tokens": 11723,
+              "estimated_dropped_content_percent": 4.92
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 10,
+              "median": 37,
+              "p90": 107.0,
+              "p95": 121.6,
+              "max": 400,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 10,
+              "median": 30,
+              "p90": 85.8,
+              "p95": 110.8,
+              "max": 400,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 17,
+              "median": 64.0,
+              "p90": 116.4,
+              "p95": 126.25,
+              "max": 246,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        },
+        "caller_only": {
+          "all": {
+            "records": 1164,
+            "min": 10,
+            "median": 212.5,
+            "p90": 302.7,
+            "p95": 324.0,
+            "max": 388,
+            "budget": 510,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 10,
+            "median": 212.5,
+            "p90": 302.7,
+            "p95": 324.0,
+            "max": 388,
+            "budget": 510,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 49,
+              "median": 225,
+              "p90": 309.0,
+              "p95": 328.0,
+              "max": 388,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 49,
+              "median": 186,
+              "p90": 255.0,
+              "p95": 266.0,
+              "max": 364,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 110,
+              "median": 263.5,
+              "p90": 325.0,
+              "p95": 340.55,
+              "max": 388,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 10,
+              "median": 28,
+              "p90": 70.0,
+              "p95": 79.8,
+              "max": 261,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 10,
+              "median": 26,
+              "p90": 50.2,
+              "p95": 59.5,
+              "max": 261,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 17,
+              "median": 47.0,
+              "p90": 78.0,
+              "p95": 82.55,
+              "max": 151,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        }
+      }
+    },
+    "phayathaibert": {
+      "revision": "a81ece95beb7a24271905d30c23887d343193c62",
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 510
+      },
+      "representations": {
+        "whole_conversation": {
+          "all": {
+            "records": 1164,
+            "min": 9,
+            "median": 353.0,
+            "p90": 531.0,
+            "p95": 560.0,
+            "max": 668,
+            "budget": 510,
+            "exceeding_budget": 156,
+            "exceeding_percent": 13.4,
+            "estimated_dropped_content_tokens": 7248,
+            "estimated_dropped_content_percent": 1.88
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 9,
+            "median": 353.0,
+            "p90": 531.0,
+            "p95": 560.0,
+            "max": 668,
+            "budget": 510,
+            "exceeding_budget": 156,
+            "exceeding_percent": 13.4,
+            "estimated_dropped_content_tokens": 7248,
+            "estimated_dropped_content_percent": 1.88
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 100,
+              "median": 376,
+              "p90": 537.0,
+              "p95": 566.0,
+              "max": 668,
+              "budget": 510,
+              "exceeding_budget": 156,
+              "exceeding_percent": 15.28,
+              "estimated_dropped_content_tokens": 7248,
+              "estimated_dropped_content_percent": 1.91
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 100,
+              "median": 315,
+              "p90": 412.0,
+              "p95": 438.0,
+              "max": 554,
+              "budget": 510,
+              "exceeding_budget": 3,
+              "exceeding_percent": 0.59,
+              "estimated_dropped_content_tokens": 63,
+              "estimated_dropped_content_percent": 0.04
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 162,
+              "median": 462.0,
+              "p90": 566.1,
+              "p95": 594.55,
+              "max": 668,
+              "budget": 510,
+              "exceeding_budget": 153,
+              "exceeding_percent": 30.0,
+              "estimated_dropped_content_tokens": 7185,
+              "estimated_dropped_content_percent": 3.15
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 9,
+              "median": 34,
+              "p90": 99.4,
+              "p95": 114.6,
+              "max": 299,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 9,
+              "median": 27,
+              "p90": 81.0,
+              "p95": 105.6,
+              "max": 299,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 16,
+              "median": 61.0,
+              "p90": 109.7,
+              "p95": 117.55,
+              "max": 233,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        },
+        "caller_only": {
+          "all": {
+            "records": 1164,
+            "min": 9,
+            "median": 202.5,
+            "p90": 288.7,
+            "p95": 309.0,
+            "max": 369,
+            "budget": 510,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 9,
+            "median": 202.5,
+            "p90": 288.7,
+            "p95": 309.0,
+            "max": 369,
+            "budget": 510,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 46,
+              "median": 215,
+              "p90": 296.0,
+              "p95": 312.0,
+              "max": 369,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 46,
+              "median": 176,
+              "p90": 243.0,
+              "p95": 255.0,
+              "max": 350,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 105,
+              "median": 252.0,
+              "p90": 310.0,
+              "p95": 326.0,
+              "max": 369,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 9,
+              "median": 25,
+              "p90": 66.0,
+              "p95": 74.9,
+              "max": 187,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 9,
+              "median": 23,
+              "p90": 46.2,
+              "p95": 55.6,
+              "max": 187,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 16,
+              "median": 44.0,
+              "p90": 74.0,
+              "p95": 77.55,
+              "max": 146,
+              "budget": 510,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        }
+      }
+    },
+    "hplt": {
+      "revision": "a7876746d32bf9ee5b2cc00bbb4acd4714b1c88a",
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 512
+      },
+      "representations": {
+        "whole_conversation": {
+          "all": {
+            "records": 1164,
+            "min": 9,
+            "median": 261.0,
+            "p90": 395.7,
+            "p95": 423.0,
+            "max": 587,
+            "budget": 512,
+            "exceeding_budget": 5,
+            "exceeding_percent": 0.43,
+            "estimated_dropped_content_tokens": 130,
+            "estimated_dropped_content_percent": 0.04
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 9,
+            "median": 261.0,
+            "p90": 395.7,
+            "p95": 423.0,
+            "max": 587,
+            "budget": 16384,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 96,
+              "median": 275,
+              "p90": 400.0,
+              "p95": 428.0,
+              "max": 587,
+              "budget": 512,
+              "exceeding_budget": 5,
+              "exceeding_percent": 0.49,
+              "estimated_dropped_content_tokens": 130,
+              "estimated_dropped_content_percent": 0.05
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 96,
+              "median": 237,
+              "p90": 312.0,
+              "p95": 325.0,
+              "max": 399,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 110,
+              "median": 337.0,
+              "p90": 428.2,
+              "p95": 455.0,
+              "max": 587,
+              "budget": 512,
+              "exceeding_budget": 5,
+              "exceeding_percent": 0.98,
+              "estimated_dropped_content_tokens": 130,
+              "estimated_dropped_content_percent": 0.08
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 9,
+              "median": 31,
+              "p90": 93.2,
+              "p95": 112.8,
+              "max": 282,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 9,
+              "median": 25,
+              "p90": 76.6,
+              "p95": 104.9,
+              "max": 282,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 9,
+              "median": 57.0,
+              "p90": 107.3,
+              "p95": 112.7,
+              "max": 217,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        },
+        "caller_only": {
+          "all": {
+            "records": 1164,
+            "min": 9,
+            "median": 141.0,
+            "p90": 215.0,
+            "p95": 235.0,
+            "max": 329,
+            "budget": 512,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 9,
+            "median": 141.0,
+            "p90": 215.0,
+            "p95": 235.0,
+            "max": 329,
+            "budget": 16384,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 49,
+              "median": 149,
+              "p90": 220.0,
+              "p95": 238.0,
+              "max": 329,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 49,
+              "median": 126,
+              "p90": 173.0,
+              "p95": 187.5,
+              "max": 231,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 57,
+              "median": 181.0,
+              "p90": 238.1,
+              "p95": 254.55,
+              "max": 329,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 9,
+              "median": 24,
+              "p90": 57.8,
+              "p95": 81.0,
+              "max": 178,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 9,
+              "median": 22,
+              "p90": 48.2,
+              "p95": 58.6,
+              "max": 178,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 9,
+              "median": 39.0,
+              "p90": 78.0,
+              "p95": 82.7,
+              "max": 118,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        }
+      }
+    },
+    "xlmr": {
+      "revision": "e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
+      "length_policy": {
+        "status": "approved",
+        "kind": "fixed_prefix",
+        "max_length": 512
+      },
+      "representations": {
+        "whole_conversation": {
+          "all": {
+            "records": 1164,
+            "min": 8,
+            "median": 345.5,
+            "p90": 524.0,
+            "p95": 553.85,
+            "max": 630,
+            "budget": 512,
+            "exceeding_budget": 141,
+            "exceeding_percent": 12.11,
+            "estimated_dropped_content_tokens": 5640,
+            "estimated_dropped_content_percent": 1.5
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 8,
+            "median": 345.5,
+            "p90": 524.0,
+            "p95": 553.85,
+            "max": 630,
+            "budget": 512,
+            "exceeding_budget": 141,
+            "exceeding_percent": 12.11,
+            "estimated_dropped_content_tokens": 5640,
+            "estimated_dropped_content_percent": 1.5
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 104,
+              "median": 367,
+              "p90": 533.0,
+              "p95": 561.0,
+              "max": 630,
+              "budget": 512,
+              "exceeding_budget": 141,
+              "exceeding_percent": 13.81,
+              "estimated_dropped_content_tokens": 5640,
+              "estimated_dropped_content_percent": 1.52
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 104,
+              "median": 303,
+              "p90": 399.0,
+              "p95": 422.0,
+              "max": 534,
+              "budget": 512,
+              "exceeding_budget": 1,
+              "exceeding_percent": 0.2,
+              "estimated_dropped_content_tokens": 22,
+              "estimated_dropped_content_percent": 0.02
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 163,
+              "median": 456.0,
+              "p90": 561.1,
+              "p95": 575.55,
+              "max": 630,
+              "budget": 512,
+              "exceeding_budget": 140,
+              "exceeding_percent": 27.45,
+              "estimated_dropped_content_tokens": 5618,
+              "estimated_dropped_content_percent": 2.5
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 8,
+              "median": 29,
+              "p90": 94.6,
+              "p95": 108.0,
+              "max": 220,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 8,
+              "median": 26,
+              "p90": 77.4,
+              "p95": 99.3,
+              "max": 176,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 17,
+              "median": 55.5,
+              "p90": 105.0,
+              "p95": 113.95,
+              "max": 220,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        },
+        "caller_only": {
+          "all": {
+            "records": 1164,
+            "min": 8,
+            "median": 188.0,
+            "p90": 275.7,
+            "p95": 300.0,
+            "max": 352,
+            "budget": 512,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "at_config_bound": {
+            "records": 1164,
+            "min": 8,
+            "median": 188.0,
+            "p90": 275.7,
+            "p95": 300.0,
+            "max": 352,
+            "budget": 512,
+            "exceeding_budget": 0,
+            "exceeding_percent": 0.0,
+            "estimated_dropped_content_tokens": 0,
+            "estimated_dropped_content_percent": 0.0
+          },
+          "subsets": {
+            "primary": {
+              "records": 1021,
+              "min": 49,
+              "median": 201,
+              "p90": 283.0,
+              "p95": 303.0,
+              "max": 352,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Not Scam": {
+              "records": 511,
+              "min": 49,
+              "median": 160,
+              "p90": 223.0,
+              "p95": 240.0,
+              "max": 318,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "primary:Scam": {
+              "records": 510,
+              "min": 111,
+              "median": 242.5,
+              "p90": 302.1,
+              "p95": 316.55,
+              "max": 352,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental": {
+              "records": 143,
+              "min": 8,
+              "median": 25,
+              "p90": 61.0,
+              "p95": 72.7,
+              "max": 142,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Not Scam": {
+              "records": 99,
+              "min": 8,
+              "median": 23,
+              "p90": 45.2,
+              "p95": 51.2,
+              "max": 111,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            },
+            "supplemental:Scam": {
+              "records": 44,
+              "min": 17,
+              "median": 39.5,
+              "p90": 70.0,
+              "p95": 73.0,
+              "max": 142,
+              "budget": 512,
+              "exceeding_budget": 0,
+              "exceeding_percent": 0.0,
+              "estimated_dropped_content_tokens": 0,
+              "estimated_dropped_content_percent": 0.0
+            }
+          }
+        }
+      }
+    }
+  }
+}
