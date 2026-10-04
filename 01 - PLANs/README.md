@@ -63,6 +63,8 @@ Training and tuning are iterative. Application integration depends on both the m
 
 If implementation reveals an unexpected issue or a flaw in a plan, document the issue and discuss any consequential method change with the project owner. Update the affected instructions and record the reason for the agreed change. Continue unaffected work where possible.
 
+Dataset scripts live in `02 - DATASETs/scripts/`, with numbered filenames and [a short reproduction guide](../02%20-%20DATASETs/scripts/README.md). Raw sources and completed Stage 00/01 outputs are included for the private project handoff. Source licenses still govern sharing; review scratch files and executed notebooks stay local.
+
 Directory numbering indicates workflow order, not calendar dates. This README is a directory guide; task details and methodological decisions belong in the individual plans.
 
 ## Reference material

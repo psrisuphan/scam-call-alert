@@ -6,6 +6,7 @@ from unittest.mock import patch
 import csv
 import hashlib
 import io
+import importlib.util
 import json
 import shutil
 import subprocess
@@ -13,10 +14,19 @@ import sys
 import tempfile
 import unittest
 
-import download
-import prepare
+SCRIPTS = Path(__file__).resolve().parent
+DATA = SCRIPTS.parent
 
-DATA = Path(__file__).resolve().parent
+
+def load_script(name, filename):
+    spec = importlib.util.spec_from_file_location(name, SCRIPTS / filename)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+download = load_script("download", "1.download.py")
+prepare = load_script("prepare", "2.prepare.py")
 # Plan 01 updates README.md; canonical data, audit, manifest, and report stay immutable.
 OUTPUT_FILES = ["prepared.csv", "record_audit.csv", "source_manifest.csv", "preparation_report.md"]
 
@@ -140,10 +150,13 @@ class PreparationTests(unittest.TestCase):
     def test_reproduction_and_boundary_failures(self):
         with tempfile.TemporaryDirectory(prefix="scam-csv-test-") as temporary:
             root = Path(temporary)
-            for name in ("prepare.py", "sources.json", "preparation_decisions.json"):
+            scripts = root / "scripts"
+            scripts.mkdir()
+            shutil.copy(SCRIPTS / "2.prepare.py", scripts / "2.prepare.py")
+            for name in ("sources.json", "preparation_decisions.json"):
                 shutil.copy(DATA / name, root / name)
             shutil.copytree(DATA / "raw", root / "raw")
-            command = [sys.executable, str(root / "prepare.py")]
+            command = [sys.executable, str(scripts / "2.prepare.py")]
             # Pending approval must not create the canonical output.
             decisions = json.loads((root / "preparation_decisions.json").read_text())
             decisions["source_mapping_review"]["status"] = "pending"

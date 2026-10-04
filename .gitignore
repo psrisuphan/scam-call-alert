@@ -14,13 +14,8 @@ env/
 02 - DATASETs/review/
 02 - DATASETs/inspection.executed.ipynb
 
-# Local data, recordings, and derived model artifacts
-02 - DATASETs/raw/**
-02 - DATASETs/prepared/**
-!02 - DATASETs/raw/**/
-!02 - DATASETs/prepared/**/
-!02 - DATASETs/raw/**/.gitkeep
-!02 - DATASETs/prepared/**/.gitkeep
+# Raw sources and canonical prepared/split outputs are tracked for the private handoff.
+# Personal recordings and model artifacts remain local.
 *.wav
 *.mp3
 *.m4a

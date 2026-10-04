@@ -8,7 +8,7 @@ import json
 
 from sklearn.model_selection import StratifiedGroupKFold
 
-DATA = Path(__file__).resolve().parent
+DATA = Path(__file__).resolve().parents[1]
 RECORD_COLUMNS = ["sample_id", "source_dataset", "source_record_id", "original_label", "label", "transcript"]
 ASSIGNMENT_COLUMNS = ["sample_id", "source_dataset", "group_id", "split", "cv_fold"]
 LABELS = {"Scam", "Not Scam"}
@@ -156,7 +156,7 @@ def report(records, audit, groups, assignments, config):
         "Assignment CSV is authoritative. It is reused for all models and both training data conditions.",
         "", "## Provenance", "",
         f"scikit-learn version: {importlib.metadata.version('scikit-learn')}; seed: 67.",
-        f"split.py SHA-256: {checksum(Path(__file__))}",
+        f"scripts/4.split.py SHA-256: {checksum(Path(__file__))}",
         f"split_config.json SHA-256: {checksum(DATA / 'split_config.json')}"]
     for name, value in config["input_checksums"].items():
         lines.append(f"{name} SHA-256: {value}")
@@ -183,7 +183,7 @@ def report(records, audit, groups, assignments, config):
     lines += ["", "## Verification and use", "",
         "Every canonical ID appears once in train/test; IDs are disjoint; related groups never cross holdout or validation-fold boundaries.",
         "Each training record validates exactly once; test records have no fold. Both classes occur in every training/validation subset, including primary-only fold training.",
-        "Derived rows match canonical records exactly. Canonical preparation files remain unchanged. test_split.py checks these invariants, boundary failures, and deterministic rebuild.",
+        "Derived rows match canonical records exactly. Canonical preparation files remain unchanged. scripts/5.test_split.py checks these invariants, boundary failures, and deterministic rebuild.",
         "For fold k, both conditions validate on all training-pool records with cv_fold=k.",
         "Primary-only trains on primary-source records with cv_fold!=k; primary + supplemental trains on all records with cv_fold!=k.",
         "Retrieve final test only for later final evaluation. Use one-to-one joins by sample_id and verify source_dataset equality.",
@@ -240,6 +240,7 @@ def build():
         "splits/split_assignments.csv records stable group_id, split, and cv_fold. Test records have blank cv_fold. splits/split_report.md records provenance, counts, algorithms, checks, and limitations.\n\n"
         "Join by sample_id with one-to-one membership and matching source identity. Fold k validates on train records with cv_fold=k; train on the other folds. Primary-only filters only fold training to primary, never validation. Primary + supplemental uses both sources. All models reuse these assignments.\n\n"
         "Canonical prepared.csv remains unchanged. Derived CSVs must not be edited independently. Preparation changes invalidate the split and require regenerated, verified artifacts.\n\n"
+        "Raw sources and prepared outputs are tracked for the private project handoff. See [the numbered script guide](../scripts/README.md) to verify or reproduce them. Do not redistribute the datasets publicly without confirming source rights.\n\n"
         "Next: Plan 02. Use the training pool only for input-design inspection; do not inspect final test text to design preprocessing. No model-oriented preprocessing has occurred.\n")
     readme.write_text(text, encoding="utf-8")
     print(f"Frozen split: {len(train)} training / {len(test)} test; 5 CV folds")

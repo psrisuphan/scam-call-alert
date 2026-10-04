@@ -19,6 +19,20 @@ Verify that sample IDs are unique, preparation checks are complete, and review c
 
 ## 2. Output structure
 
+Keep runnable code in `02 - DATASETs/scripts/`, separate from input/output data:
+
+```text
+02 - DATASETs/scripts/
+├── README.md
+├── 1.download.py
+├── 2.prepare.py
+├── 3.test_prepare.py
+├── 4.split.py
+└── 5.test_split.py
+```
+
+Follow [the script guide](../02%20-%20DATASETs/scripts/README.md). Steps 1-3 acquire and verify Plan 00 inputs; step 4 creates this plan\'s approved splits; step 5 checks them and their reproduction. Keep source metadata, approvals, and `split_config.json` in the dataset folder. No model-oriented preprocessing belongs in these scripts.
+
 ```text
 02 - DATASETs/prepared/
 ├── prepared.csv
@@ -42,6 +56,8 @@ Verify that sample IDs are unique, preparation checks are complete, and review c
 | `split_assignments.csv` | Authoritative record of sample, group, train/test, and validation-fold membership. |
 | `split_report.md` | Input provenance, algorithms, settings, achieved allocation, and verification results. |
 | Updated `README.md` | Explain the files, loading procedure, and relationship to the canonical dataset. |
+
+Track the required inputs, updated README, and split outputs at these paths in the private project repository. Teammates must be able to inspect them after cloning, without first running scripts. Source licenses and public-sharing limits still apply; keep review scratch files and executed notebooks ignored.
 
 Retain `prepared.csv`. Train/test CSVs are derived copies and must not be edited independently. Use UTF-8 and properly quoted CSV fields to preserve multiline transcripts.
 

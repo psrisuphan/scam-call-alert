@@ -15,7 +15,7 @@ import pyarrow.parquet as pq
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import NearestNeighbors
 
-DATA = Path(__file__).resolve().parent
+DATA = Path(__file__).resolve().parents[1]
 COLUMNS = ["sample_id", "source_dataset", "source_record_id", "original_label", "label", "transcript"]
 AUDIT_COLUMNS = ["sample_id", "source_dataset", "source_file", "source_row_index",
                  "source_record_id", "original_label", "original_category", "action",
@@ -49,7 +49,7 @@ def load_sources():
         for item in source["files"]:
             path = DATA / item["path"]
             if not path.is_file():
-                raise FileNotFoundError(f"Missing {path}; run download.py first")
+                raise FileNotFoundError(f"Missing {path}; run scripts/1.download.py first")
             if digest(path.read_bytes()) != item["sha256"]:
                 raise ValueError(f"Source checksum mismatch: {item['path']}")
     primary_file = "raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet"
@@ -286,13 +286,13 @@ def build(review_only=False):
         lines.append(f"| {source} | {category} | {count} | {len(after)} | {labels} |")
     lines += ["", "## Checks and limitations", "",
         f"Accounting: {len(rows)} = {dispositions['retain']} retained + {dispositions['exclude']} excluded + {dispositions['remove_duplicate']} duplicate removals.",
-        "Validation: unique IDs, labels, raw-content preservation, CSV roundtrip, audit accounting, source hashes, review completeness, and deterministic reproduction are checked by test_prepare.py.",
+        "Validation: unique IDs, labels, raw-content preservation, CSV roundtrip, audit accounting, source hashes, review completeness, and deterministic reproduction are checked by scripts/3.test_prepare.py.",
         "Three truncated primary calls are excluded; three readable calls with replacement characters are retained unchanged by owner approval.",
         "Both datasets are simulated. Foreign scenarios and translated dialogue do not establish real-call performance.",
-        "Primary license is undeclared; supplemental is CC BY-NC-ND 4.0. Prepared data stays local and ignored. Distribution rights require separate confirmation.",
+        "Primary license is undeclared; supplemental is CC BY-NC-ND 4.0. Raw and prepared files are tracked for the private project handoff. Public redistribution rights require separate confirmation.",
         "Splitting, tokenization, augmentation, resampling, learned preprocessing, and model selection have not occurred.",
         "", "## Build provenance", "",
-        f"prepare.py SHA-256: {digest(Path(__file__).read_bytes())}",
+        f"scripts/2.prepare.py SHA-256: {digest(Path(__file__).read_bytes())}",
         f"Decisions SHA-256: {digest((DATA / 'preparation_decisions.json').read_bytes())}",
         f"Dependencies: pyarrow {importlib.metadata.version('pyarrow')}; scikit-learn {importlib.metadata.version('scikit-learn')}.", ""]
     (output / "preparation_report.md").write_text("\n".join(lines), encoding="utf-8")
