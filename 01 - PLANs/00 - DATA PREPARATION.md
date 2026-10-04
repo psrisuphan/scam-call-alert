@@ -12,6 +12,13 @@ This task covers acquisition, source inspection, conversion to the confirmed CSV
 
 ```text
 02 - DATASETs/
+├── scripts/
+│   ├── README.md
+│   ├── 1.download.py
+│   ├── 2.prepare.py
+│   ├── 3.test_prepare.py
+│   ├── 4.split.py
+│   └── 5.test_split.py
 ├── raw/
 │   └── Original dataset files in their downloaded formats
 └── prepared/
@@ -24,12 +31,17 @@ This task covers acquisition, source inspection, conversion to the confirmed CSV
 
 | Location or file | Purpose and required contents |
 |---|---|
+| `scripts/` | Numbered runnable scripts and a short reproduction guide. Steps 1-3 implement and verify this plan; steps 4-5 belong to Plan 01. |
 | `raw/` | Original downloads, unchanged and distinguishable by source. |
 | `prepared.csv` | One retained conversation per row using the schema in section 4. Canonical preparation output retained as the input to Plan 01. |
 | `README.md` | Directory/file descriptions, current preparation stage, completed operations, deferred operations, and next task. |
 | `source_manifest.csv` | Source URL, download date, available version, local source-file path, checksum and its algorithm, license information, and original record count for each source file. Record unavailable information explicitly. |
 | `preparation_report.md` | Rules and rationale, source-field mapping, identifier convention, label definitions, findings, before/after counts, limitations, and completion-check results. |
 | `record_audit.csv` | Every exclusion, repair, duplicate removal, relationship finding, and flagged review case, including reasons, evidence, and disposition. |
+
+Track the pinned raw files and canonical prepared outputs in the private project repository so teammates can inspect the handoff. Keep source attribution and license metadata. Public redistribution rights require separate confirmation. Review scratch files and executed notebooks remain ignored.
+
+Use [the numbered script guide](../02%20-%20DATASETs/scripts/README.md). Do not overwrite completed outputs; verification rebuilds them in temporary folders. Script numbering gives the run order, not permission to skip reviews.
 
 Do not overwrite raw files. Record source-version changes and preserve their relationship to prior preparation. Use UTF-8 and correctly quoted CSV fields for commas, quotation marks, and multiline content.
 

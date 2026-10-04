@@ -1,6 +1,7 @@
 """Verify frozen Stage 01 assignments, boundaries, and rebuild."""
 from copy import deepcopy
 from pathlib import Path
+import importlib.util
 import json
 import shutil
 import subprocess
@@ -8,9 +9,11 @@ import sys
 import tempfile
 import unittest
 
-import split
-
-DATA = Path(__file__).resolve().parent
+SCRIPTS = Path(__file__).resolve().parent
+DATA = SCRIPTS.parent
+spec = importlib.util.spec_from_file_location("split", SCRIPTS / "4.split.py")
+split = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(split)
 ARTIFACTS = ("0 - train/dataset.csv", "1 - test/dataset.csv", "split_assignments.csv", "split_report.md")
 
 
@@ -106,8 +109,10 @@ class SplitTests(unittest.TestCase):
         expected = {name: split.checksum(DATA / "prepared/splits" / name) for name in ARTIFACTS}
         with tempfile.TemporaryDirectory(prefix="scam-split-test-") as temporary:
             root = Path(temporary)
-            for name in ("split.py", "split_config.json"):
-                shutil.copy(DATA / name, root / name)
+            scripts = root / "scripts"
+            scripts.mkdir()
+            shutil.copy(SCRIPTS / "4.split.py", scripts / "4.split.py")
+            shutil.copy(DATA / "split_config.json", root / "split_config.json")
             prepared = root / "prepared"
             prepared.mkdir()
             for name in (*self.config["input_checksums"], "README.md"):
@@ -115,7 +120,7 @@ class SplitTests(unittest.TestCase):
             # Rebuild starts from the preparation README, not its mutable split section.
             text = (prepared / "README.md").read_text().split("\n## Frozen splits", 1)[0]
             (prepared / "README.md").write_text(text)
-            command = [sys.executable, str(root / "split.py")]
+            command = [sys.executable, str(scripts / "4.split.py")]
             result = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual({name: split.checksum(prepared / "splits" / name) for name in ARTIFACTS}, expected)
@@ -133,11 +138,13 @@ class SplitTests(unittest.TestCase):
     def test_unapproved_build_writes_nothing(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            shutil.copy(DATA / "split.py", root / "split.py")
+            scripts = root / "scripts"
+            scripts.mkdir()
+            shutil.copy(SCRIPTS / "4.split.py", scripts / "4.split.py")
             config = deepcopy(self.config)
             config["approval"]["status"] = "pending"
             (root / "split_config.json").write_text(json.dumps(config))
-            result = subprocess.run([sys.executable, str(root / "split.py")], capture_output=True, text=True)
+            result = subprocess.run([sys.executable, str(scripts / "4.split.py")], capture_output=True, text=True)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("Owner holdout approval", result.stderr)
             self.assertFalse((root / "prepared").exists())

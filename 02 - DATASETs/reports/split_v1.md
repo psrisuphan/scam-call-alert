@@ -15,12 +15,12 @@ Assignment CSV is authoritative. It is reused for all models and both training d
 ## Provenance
 
 scikit-learn version: 1.9.1; seed: 67.
-split.py SHA-256: 4fe0680a7c7f120e74c22b1a7fac0ceb2493ff6d4a732402b4ce13a1b7456cc9
-split_config.json SHA-256: 97f87411af6ed92b4251ae2332ceb06d7f58322f6f0eccc2c84098db310ad5fe
+scripts/4.split.py SHA-256: 0eb7c6dd19feebc77b43b5125d5094240af21dd94aa20dba38f3f82ae51b45a0
+split_config.json SHA-256: 71a55c8cb197c5b5b0bc076f1fd9eeb4d29511f657a1a137a04b5ade40c3ad8b
 prepared.csv SHA-256: e86f7424839a083580f0dce4d813efc0330963b98fce1c1efa04d3ab5b0c6e5d
 record_audit.csv SHA-256: e3e852292a6001984406ae75ef42d4ef30160d2331f24e64691a4a56f2ca9405
 source_manifest.csv SHA-256: 944356837ae3c0a70405f6139657d3f1a0e3d9c3e16924c61071eb94e923d670
-preparation_report.md SHA-256: 7061620d9c4ebe9f8d4d84a01f4928667354e1ebae0f976e7c6cfd740e84d4ca
+preparation_report.md SHA-256: b1daa44dce36880a8cc14e1e0212fe2237d816f97acb4f8d3093bf7acc717892
 Source: primary; file: raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet; version: e814ce89312fbc3eefdd8b941035f633540dab13; SHA-256: 84c5190cf0e584262c156e49d1b801c61f611c542a472d75f188c52ca33b580e.
 Source: supplemental; file: raw/thai-call-center-call-log/thai-call-center-call-log-dataset.zip; version: 1; SHA-256: df47b5c2075619ac41adfc68f016def1c5591af8b9bd8a77a6b6ce9d8f928f61.
 Source: supplemental; file: raw/thai-call-center-call-log/Dataset.csv; version: 1; SHA-256: 615fde01d5704da4ff2c5d5f39d1729e108cac40598d518b487480337cbca992.
@@ -60,7 +60,7 @@ Scam and Not Scam percentages use the total in each row. Source shares use the f
 
 Every canonical ID appears once in train/test; IDs are disjoint; related groups never cross holdout or validation-fold boundaries.
 Each training record validates exactly once; test records have no fold. Both classes occur in every training/validation subset, including primary-only fold training.
-Derived rows match canonical records exactly. Canonical preparation files remain unchanged. test_split.py checks these invariants, boundary failures, and deterministic rebuild.
+Derived rows match canonical records exactly. Canonical preparation files remain unchanged. scripts/5.test_split.py checks these invariants, boundary failures, and deterministic rebuild.
 For fold k, both conditions validate on all training-pool records with cv_fold=k.
 Primary-only trains on primary-source records with cv_fold!=k; primary + supplemental trains on all records with cv_fold!=k.
 Retrieve final test only for later final evaluation. Use one-to-one joins by sample_id and verify source_dataset equality.
