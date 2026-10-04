@@ -2,9 +2,9 @@
 
 ## Purpose and scope
 
-Compare the four approved transformer candidates, tune learning rate and training duration, and select the final model and training-data condition using cross-validation evidence. The representation is fixed to role-free whole-conversation text.
+Compare the four approved transformer candidates, tune learning rate and training duration, and select the final model and training-data condition using cross-validation evidence. Main training uses marked whole conversations; app selection uses role-free whole-conversation validation. Paired marked validation is diagnostic, and caller-only is a limited additional experiment.
 
-This task owns initial-versus-tuned comparisons, primary-only versus primary + supplemental training comparisons, configuration ranking, and final candidate selection.
+This task owns initial-versus-tuned comparisons, primary-only versus primary + supplemental training comparisons, configuration ranking, final candidate selection, marker-removal diagnostics and the limited caller-only comparison.
 
 Reuse the existing training and input-preparation components. Do not redefine dataset membership, label mapping, tokenization, loss, or optimizer family. Final retraining and text-test evaluation belong to the next plan. Packaging, STT selection, application integration, and final system measurements remain separate.
 
@@ -20,7 +20,7 @@ Use:
 Before comparative experiments:
 
 1. Verify preceding completion checks.
-2. Resolve structural-marker removal and input-length checkpoints.
+2. Resolve source-role parsing, marker-condition and input-length checkpoints.
 3. Verify each candidate's execution, recovery, memory, runtime, and persistent-storage requirements.
 4. Obtain approval of the exact warmup amount and finite maximum epoch budget.
 5. Record the complete experiment protocol.
@@ -50,7 +50,7 @@ Store selection artifacts under:
 | `experiment_manifest.csv` | Map each planned run to its configuration, training artifacts, execution state, and failures. |
 | `cv_results.csv` | Store per-fold, per-epoch metrics and aggregate results for completed comparable configurations. |
 | `comparison_report.md` | Present comparisons, learning curves, variability, computational costs, selection rationale, and limitations. |
-| `selected_config.json` | Freeze the selected model, data condition, representation, training settings, duration, threshold, and preprocessing policy. |
+| `selected_config.json` | Freeze the selected model, data condition, training/inference representations and marker conditions, training settings, duration, threshold, and preprocessing policy. |
 
 Keep training histories, sample-level predictions, and checkpoints in their existing training-run locations. Reference them rather than creating duplicate copies.
 
@@ -58,15 +58,15 @@ Generated sample-level evidence and model artifacts remain outside Git in docume
 
 ### Required traceability
 
-The experiment manifest identifies experiment ID, run ID, configuration ID, checkpoint/revision, training-data condition, representation, fold, training seed, experiment purpose (initial reference or search), execution state, artifact location, and failure reason.
+The experiment manifest identifies experiment ID, run ID, configuration ID, checkpoint/revision, training-data condition, training representation/marker condition, validation representation/marker condition, fold, training seed, experiment purpose (initial reference or search), execution state, artifact location, and failure reason.
 
-CV results identify configuration, condition, representation, fold, epoch, evaluated subset, sample/class counts, metric values, undefined-metric flags, and timing. Aggregate rows must be distinguishable from individual-fold rows.
+CV results identify configuration, data condition, training representation/marker condition, validation representation/marker condition, fold, epoch, evaluated subset, sample/class counts, metric values, undefined-metric flags, and timing. Aggregate rows must be distinguishable from individual-fold rows.
 
 ## 3. Experiment scope and budget
 
 ### Main comparison
 
-Evaluate all four candidates with role-free whole-conversation input, both approved training-data conditions, three learning-rate candidates, the same five saved validation folds, and training seed **67**.
+Train all four candidates with marked whole-conversation input; evaluate the same epoch weights with and without markers. Use both approved training-data conditions, three learning-rate candidates, the same five saved validation folds, and training seed **67**.
 
 The main matrix contains:
 
@@ -79,7 +79,9 @@ Epoch extensions continue these runs from their matching saved state; they are n
 
 ### Representation boundary
 
-All comparisons use role-free whole-conversation text. The owner removed the caller-only ablation to match ordinary STT inference without role attribution. No additional five-run speaker comparison is required.
+Main selection uses role-free whole-conversation results. Marked validation is diagnostic only. After human approval of the main candidate/configuration, perform five fresh caller-only marked-training runs using that model, data condition, settings, duration, seed and saved folds. Evaluate caller-only validation with/without markers; compare against corresponding selected whole-conversation fold/epoch results. Do not separately tune or choose epochs for caller-only and do not reopen app candidate selection from its results.
+
+There are 125 planned comparative training runs (120 main + 5 caller-only), excluding diagnostics/final retraining. Paired validation adds inference/storage cost, not duplicated training. Include it in budget diagnostics.
 
 ### Budget checkpoint
 
@@ -132,11 +134,11 @@ Use **Scam as the positive class**, with `Not Scam = 0` and `Scam = 1`.
 
 For each saved validation fold:
 
-1. Evaluate its records from both sources combined.
-2. Compute binary Scam F1.
-3. Retain source-specific results separately.
+1. Evaluate its records from both sources combined under both marker conditions, using the corresponding dialogue representation.
+2. Compute binary Scam F1 separately for each condition.
+3. Retain source-specific results and condition identities separately.
 
-Rank configurations using the arithmetic mean of the five combined-source fold Scam F1 scores.
+Rank main configurations using the arithmetic mean of the five combined-source **role-free whole-conversation** fold Scam F1 scores. All main duration/configuration tie rules and human app selection use this condition. Marked-condition scores must not override it.
 
 Report individual fold scores; mean and **sample SD**, using denominator `5 − 1`; Scam precision and recall; macro-F1 and accuracy; confusion matrices and class/sample counts; source-specific results; and training/validation loss curves.
 
@@ -164,7 +166,7 @@ Compare each configuration at a **common epoch across all five folds**.
 
 For each model/data-condition/learning-rate configuration:
 
-1. Select the epoch with the highest mean validation Scam F1.
+1. Select the epoch with the highest mean role-free whole-conversation validation Scam F1.
 2. If means tie exactly, select the earlier epoch.
 
 Do not combine individually selected best epochs from different folds into a common-epoch result.
@@ -173,7 +175,7 @@ Do not combine individually selected best epochs from different folds into a com
 
 Within each model and data condition, rank configurations by:
 
-1. Highest mean validation Scam F1.
+1. Highest mean role-free whole-conversation validation Scam F1.
 2. Lower fold SD when means tie exactly.
 3. Fewer epochs if still tied.
 4. Lower learning rate if still tied.
@@ -214,6 +216,12 @@ Give primary-only and combined-data training the same grid and epoch opportuniti
 
 Report both matching-setting comparisons, showing the effect of adding supplemental data under those settings, and separately tuned comparisons, showing each condition's best result found within the approved search.
 
+### Marker-removal and dialogue-content diagnostics
+
+For matching weights/fold/epoch/population, report marked versus role-free metrics and paired fold differences (role-free minus marked), with mean/sample SD and token-length/truncation exposure. Remove markers before tokenization/truncation. Do not claim this establishes superiority of marked training; changes may include differences in retained content.
+
+For the five caller-only runs, reuse the selected duration and training procedure (including approved warmup conversion for their unchanged conversation membership), with fresh state per fold. Compare marked whole versus marked caller and role-free whole versus role-free caller separately, using corresponding folds and epoch. Preserve all source-specific metrics, histories, lengths, runtime and failures. Source role information is privileged; caller-only cannot replace the app input policy.
+
 ## 9. Final candidate selection and threshold
 
 Review all candidate results using mean validation Scam F1, fold SD and individual scores, source-specific behavior, training cost and development inference latency, and practical input requirements.
@@ -222,7 +230,7 @@ Review all candidate results using mean validation Scam F1, fold SD and individu
 
 An absolute F1 difference of **0.05** is a discussion guideline for considering a performance–stability tradeoff. It is not an automatic cutoff, proof of equivalence, or a rule that lower SD always wins.
 
-Approve the final model and data condition using the completed role-free whole-conversation comparisons. The input representation is fixed, not a selection dimension.
+Approve the final model and data condition using the completed role-free whole-conversation comparisons. The app representation remains whole conversation and role-free, not a selectable caller-only mode. Freeze `training_representation=whole_conversation`, `training_marker_condition=role_marked`, `inference_representation=whole_conversation`, and `inference_marker_condition=role_free`, with separate preprocessing identities.
 
 Use:
 
@@ -244,7 +252,7 @@ Complete when:
 - Results, failures, recovery events, and report evidence are traceable.
 - The final candidate and representation have been reviewed and approved.
 - Selected settings and threshold are frozen without final-test access.
-- The comparison report explains tradeoffs and limitations.
+- The comparison report explains tradeoffs and limitations, including both validation marker conditions and the five-run caller-only comparison.
 
 Hand off `selected_config.json` and supporting evidence to [Final Model Evaluation and Error Analysis](02%20-%20FINAL%20MODEL%20EVALUATION%20AND%20ERROR%20ANALYSIS.md).
 
