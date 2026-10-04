@@ -1,15 +1,19 @@
-# Engineering and experiment plans
+# Project Plans
 
-Step-by-step implementation plans for Scam Call Alert. Each stage defines its inputs, checks, outputs, and stop conditions.
+This directory contains implementation plans for the **อย่าเอาเงินชั้นไป - Scam Call Alert** Pattern Recognition term project.
 
-## Plan structure
+Each plan explains what to do, how to do it, why the methods were selected, the required outputs, and how to check completion. The plans use the project proposal and course lecture sheets as their source material.
+
+## Directory structure
+
+The structure below is the intended organization. Future plan files remain proposed until their structure and contents are confirmed.
 
 ```text
 01 - PLANs/
 ├── README.md
 ├── 00 - DATA PREPARATION.md
 ├── 01 - DATA SPLIT AND EXPERIMENT DESIGN.md
-├── 02 - TEXT PREPROCESSING AND MODEL INPUTS.md
+├── 02 - DATA PREPROCESSING AND MODEL INPUTS.md
 ├── 03 - MODEL DEVELOPMENT/
 │   ├── 00 - MODEL TRAINING.md
 │   ├── 01 - HYPERPARAMETER TUNING AND MODEL SELECTION.md
@@ -19,24 +23,50 @@ Step-by-step implementation plans for Scam Call Alert. Each stage defines its in
 │   ├── 00 - SPEECH-TO-TEXT EVALUATION.md
 │   └── 01 - MOBILE EMULATOR PROTOTYPE AND INTEGRATION.md
 ├── 05 - END-TO-END SYSTEM EVALUATION.md
-└── 06 - FINAL RESULTS AND LIMITATIONS REPORT.md
+├── 06 - FINAL RESULTS AND LIMITATIONS REPORT.md
+└── course-lecture-sheets/
 ```
 
-## Status
+## Tasks and planning progress
 
-| Stage | Document | Status | Output |
-| --- | --- | --- | --- |
-| 00 | `00 - DATA PREPARATION.md` | Complete (v1) | `02 - DATASETs/processed/v1/` (1,401 rows) |
-| 01 | `01 - DATA SPLIT AND EXPERIMENT DESIGN.md` | Ready to start | Fixed group-aware splits and evaluation rules |
-| 02 | `02 - TEXT PREPROCESSING AND MODEL INPUTS.md` | Pending 01 | Speaker tag harmonization and tokenization format |
-| 03 | `03 - MODEL DEVELOPMENT/` | Pending 02 | Baseline runs, tuning, evaluation, frozen artifact |
-| 04 | `04 - APPLICATION DEVELOPMENT/` | Pending 03 | Whisper Thai STT and mobile emulator app |
-| 05 | `05 - END-TO-END SYSTEM EVALUATION.md` | Pending 04 | Pipeline latency and end-to-end failure metrics |
-| 06 | `06 - FINAL RESULTS AND LIMITATIONS REPORT.md` | Final stage | Course final report and presentation slides |
+Each plan is one task. Use these states:
 
-## Rules across all plans
+- **Unplanned:** the plan has not been confirmed and written.
+- **Planned:** the plan is confirmed and written; implementation is not complete.
+- **Finished:** implementation meets the plan's completion criteria.
 
-1. Never fit transformations on test data. Fit vocabulary, scalers, tokenizers, or thresholds inside training folds only.
-2. Keep related conversations in the same split. Template variants and chunked calls must never cross between train and test sets.
-3. Keep raw data read-only. Cleaned exports write to versioned folders with decision logs.
-4. Distinguish verified facts from assumptions. State simulation limits and sample sizes clearly.
+Update a task when its plan is saved or its implementation is completed. A written plan alone does not mean the task is finished. Individual plan files do not need status fields.
+
+| Plan | Purpose | State |
+|---|---|---|
+| [00 - Data Preparation](00%20-%20DATA%20PREPARATION.md) | Obtain the datasets and prepare labeled, audited conversation records ready for splitting. | Planned |
+| [01 - Data Split and Experiment Design](01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md) | Define train/test separation, cross-validation, conditional grouping, and shared experiment data conditions. | Planned |
+| [02 - Data Preprocessing and Model Inputs](02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md) | Define preprocessing, model input preparation, and where each operation is applied. | Planned |
+| [03/00 - Model Training](03%20-%20MODEL%20DEVELOPMENT/00%20-%20MODEL%20TRAINING.md) | Define the procedure for training candidate models using the approved data and input pipeline. | Planned |
+| 03/01 - Hyperparameter Tuning and Model Selection | Define how to search configurations and select the model using validation results. | Unplanned |
+| 03/02 - Final Model Evaluation and Error Analysis | Evaluate the selected model on held-out data and examine its errors. | Unplanned |
+| 03/03 - Model Freeze and App Handoff | Prepare the model and supporting artifacts for application integration. | Unplanned |
+| 04/00 - Speech-to-Text Evaluation | Define how to evaluate Thai transcription from prepared audio. | Unplanned |
+| 04/01 - Mobile Emulator Prototype and Integration | Connect audio, transcription, classification, and warnings in the prototype. | Unplanned |
+| 05 - End-to-End System Evaluation | Evaluate the complete audio-to-warning workflow and its system behavior. | Unplanned |
+| 06 - Final Results and Limitations Report | Assemble the methods, experimental results, system measurements, and limitations into the final report. | Unplanned |
+
+## How to follow the plans
+
+Read the relevant plan and its prerequisite deliverables before implementing a task. Follow its selected methods, ordered steps, decision rules, output definitions, and completion checks.
+
+The main sequence is:
+
+**Data preparation → splitting and experiment design → preprocessing → model development → application integration → end-to-end evaluation → final reporting.**
+
+Training and tuning are iterative. Application integration depends on both the model handoff and the speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work.
+
+If implementation reveals an unexpected issue or a flaw in a plan, document the issue and discuss any consequential method change with the project owner. Update the affected instructions and record the reason for the agreed change. Continue unaffected work where possible.
+
+Directory numbering indicates workflow order, not calendar dates. This README is a directory guide; task details and methodological decisions belong in the individual plans.
+
+## Reference material
+
+- [Full Proposal](../00%20-%20DOCUMENTs/Full%20Proposal/Phoebe_FullProposal.docx): project scope and proposed workflow.
+- [Initial Idea](../00%20-%20DOCUMENTs/Strong%20Idea/Phoebe_strongidea.pdf): project motivation and initial approach.
+- `course-lecture-sheets/`: course guidance, particularly Chapters 2-6. These lecture files are local, ignored by Git, and may be unavailable in a fresh clone.

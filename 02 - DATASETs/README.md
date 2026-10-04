@@ -1,5 +1,7 @@
 # Datasets
 
+> Historical JSONL v1 work. It does not meet the current Stage 00 plan and is not an approved handoff. The plan requires CSV outputs, `Unknow` mapped to `Not Scam`, conservative exact matching, and owner-reviewed relationships. See [reconciliation](reports/stage00_reconciliation.md).
+
 Raw downloads, inspection logs, review queues, and prepared splits for Scam Call Alert.
 
 Raw files in `raw/` and processed outputs in `processed/` are excluded from Git via `.gitignore`. Source metadata (`sources.json`) and summary reports (`reports/`) remain tracked.

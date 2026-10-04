@@ -9,11 +9,18 @@ venv/
 env/
 .ipynb_checkpoints/
 
-# Local data, recordings, and derived model artifacts
-02 - DATASETs/raw/
+# Legacy preparation outputs and local review artifacts
 02 - DATASETs/processed/
 02 - DATASETs/review/
 02 - DATASETs/inspection.executed.ipynb
+
+# Local data, recordings, and derived model artifacts
+02 - DATASETs/raw/**
+02 - DATASETs/prepared/**
+!02 - DATASETs/raw/**/
+!02 - DATASETs/prepared/**/
+!02 - DATASETs/raw/**/.gitkeep
+!02 - DATASETs/prepared/**/.gitkeep
 *.wav
 *.mp3
 *.m4a

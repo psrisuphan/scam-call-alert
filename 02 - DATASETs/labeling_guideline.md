@@ -1,5 +1,7 @@
 # Label review guideline (v1)
 
+> Historical JSONL v1 work. It does not meet the current Stage 00 plan and is not an approved handoff. The plan requires CSV outputs, `Unknow` mapped to `Not Scam`, conservative exact matching, and owner-reviewed relationships. See [reconciliation](reports/stage00_reconciliation.md).
+
 Data preparation rules and category mappings for dataset version v1.
 
 ## Unit of classification
