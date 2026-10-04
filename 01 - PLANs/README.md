@@ -10,6 +10,8 @@ If a plan cannot be followed, or an issue requires changing a planned method, se
 2. Obtain explicit confirmation from the human project owner before changing the plan or implementing a deviation. Silence is not approval.
 3. After confirmation, update the affected instructions and record the approved change and rationale before continuing.
 
+**Workers and AI agents MUST NOT change any approved plan details to match an implementation without first notifying the human project owner and receiving explicit confirmation.** Before editing, explain the mismatch, the proposed plan changes, why they are needed, and their downstream effects. This applies to methods, settings, scope, sequence, file/directory layouts, required outputs, and storage or Git-tracking rules. An implementation already being written, working, tested, or committed does not authorize changing its plan. Do not retroactively rewrite a plan to make an unapproved deviation appear compliant.
+
 **Do not independently replace, bypass, or reinterpret a planned decision.** Resolve any required owner-confirmation checkpoint before performing the work it governs. Continue unaffected work only when it remains consistent with the approved plans.
 
 Implementation details explicitly left flexible by a plan may be chosen within its stated boundaries; this does not authorize changing its required behavior or methods.
