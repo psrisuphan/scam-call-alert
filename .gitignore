@@ -9,6 +9,11 @@ venv/
 env/
 .ipynb_checkpoints/
 
+# Legacy preparation outputs and local review artifacts
+02 - DATASETs/processed/
+02 - DATASETs/review/
+02 - DATASETs/inspection.executed.ipynb
+
 # Local data, recordings, and derived model artifacts
 02 - DATASETs/raw/**
 02 - DATASETs/prepared/**

@@ -1,0 +1,68 @@
+{
+  "version": "v1",
+  "status": "superseded_historical_jsonl",
+  "superseded_by": "preparation_csv_v2.md",
+  "counts": {
+    "primary": {
+      "original": 1280,
+      "retained": 1273,
+      "excluded": 7,
+      "labels": {
+        "1": 634,
+        "0": 639
+      },
+      "original_categories": {
+        "Social security number scams": 160,
+        "Refund scams": 160,
+        "Technical support scams": 160,
+        "Reward scams": 160,
+        "Legitimate delivery confirmation calls": 160,
+        "Genuine insurance sales calls": 160,
+        "Legitimate telemarketing calls": 160,
+        "Wrong number calls": 160
+      },
+      "retained_categories": {
+        "Social security number scams": 159,
+        "Refund scams": 157,
+        "Technical support scams": 159,
+        "Reward scams": 159,
+        "Legitimate delivery confirmation calls": 160,
+        "Genuine insurance sales calls": 160,
+        "Legitimate telemarketing calls": 160,
+        "Wrong number calls": 159
+      }
+    },
+    "supplemental": {
+      "original": 198,
+      "retained": 167,
+      "excluded": 31,
+      "labels": {
+        "1": 55,
+        "0": 112
+      },
+      "original_categories": {
+        "Scam": 73,
+        "General": 49,
+        "Verification-call": 26,
+        "Official": 37,
+        "Unknow": 13
+      },
+      "retained_categories": {
+        "Scam": 55,
+        "General": 49,
+        "Verification-call": 26,
+        "Official": 37
+      }
+    }
+  },
+  "excluded_reasons": {
+    "source_corruption": 5,
+    "incomplete_source": 1,
+    "exact_duplicate": 19,
+    "ambiguous_label": 13
+  },
+  "related_groups": 14,
+  "split_created": false,
+  "human_verified": false,
+  "preparation_script_sha256": "e24626b2fd8562982bccdb5e7b8a3f5ca0da2ded513475d67bfddabecc327a54"
+}

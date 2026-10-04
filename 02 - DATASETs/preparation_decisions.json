@@ -1,0 +1,1465 @@
+{
+  "preparation_version": "csv-v2",
+  "approval_reference": "Owner reply 'yea' approving the two proposals in the PR reconciliation conversation.",
+  "source_checksums": {
+    "raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet": "84c5190cf0e584262c156e49d1b801c61f611c542a472d75f188c52ca33b580e",
+    "raw/thai-call-center-call-log/thai-call-center-call-log-dataset.zip": "df47b5c2075619ac41adfc68f016def1c5591af8b9bd8a77a6b6ce9d8f928f61",
+    "raw/thai-call-center-call-log/Dataset.csv": "615fde01d5704da4ff2c5d5f39d1729e108cac40598d518b487480337cbca992"
+  },
+  "source_mapping_review": {
+    "reviewer": "Bukutsu (owner)",
+    "status": "approved",
+    "rationale": "Owner directed obedience to main's confirmed Plan 00 mapping; fields are copied directly without reconstruction."
+  },
+  "method": {
+    "representation": "char_tfidf",
+    "ngram_range": [
+      3,
+      5
+    ],
+    "lowercase": false,
+    "similarity_threshold": 0.9,
+    "coverage": "all valid raw rows across both sources",
+    "comparison": "line endings and edge whitespace only"
+  },
+  "method_review": {
+    "reviewer": "Bukutsu (owner)",
+    "status": "approved",
+    "rationale": "Owner reply 'yea' approved the proposed candidate screen; relationships require separate contextual review."
+  },
+  "integrity": {
+    "hf_000083": {
+      "decision": "retain",
+      "reviewer": "Bukutsu (owner)",
+      "rationale": "Owner approved retaining readable damaged text unchanged.",
+      "evidence": "Replacement characters occur within an otherwise readable conversation.",
+      "recovery_attempt": "Compared Thai and English raw fields; defect is present in both. No missing content recoverable.",
+      "transcript_sha256": "bf2f444a5b6a40976e41e262428dc82383ce033b754d29f4c9a084b1b34bdf7b"
+    },
+    "hf_000191": {
+      "decision": "retain",
+      "reviewer": "Bukutsu (owner)",
+      "rationale": "Owner approved retaining readable damaged text unchanged.",
+      "evidence": "Replacement characters occur within an otherwise readable conversation.",
+      "recovery_attempt": "Compared Thai and English raw fields; defect is present in both. No missing content recoverable.",
+      "transcript_sha256": "7cf23ba575cbeaa20262eb7e440718b92799ecfbea74df7095de1430bca9af40"
+    },
+    "hf_000567": {
+      "decision": "retain",
+      "reviewer": "Bukutsu (owner)",
+      "rationale": "Owner approved retaining readable damaged text unchanged.",
+      "evidence": "Replacement characters occur within an otherwise readable conversation.",
+      "recovery_attempt": "Compared Thai and English raw fields; defect is present in both. No missing content recoverable.",
+      "transcript_sha256": "90fd956c8c469046c9c69addc6bd49a52eefb758d248e3b9243258be74904ddf"
+    },
+    "hf_000286": {
+      "decision": "exclude",
+      "reviewer": "Bukutsu (owner)",
+      "rationale": "Owner approved exclusion of unrecoverably truncated conversation.",
+      "evidence": "Both source language fields end abruptly: \"s whole situation. caller: No, no, don't do that! You won't be able to get through to our department directly. Just stay on the line and ���\" / 'on โดยตรงเพื่อตรวจสอบสถานการณ์ทั้งหมดนี้ ผู้โทร: ไม่ ไม่ อย่าทำอย่างนั้น! คุณจะไม่สามารถผ่านไปยังแผนกของเราโดยตรงได้ เพียงแค่อยู่ในสายและ���'",
+      "recovery_attempt": "Compared Thai and English raw fields; defect is present in both. No missing content recoverable.",
+      "transcript_sha256": "c2db17c32fac2a740aa7e38cdc0bf8e4ff30fee5e6cb234440ffae419afe66cd"
+    },
+    "hf_000308": {
+      "decision": "exclude",
+      "reviewer": "Bukutsu (owner)",
+      "rationale": "Owner approved exclusion of unrecoverably truncated conversation.",
+      "evidence": "Both source language fields end abruptly: \" Alright, well I'll call back and verify everything then.  caller: Wait, no need to do that! Let's just get the refund processed now and ���\" / 'ฉันบอกว่าฉันเป็น  ผู้รับ: เอาล่ะ ฉันจะโทรกลับและยืนยันทุกอย่างแล้ว  ผู้โทร: เดี๋ยวก่อน ไม่ต้องทำแบบนั้น! ตอนนี้เราดำเนินการคืนเงินให้แล้ว���'",
+      "recovery_attempt": "Compared Thai and English raw fields; defect is present in both. No missing content recoverable.",
+      "transcript_sha256": "67fc301341119840991e88616a3046e6519a034bd2e0ac2c9de147a2f538abda"
+    },
+    "hf_000439": {
+      "decision": "exclude",
+      "reviewer": "Bukutsu (owner)",
+      "rationale": "Owner approved exclusion of unrecoverably truncated conversation.",
+      "evidence": "Both source language fields end abruptly: \" you need to trust me. receiver: Trust you? You're asking me to download suspicious software and grant you access to my computer. Why should\" / 'ี้ จะซ่อมคอมต้องเชื่อผม ผู้รับ: เชื่อใจคุณเหรอ? คุณกำลังขอให้ฉันดาวน์โหลดซอฟต์แวร์ที่น่าสงสัยและอนุญาตให้คุณเข้าถึงคอมพิวเตอร์ของฉัน ทำไมควร'",
+      "recovery_attempt": "Compared Thai and English raw fields; defect is present in both. No missing content recoverable.",
+      "transcript_sha256": "fabda485fa9052341a6e2e19b273f64412d661f0d62ce544b42c773e5b2b5e33"
+    }
+  },
+  "relationships": [
+    {
+      "left": "hf_001138",
+      "right": "hf_001183",
+      "similarity": 0.900504,
+      "left_sha256": "8f078899c6f07b9afa336c4959d0c8a99a75a8af8bb1327a0ad4bdd03612b937",
+      "right_sha256": "577b7556f8c0ef7c4b02addc7179e129418738e1401e08767eef2957048077ad",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "เ",
+          "right": "ใช่ไ"
+        },
+        {
+          "operation": "replace",
+          "left": "รอ",
+          "right": "ม"
+        },
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "พย",
+          "right": "มองห"
+        },
+        {
+          "operation": "replace",
+          "left": "ยา",
+          "right": "จอห์น ส"
+        },
+        {
+          "operation": "delete",
+          "left": "ต",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ดต่อ John Smith",
+          "right": "ธ"
+        }
+      ]
+    },
+    {
+      "left": "hf_001138",
+      "right": "hf_001193",
+      "similarity": 0.912511,
+      "left_sha256": "8f078899c6f07b9afa336c4959d0c8a99a75a8af8bb1327a0ad4bdd03612b937",
+      "right_sha256": "69766bc8b4a7053527feb51abcf537689548a1dfe56ff1ba6683fc05dc12b5fb",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": " สวัสดี",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "วิล",
+          "right": "จอห์น"
+        },
+        {
+          "operation": "delete",
+          "left": " ผู้โทร: คุณก็เหมือนกัน ลาก่อน. ผู้รับ: บาย.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001138",
+      "right": "hf_001197",
+      "similarity": 0.919067,
+      "left_sha256": "8f078899c6f07b9afa336c4959d0c8a99a75a8af8bb1327a0ad4bdd03612b937",
+      "right_sha256": "6a37800cb9642338736569b8652767b1f7a6dfe87dba431db57607c05092245e",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": " สวัสดี",
+          "right": ""
+        },
+        {
+          "operation": "delete",
+          "left": " ขอให้เป็นวันที่ดี. ผู้โทร: คุณก็เหมือนกัน ลาก่อน. ผู้รับ: บาย.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001141",
+      "right": "hf_001200",
+      "similarity": 0.910689,
+      "left_sha256": "2a10dbb8d9f5f6a6d850377d48b091e66f617e128d571e0315721b825832bc93",
+      "right_sha256": "78684bb459c5a6f80cb3f8bb6439e7cb682a3cef7b430f674978dc7b9cbfd01f",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "คุณรู้จักเขาไหม? "
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " ไม่"
+        },
+        {
+          "operation": "replace",
+          "left": "สำห",
+          "right": "ที่"
+        },
+        {
+          "operation": "delete",
+          "left": "ั",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "กวน"
+        },
+        {
+          "operation": "replace",
+          "left": "วามผิดพลาด",
+          "right": "ุณ"
+        }
+      ]
+    },
+    {
+      "left": "hf_001142",
+      "right": "hf_001157",
+      "similarity": 0.91336,
+      "left_sha256": "2fc8b6efae7f1b2c1f1d7bf5667c72d2bdf50660911a359bb62ca358686d09a5",
+      "right_sha256": "92ba1be68cf4983869e17a713de454fabf1f4fd0386ceebaacad693077ead15c",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "สามา",
+          "right": "คว"
+        },
+        {
+          "operation": "delete",
+          "left": "ถลอง",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ใช่ ฉันจะทำ",
+          "right": "โ"
+        },
+        {
+          "operation": "replace",
+          "left": "ย่างนั้น",
+          "right": "เค"
+        },
+        {
+          "operation": "replace",
+          "left": "อภัย",
+          "right": "โทษ"
+        }
+      ]
+    },
+    {
+      "left": "hf_001142",
+      "right": "hf_001236",
+      "similarity": 0.977423,
+      "left_sha256": "2fc8b6efae7f1b2c1f1d7bf5667c72d2bdf50660911a359bb62ca358686d09a5",
+      "right_sha256": "ecf686b402fd3912906facd752ca4e985cfab346e819b9b6d035b186e0d7235c",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "อีกครั้ง"
+        }
+      ]
+    },
+    {
+      "left": "hf_001143",
+      "right": "hf_001183",
+      "similarity": 0.900504,
+      "left_sha256": "8f078899c6f07b9afa336c4959d0c8a99a75a8af8bb1327a0ad4bdd03612b937",
+      "right_sha256": "577b7556f8c0ef7c4b02addc7179e129418738e1401e08767eef2957048077ad",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "เ",
+          "right": "ใช่ไ"
+        },
+        {
+          "operation": "replace",
+          "left": "รอ",
+          "right": "ม"
+        },
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "พย",
+          "right": "มองห"
+        },
+        {
+          "operation": "replace",
+          "left": "ยา",
+          "right": "จอห์น ส"
+        },
+        {
+          "operation": "delete",
+          "left": "ต",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ดต่อ John Smith",
+          "right": "ธ"
+        }
+      ]
+    },
+    {
+      "left": "hf_001143",
+      "right": "hf_001193",
+      "similarity": 0.912511,
+      "left_sha256": "8f078899c6f07b9afa336c4959d0c8a99a75a8af8bb1327a0ad4bdd03612b937",
+      "right_sha256": "69766bc8b4a7053527feb51abcf537689548a1dfe56ff1ba6683fc05dc12b5fb",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": " สวัสดี",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "วิล",
+          "right": "จอห์น"
+        },
+        {
+          "operation": "delete",
+          "left": " ผู้โทร: คุณก็เหมือนกัน ลาก่อน. ผู้รับ: บาย.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001143",
+      "right": "hf_001197",
+      "similarity": 0.919067,
+      "left_sha256": "8f078899c6f07b9afa336c4959d0c8a99a75a8af8bb1327a0ad4bdd03612b937",
+      "right_sha256": "6a37800cb9642338736569b8652767b1f7a6dfe87dba431db57607c05092245e",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": " สวัสดี",
+          "right": ""
+        },
+        {
+          "operation": "delete",
+          "left": " ขอให้เป็นวันที่ดี. ผู้โทร: คุณก็เหมือนกัน ลาก่อน. ผู้รับ: บาย.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001145",
+      "right": "hf_001184",
+      "similarity": 0.911115,
+      "left_sha256": "c0e3e382d77e406cfa4b50072e2a4bca5b2ad4f128f155ef1b4d9c69e367f3f7",
+      "right_sha256": "7d19bf910ba7c42a6476fc2050499e5439ebbfd15466e628173753e02ab7421d",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "ลอง",
+          "right": ""
+        },
+        {
+          "operation": "delete",
+          "left": "คง",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ให",
+          "right": "อย่างนั"
+        },
+        {
+          "operation": "delete",
+          "left": "มันสับส",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001146",
+      "right": "hf_001276",
+      "similarity": 0.992304,
+      "left_sha256": "dd3991e4a69b2f6730e4aa4ae3ddaf8a7e8f75ab335c47e7dfefb4424037c476",
+      "right_sha256": "84e71a236569021739228a2f826b2e66833cac1d47d46fbe20614e4ee3fa5f21",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": " สวัสดี",
+          "right": ""
+        },
+        {
+          "operation": "delete",
+          "left": "!",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001157",
+      "right": "hf_001236",
+      "similarity": 0.904329,
+      "left_sha256": "92ba1be68cf4983869e17a713de454fabf1f4fd0386ceebaacad693077ead15c",
+      "right_sha256": "ecf686b402fd3912906facd752ca4e985cfab346e819b9b6d035b186e0d7235c",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "คว",
+          "right": "สามา"
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ถลอง"
+        },
+        {
+          "operation": "replace",
+          "left": "โ",
+          "right": "ใช่ ฉันจะทำ"
+        },
+        {
+          "operation": "replace",
+          "left": "เค",
+          "right": "ย่างนั้น"
+        },
+        {
+          "operation": "replace",
+          "left": "โทษ",
+          "right": "อภัยอีกครั้ง"
+        }
+      ]
+    },
+    {
+      "left": "hf_001163",
+      "right": "hf_001237",
+      "similarity": 0.904883,
+      "left_sha256": "6ec7305cec46e75ff137b390f94362977995a71399c6974fcf0eb945da029a9e",
+      "right_sha256": "8b25589e8550b80834ab28d9dff568db9a7408dfd1b3912719588f325021a009",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "ใช่ไ",
+          "right": "เ"
+        },
+        {
+          "operation": "replace",
+          "left": "ม",
+          "right": "รอ"
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " สวัสดี"
+        },
+        {
+          "operation": "delete",
+          "left": " ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "เกรง",
+          "right": "คิด"
+        },
+        {
+          "operation": "delete",
+          "left": "จะ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " "
+        },
+        {
+          "operation": "replace",
+          "left": "มี",
+          "right": "เ"
+        },
+        {
+          "operation": "replace",
+          "left": "ัญหา",
+          "right": "็นไร"
+        },
+        {
+          "operation": "replace",
+          "left": "!",
+          "right": " ขอให้เป็นวันที่ดี."
+        }
+      ]
+    },
+    {
+      "left": "hf_001167",
+      "right": "hf_001193",
+      "similarity": 0.904995,
+      "left_sha256": "f618ae5982bdd71bb1c86df799522773adf596a764e2628bef63538384464c61",
+      "right_sha256": "69766bc8b4a7053527feb51abcf537689548a1dfe56ff1ba6683fc05dc12b5fb",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " เขาว่างไหม?"
+        },
+        {
+          "operation": "replace",
+          "left": "วิล",
+          "right": "จอห์น"
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " ขอให้เป็นวันที่ดี."
+        }
+      ]
+    },
+    {
+      "left": "hf_001167",
+      "right": "hf_001197",
+      "similarity": 0.963843,
+      "left_sha256": "f618ae5982bdd71bb1c86df799522773adf596a764e2628bef63538384464c61",
+      "right_sha256": "6a37800cb9642338736569b8652767b1f7a6dfe87dba431db57607c05092245e",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " เขาว่างไหม?"
+        }
+      ]
+    },
+    {
+      "left": "hf_001171",
+      "right": "hf_001193",
+      "similarity": 0.964297,
+      "left_sha256": "e2f68200997c494a9f397d88abfab6239abe6a8420178413cdad5ec71e1b4b08",
+      "right_sha256": "69766bc8b4a7053527feb51abcf537689548a1dfe56ff1ba6683fc05dc12b5fb",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " "
+        },
+        {
+          "operation": "replace",
+          "left": "คิด",
+          "right": "เกรง"
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "จะ"
+        }
+      ]
+    },
+    {
+      "left": "hf_001171",
+      "right": "hf_001197",
+      "similarity": 0.903622,
+      "left_sha256": "e2f68200997c494a9f397d88abfab6239abe6a8420178413cdad5ec71e1b4b08",
+      "right_sha256": "6a37800cb9642338736569b8652767b1f7a6dfe87dba431db57607c05092245e",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " "
+        },
+        {
+          "operation": "replace",
+          "left": "คิด",
+          "right": "เกรง"
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "จะ"
+        },
+        {
+          "operation": "replace",
+          "left": "จอห์น",
+          "right": "วิล"
+        },
+        {
+          "operation": "delete",
+          "left": " ขอให้เป็นวันที่ดี.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001171",
+      "right": "hf_001268",
+      "similarity": 0.973303,
+      "left_sha256": "e2f68200997c494a9f397d88abfab6239abe6a8420178413cdad5ec71e1b4b08",
+      "right_sha256": "a141649739c8d0ecb47af8abc004ea5b0ca707020aac6ba660a922529184870b",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": " ขอให้เป็นวันที่ดี.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001172",
+      "right": "hf_001220",
+      "similarity": 0.962552,
+      "left_sha256": "be57e0097a5544438341af03acbb7542a6e3e691259fa8a37e5832e667609d44",
+      "right_sha256": "4d3b04ff314990bf3ea030f72219c160c00946f8a202986feab9547a6b4d8f46",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สวัสดี ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " เขาอยู่ไหม?"
+        },
+        {
+          "operation": "replace",
+          "left": "จอห์น",
+          "right": "วิล"
+        }
+      ]
+    },
+    {
+      "left": "hf_001184",
+      "right": "hf_001238",
+      "similarity": 0.933093,
+      "left_sha256": "7d19bf910ba7c42a6476fc2050499e5439ebbfd15466e628173753e02ab7421d",
+      "right_sha256": "090c98a7c4a08b369516a885b0fe65b044da77f97e30475991fc9b8a0427de5e",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "!"
+        },
+        {
+          "operation": "replace",
+          "left": "อาจต้",
+          "right": "ควรล"
+        },
+        {
+          "operation": "delete",
+          "left": "การ",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001185",
+      "right": "hf_001200",
+      "similarity": 0.961568,
+      "left_sha256": "2758cac7904e3010fb4a15f44e9c08f95f9a3b21f5d83a7c0485a4702c917aa6",
+      "right_sha256": "78684bb459c5a6f80cb3f8bb6439e7cb682a3cef7b430f674978dc7b9cbfd01f",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ฉันกำลังพยายามติดต่อจอห์น"
+        },
+        {
+          "operation": "delete",
+          "left": "น จอห์",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001193",
+      "right": "hf_001197",
+      "similarity": 0.940885,
+      "left_sha256": "69766bc8b4a7053527feb51abcf537689548a1dfe56ff1ba6683fc05dc12b5fb",
+      "right_sha256": "6a37800cb9642338736569b8652767b1f7a6dfe87dba431db57607c05092245e",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "จอห์น",
+          "right": "วิล"
+        },
+        {
+          "operation": "delete",
+          "left": " ขอให้เป็นวันที่ดี.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001193",
+      "right": "hf_001268",
+      "similarity": 0.937289,
+      "left_sha256": "69766bc8b4a7053527feb51abcf537689548a1dfe56ff1ba6683fc05dc12b5fb",
+      "right_sha256": "a141649739c8d0ecb47af8abc004ea5b0ca707020aac6ba660a922529184870b",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "สวัสดี "
+        },
+        {
+          "operation": "delete",
+          "left": " ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "เกรง",
+          "right": "คิด"
+        },
+        {
+          "operation": "delete",
+          "left": "จะ",
+          "right": ""
+        },
+        {
+          "operation": "delete",
+          "left": " ขอให้เป็นวันที่ดี.",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001197",
+      "right": "hf_001268",
+      "similarity": 0.928341,
+      "left_sha256": "6a37800cb9642338736569b8652767b1f7a6dfe87dba431db57607c05092245e",
+      "right_sha256": "a141649739c8d0ecb47af8abc004ea5b0ca707020aac6ba660a922529184870b",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "สวัสดี "
+        },
+        {
+          "operation": "delete",
+          "left": " ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "เกรง",
+          "right": "คิด"
+        },
+        {
+          "operation": "delete",
+          "left": "จะ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "วิล",
+          "right": "จอห์น"
+        }
+      ]
+    },
+    {
+      "left": "hf_001200",
+      "right": "hf_001214",
+      "similarity": 0.926881,
+      "left_sha256": "78684bb459c5a6f80cb3f8bb6439e7cb682a3cef7b430f674978dc7b9cbfd01f",
+      "right_sha256": "e715277f9f7e61f5dc4a363f46eaf735aa07f41e4702d977e1a17e7099518e49",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "โ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "้ ฉันข",
+          "right": "๋"
+        },
+        {
+          "operation": "delete",
+          "left": "โทษจริงๆ",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": " ขออภัยที่รบกวนคุณ"
+        },
+        {
+          "operation": "replace",
+          "left": "อภัยอีก",
+          "right": "บ"
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุณสำห"
+        },
+        {
+          "operation": "replace",
+          "left": "้",
+          "right": "บเวลาขอ"
+        },
+        {
+          "operation": "delete",
+          "left": "ที่รบกวน",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001201",
+      "right": "hf_001218",
+      "similarity": 0.924742,
+      "left_sha256": "2aeede30f55fe2cffe1ab9400759d72cac179ed4f5c95bd848f1aff1f7cea4e5",
+      "right_sha256": "27aa7a35aa65d54fb7ee0e284e24959360188dc39489ddbc38d556f9ff9c2a99",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ลอง"
+        },
+        {
+          "operation": "replace",
+          "left": "ส",
+          "right": "ห"
+        },
+        {
+          "operation": "replace",
+          "left": "ุดโทรศัพท์",
+          "right": "ายเล"
+        },
+        {
+          "operation": "delete",
+          "left": "องคุณ",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "hf_001207",
+      "right": "hf_001265",
+      "similarity": 0.901922,
+      "left_sha256": "9f0cb505eda6e370bcb9e6e868278c20ab2680f40b6fa23ef016c1715f0bb59f",
+      "right_sha256": "663657ac47f167d87ac6a9f170ee8906624c66da235dabf39f5cafb5ddfa48cd",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed ordered wrong-number dialogue: same opening, named contact/phone details, correction, and apology sequence; edits change wording, household name, or polite closing. Evidence supports a shared conversation template, not merely a shared topic.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "จริงๆ ฉันคงกดหมายเลขผิดไปแล้ว",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "วิล",
+          "right": "จอห์น"
+        },
+        {
+          "operation": "delete",
+          "left": "ที่แจ้งให้เราทราบ",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000100",
+      "right": "kaggle_000111",
+      "similarity": 0.948912,
+      "left_sha256": "22f8b7ec47d39ee1f503259ebe0fe2bdbd9c35de338a1912dab195b575f73a7b",
+      "right_sha256": "be7079f48dd0a29dce38a35446aa06e15b26fb57593284dc89f70d07460e5089",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed bank-transaction warning and OTP collection sequence: only bank identity, caller name, introductory wording, and amount change; the personal-details request and OTP exchange match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "ชื่อสุภาวดี ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ก",
+          "right": "แห่งป"
+        },
+        {
+          "operation": "replace",
+          "left": "ุง",
+          "right": "ะ"
+        },
+        {
+          "operation": "replace",
+          "left": "พ",
+          "right": "ศไทย"
+        },
+        {
+          "operation": "replace",
+          "left": "ตอน",
+          "right": "ขณะ"
+        },
+        {
+          "operation": "replace",
+          "left": "5",
+          "right": "10"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000100",
+      "right": "kaggle_000121",
+      "similarity": 0.948912,
+      "left_sha256": "22f8b7ec47d39ee1f503259ebe0fe2bdbd9c35de338a1912dab195b575f73a7b",
+      "right_sha256": "be7079f48dd0a29dce38a35446aa06e15b26fb57593284dc89f70d07460e5089",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed bank-transaction warning and OTP collection sequence: only bank identity, caller name, introductory wording, and amount change; the personal-details request and OTP exchange match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "ชื่อสุภาวดี ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ก",
+          "right": "แห่งป"
+        },
+        {
+          "operation": "replace",
+          "left": "ุง",
+          "right": "ะ"
+        },
+        {
+          "operation": "replace",
+          "left": "พ",
+          "right": "ศไทย"
+        },
+        {
+          "operation": "replace",
+          "left": "ตอน",
+          "right": "ขณะ"
+        },
+        {
+          "operation": "replace",
+          "left": "5",
+          "right": "10"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000101",
+      "right": "kaggle_000111",
+      "similarity": 0.948912,
+      "left_sha256": "22f8b7ec47d39ee1f503259ebe0fe2bdbd9c35de338a1912dab195b575f73a7b",
+      "right_sha256": "be7079f48dd0a29dce38a35446aa06e15b26fb57593284dc89f70d07460e5089",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed bank-transaction warning and OTP collection sequence: only bank identity, caller name, introductory wording, and amount change; the personal-details request and OTP exchange match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "ชื่อสุภาวดี ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ก",
+          "right": "แห่งป"
+        },
+        {
+          "operation": "replace",
+          "left": "ุง",
+          "right": "ะ"
+        },
+        {
+          "operation": "replace",
+          "left": "พ",
+          "right": "ศไทย"
+        },
+        {
+          "operation": "replace",
+          "left": "ตอน",
+          "right": "ขณะ"
+        },
+        {
+          "operation": "replace",
+          "left": "5",
+          "right": "10"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000101",
+      "right": "kaggle_000121",
+      "similarity": 0.948912,
+      "left_sha256": "22f8b7ec47d39ee1f503259ebe0fe2bdbd9c35de338a1912dab195b575f73a7b",
+      "right_sha256": "be7079f48dd0a29dce38a35446aa06e15b26fb57593284dc89f70d07460e5089",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed bank-transaction warning and OTP collection sequence: only bank identity, caller name, introductory wording, and amount change; the personal-details request and OTP exchange match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "ชื่อสุภาวดี ",
+          "right": ""
+        },
+        {
+          "operation": "replace",
+          "left": "ก",
+          "right": "แห่งป"
+        },
+        {
+          "operation": "replace",
+          "left": "ุง",
+          "right": "ะ"
+        },
+        {
+          "operation": "replace",
+          "left": "พ",
+          "right": "ศไทย"
+        },
+        {
+          "operation": "replace",
+          "left": "ตอน",
+          "right": "ขณะ"
+        },
+        {
+          "operation": "replace",
+          "left": "5",
+          "right": "10"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000102",
+      "right": "kaggle_000112",
+      "similarity": 0.971968,
+      "left_sha256": "170182655bf2b81131bcbb97aaefaa5965020234869b7e191a3bb0c45f55e165",
+      "right_sha256": "1ef5c3a1f55145658c1e135191570bed5e340a6babfb7c58303c302c5d17e3f0",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed tax-refund and credential request sequence: only refund amount changes from 15,000 to 20,000; all other turns match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "15",
+          "right": "20"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000102",
+      "right": "kaggle_000122",
+      "similarity": 0.971968,
+      "left_sha256": "170182655bf2b81131bcbb97aaefaa5965020234869b7e191a3bb0c45f55e165",
+      "right_sha256": "1ef5c3a1f55145658c1e135191570bed5e340a6babfb7c58303c302c5d17e3f0",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed tax-refund and credential request sequence: only refund amount changes from 15,000 to 20,000; all other turns match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "15",
+          "right": "20"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000104",
+      "right": "kaggle_000114",
+      "similarity": 0.975978,
+      "left_sha256": "84c0f63eebc3300d5e1397bfaaeafe690659827a9fa53999aacaeacbafece36e",
+      "right_sha256": "428205019b490b35c51a5e510474a038bdc49af343b3e6ff3442a2e19d140dc6",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed arrest-warrant payment sequence: only fee amount changes from 20,000 to 30,000; all other turns match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "2",
+          "right": "3"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000104",
+      "right": "kaggle_000124",
+      "similarity": 0.975978,
+      "left_sha256": "84c0f63eebc3300d5e1397bfaaeafe690659827a9fa53999aacaeacbafece36e",
+      "right_sha256": "428205019b490b35c51a5e510474a038bdc49af343b3e6ff3442a2e19d140dc6",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed arrest-warrant payment sequence: only fee amount changes from 20,000 to 30,000; all other turns match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "2",
+          "right": "3"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000106",
+      "right": "kaggle_000110",
+      "similarity": 0.953818,
+      "left_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "right_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สิก",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุง"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000106",
+      "right": "kaggle_000120",
+      "similarity": 0.953818,
+      "left_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "right_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สิก",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุง"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000106",
+      "right": "kaggle_000130",
+      "similarity": 0.953818,
+      "left_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "right_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สิก",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุง"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000108",
+      "right": "kaggle_000118",
+      "similarity": 0.972501,
+      "left_sha256": "7aa86e022b86cd8e3f4b9c8daa54c0f80432bc03e6e603bc21a64e5997492ead",
+      "right_sha256": "288d7cf046b825e7985bebebe58b4d7618afd5dbe3b2f40afea2a0a08da35dd3",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed overdue-tax payment demand: only tax amount changes from 10,000 to 15,000; all other turns match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "0",
+          "right": "5"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000108",
+      "right": "kaggle_000128",
+      "similarity": 0.972501,
+      "left_sha256": "7aa86e022b86cd8e3f4b9c8daa54c0f80432bc03e6e603bc21a64e5997492ead",
+      "right_sha256": "288d7cf046b825e7985bebebe58b4d7618afd5dbe3b2f40afea2a0a08da35dd3",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed overdue-tax payment demand: only tax amount changes from 10,000 to 15,000; all other turns match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "replace",
+          "left": "0",
+          "right": "5"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000110",
+      "right": "kaggle_000116",
+      "similarity": 0.953818,
+      "left_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "right_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "สิก"
+        },
+        {
+          "operation": "delete",
+          "left": "ุง",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000110",
+      "right": "kaggle_000126",
+      "similarity": 0.953818,
+      "left_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "right_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "สิก"
+        },
+        {
+          "operation": "delete",
+          "left": "ุง",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000116",
+      "right": "kaggle_000120",
+      "similarity": 0.953818,
+      "left_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "right_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สิก",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุง"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000116",
+      "right": "kaggle_000130",
+      "similarity": 0.953818,
+      "left_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "right_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สิก",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุง"
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000120",
+      "right": "kaggle_000126",
+      "similarity": 0.953818,
+      "left_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "right_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "สิก"
+        },
+        {
+          "operation": "delete",
+          "left": "ุง",
+          "right": ""
+        }
+      ]
+    },
+    {
+      "left": "kaggle_000126",
+      "right": "kaggle_000130",
+      "similarity": 0.953818,
+      "left_sha256": "c7ea9d87f41f9c9b74215fec804622c5221ec3e349c45ec95893741c91b02038",
+      "right_sha256": "a85082d32c32a60c005d0d76888e50eb76f2b1ff06f0264fc641d4af545b68ec",
+      "decision": "confirmed_related",
+      "reviewer": "coding assistant (contextual text review; not independent human verification)",
+      "rationale": "Reviewed suspicious-account and password collection sequence: only bank identity changes between Kasikorn and Krung Thai; the password request, response, and closing match.",
+      "evidence": "All differing spans are recorded in changed_spans; unchanged spans preserve the same turn sequence.",
+      "changed_spans": [
+        {
+          "operation": "delete",
+          "left": "สิก",
+          "right": ""
+        },
+        {
+          "operation": "insert",
+          "left": "",
+          "right": "ุง"
+        }
+      ]
+    }
+  ]
+}

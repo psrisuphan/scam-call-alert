@@ -1,0 +1,68 @@
+{
+  "retrieved_at_utc": "2026-10-03T06:29:55Z",
+  "datasets": [
+    {
+      "id": "thirdExec/scam-dialogue-thai-translated",
+      "platform": "huggingface",
+      "role": "primary",
+      "source_url": "https://huggingface.co/datasets/thirdExec/scam-dialogue-thai-translated",
+      "revision": "e814ce89312fbc3eefdd8b941035f633540dab13",
+      "license": "Not declared in source card",
+      "rows": 1280,
+      "label_counts": {
+        "0": 640,
+        "1": 640
+      },
+      "columns": [
+        "dialogue",
+        "type",
+        "label",
+        "translated dialogue",
+        "translated type"
+      ],
+      "files": [
+        {
+          "path": "raw/scam-dialogue-thai-translated/data/train-00000-of-00001.parquet",
+          "url": "https://huggingface.co/datasets/thirdExec/scam-dialogue-thai-translated/resolve/e814ce89312fbc3eefdd8b941035f633540dab13/data/train-00000-of-00001.parquet",
+          "sha256": "84c5190cf0e584262c156e49d1b801c61f611c542a472d75f188c52ca33b580e"
+        }
+      ],
+      "readme_url": "https://huggingface.co/datasets/thirdExec/scam-dialogue-thai-translated/resolve/e814ce89312fbc3eefdd8b941035f633540dab13/README.md",
+      "pipeline_url": "https://huggingface.co/datasets/thirdExec/scam-dialogue-thai-translated/resolve/e814ce89312fbc3eefdd8b941035f633540dab13/pipeline.yaml",
+      "metadata_url": "https://huggingface.co/api/datasets/thirdExec/scam-dialogue-thai-translated/revision/e814ce89312fbc3eefdd8b941035f633540dab13"
+    },
+    {
+      "id": "jxxn03x/thai-call-center-call-log-dataset",
+      "platform": "kaggle",
+      "role": "supplemental",
+      "source_url": "https://www.kaggle.com/datasets/jxxn03x/thai-call-center-call-log-dataset",
+      "version": 1,
+      "license": "CC BY-NC-ND 4.0",
+      "rows": 198,
+      "category_counts": {
+        "Scam": 73,
+        "General": 49,
+        "Official": 37,
+        "Verification-call": 26,
+        "Unknow": 13
+      },
+      "columns": [
+        "Id",
+        "Text",
+        "Type"
+      ],
+      "download_url": "https://www.kaggle.com/api/v1/datasets/download/jxxn03x/thai-call-center-call-log-dataset?datasetVersionNumber=1",
+      "metadata_url": "https://www.kaggle.com/api/v1/datasets/view/jxxn03x/thai-call-center-call-log-dataset",
+      "files": [
+        {
+          "path": "raw/thai-call-center-call-log/thai-call-center-call-log-dataset.zip",
+          "sha256": "df47b5c2075619ac41adfc68f016def1c5591af8b9bd8a77a6b6ce9d8f928f61"
+        },
+        {
+          "path": "raw/thai-call-center-call-log/Dataset.csv",
+          "sha256": "615fde01d5704da4ff2c5d5f39d1729e108cac40598d518b487480337cbca992"
+        }
+      ]
+    }
+  ]
+}
