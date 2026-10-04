@@ -59,14 +59,14 @@ Lexical detection can miss paraphrases or find coincidental overlap. No assertio
 ## Checks and limitations
 
 Accounting: 1478 = 1455 retained + 3 excluded + 20 duplicate removals.
-Validation: unique IDs, labels, raw-content preservation, CSV roundtrip, audit accounting, source hashes, review completeness, and deterministic reproduction are checked by test_prepare.py.
+Validation: unique IDs, labels, raw-content preservation, CSV roundtrip, audit accounting, source hashes, review completeness, and deterministic reproduction are checked by scripts/3.test_prepare.py.
 Three truncated primary calls are excluded; three readable calls with replacement characters are retained unchanged by owner approval.
 Both datasets are simulated. Foreign scenarios and translated dialogue do not establish real-call performance.
-Primary license is undeclared; supplemental is CC BY-NC-ND 4.0. Prepared data stays local and ignored. Distribution rights require separate confirmation.
+Primary license is undeclared; supplemental is CC BY-NC-ND 4.0. Raw and prepared files are tracked for the private project handoff. Public redistribution rights require separate confirmation.
 Splitting, tokenization, augmentation, resampling, learned preprocessing, and model selection have not occurred.
 
 ## Build provenance
 
-prepare.py SHA-256: bdd86016097420563fa498f96d3fa18af80914fe49ada211a6e41d73c721372f
+scripts/2.prepare.py SHA-256: 8fad73553a6c6114ef889d7bc1e214054e9c52daa217859d9d80925087ebb5ea
 Decisions SHA-256: a2675de30e1d8afc2583bd7aba3aa1068851520c723bf47dcdbde7a7ab56df0e
 Dependencies: pyarrow 25.0.1; scikit-learn 1.9.1.

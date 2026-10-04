@@ -6,7 +6,7 @@ import hashlib
 import json
 import tempfile
 
-DATA = Path(__file__).resolve().parent
+DATA = Path(__file__).resolve().parents[1]
 
 
 def sha256(path):

@@ -1,0 +1,8 @@
+# Preserve source bytes, including original CRLF and whitespace.
+"02 - DATASETs/raw/**" -text -whitespace
+# Canonical CSVs and input-hashed reports must be identical on every platform.
+"02 - DATASETs/prepared/**" -text
+# Script/config checksums must also survive Windows checkout settings.
+"02 - DATASETs/scripts/**" text eol=lf
+"02 - DATASETs/*.json" text eol=lf
+"02 - DATASETs/reports/**" text eol=lf

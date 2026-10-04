@@ -1,5 +1,20 @@
 # Project Plans
 
+## Mandatory implementation instructions for workers and AI agents
+
+**You MUST follow the approved plans when implementing this project.** Read the relevant plan and its prerequisite plans before starting. Provisional drafts do not authorize implementation.
+
+If a plan cannot be followed, or an issue requires changing a planned method, setting, scope, sequence, or output:
+
+1. Pause the affected work and document the issue, evidence, proposed change, and its effects on other plans.
+2. Obtain explicit confirmation from the human project owner before changing the plan or implementing a deviation. Silence is not approval.
+3. After confirmation, update the affected instructions and record the approved change and rationale before continuing.
+
+**Do not independently replace, bypass, or reinterpret a planned decision.** Resolve any required owner-confirmation checkpoint before performing the work it governs. Continue unaffected work only when it remains consistent with the approved plans.
+
+Implementation details explicitly left flexible by a plan may be chosen within its stated boundaries; this does not authorize changing its required behavior or methods.
+
+
 This directory contains implementation plans for the **อย่าเอาเงินชั้นไป - Scam Call Alert** Pattern Recognition term project.
 
 Each plan explains what to do, how to do it, why the methods were selected, the required outputs, and how to check completion. The plans use the project proposal and course lecture sheets as their source material.
@@ -43,8 +58,8 @@ Update a task when its plan is saved or its implementation is completed. A writt
 | [01 - Data Split and Experiment Design](01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md) | Define train/test separation, cross-validation, conditional grouping, and shared experiment data conditions. | Finished |
 | [02 - Data Preprocessing and Model Inputs](02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md) | Define preprocessing, model input preparation, and where each operation is applied. | Finished |
 | [03/00 - Model Training](03%20-%20MODEL%20DEVELOPMENT/00%20-%20MODEL%20TRAINING.md) | Define the procedure for training candidate models using the approved data and input pipeline. | Planned |
-| 03/01 - Hyperparameter Tuning and Model Selection | Define how to search configurations and select the model using validation results. | Unplanned |
-| 03/02 - Final Model Evaluation and Error Analysis | Evaluate the selected model on held-out data and examine its errors. | Unplanned |
+| [03/01 - Hyperparameter Tuning and Model Selection](03%20-%20MODEL%20DEVELOPMENT/01%20-%20HYPERPARAMETER%20TUNING%20AND%20MODEL%20SELECTION.md) | Define how to search configurations and select the model using validation results. | Planned |
+| [03/02 - Final Model Evaluation and Error Analysis](03%20-%20MODEL%20DEVELOPMENT/02%20-%20FINAL%20MODEL%20EVALUATION%20AND%20ERROR%20ANALYSIS.md) | Evaluate the selected model on held-out data and examine its errors. | Planned |
 | 03/03 - Model Freeze and App Handoff | Prepare the model and supporting artifacts for application integration. | Unplanned |
 | 04/00 - Speech-to-Text Evaluation | Define how to evaluate Thai transcription from prepared audio. | Unplanned |
 | 04/01 - Mobile Emulator Prototype and Integration | Connect audio, transcription, classification, and warnings in the prototype. | Unplanned |
@@ -62,6 +77,8 @@ The main sequence is:
 Training and tuning are iterative. Application integration depends on both the model handoff and the speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work.
 
 If implementation reveals an unexpected issue or a flaw in a plan, document the issue and discuss any consequential method change with the project owner. Update the affected instructions and record the reason for the agreed change. Continue unaffected work where possible.
+
+Dataset scripts live in `02 - DATASETs/scripts/`, with numbered filenames and [a short reproduction guide](../02%20-%20DATASETs/scripts/README.md). Raw sources and completed Stage 00/01 outputs are included for the private project handoff. Source licenses still govern sharing; review scratch files and executed notebooks stay local.
 
 Directory numbering indicates workflow order, not calendar dates. This README is a directory guide; task details and methodological decisions belong in the individual plans.
 
