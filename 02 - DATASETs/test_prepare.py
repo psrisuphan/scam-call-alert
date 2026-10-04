@@ -17,7 +17,8 @@ import download
 import prepare
 
 DATA = Path(__file__).resolve().parent
-OUTPUT_FILES = ["prepared.csv", "record_audit.csv", "source_manifest.csv", "preparation_report.md", "README.md"]
+# Plan 01 updates README.md; canonical data, audit, manifest, and report stay immutable.
+OUTPUT_FILES = ["prepared.csv", "record_audit.csv", "source_manifest.csv", "preparation_report.md"]
 
 
 def read_csv(path):

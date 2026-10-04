@@ -10,8 +10,10 @@ Stage 00 is complete under [the data preparation plan](../01%20-%20PLANs/00%20-%
 - `prepare.py`: build the six-column CSV and its provenance, audit, report, and README.
 - `preparation_decisions.json`: input-bound owner approvals and contextual relationship reviews, including changed spans and reviewer identities.
 - `test_prepare.py`: integrity, review-gate, CSV, reproduction, duplicate, and download tests.
+- `split.py` and `split_config.json`: approved seed-67 group-aware holdout and five CV folds, bound to preparation hashes and approved allocation.
+- `test_split.py`: frozen membership, group boundaries, derived-record equality, review gates, and reproducible split checks.
 - `inspection.ipynb`: read-only source inspection and candidate-review checks.
-- `prepared/`: local canonical output and its documentation. Split directories contain placeholders only.
+- `prepared/`: local canonical output, documentation, and frozen split artifacts (1,164 training / 291 test).
 - [CSV preparation report](reports/preparation_csv_v2.md): tracked aggregate findings and build provenance.
 
 Raw files, prepared files, review transcripts, and executed notebooks stay local and ignored by Git. The source manifest, scripts, decisions, and aggregate reports make the build reproducible.
@@ -56,7 +58,18 @@ All 46 candidate pairs were reviewed in context by the coding assistant and reco
 
 Prepared files include `source_manifest.csv`, `record_audit.csv`, `preparation_report.md`, and `README.md`. Audit rows preserve source file and zero-based row locators, including repeated supplemental IDs.
 
-Splitting, tokenization, augmentation, resampling, learned preprocessing, and model selection have not occurred. Continue with [Plan 01](../01%20-%20PLANs/01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md).
+Stage 01 is complete. See [the split report](reports/split_v1.md) for source/class allocation, folds, provenance, and limitations.
+
+To reproduce splits after preparation:
+
+```bash
+uv run --no-project --with scikit-learn==1.9.1 python '02 - DATASETs/split.py'
+uv run --no-project --with scikit-learn==1.9.1 python '02 - DATASETs/test_split.py'
+```
+
+Saved assignments are authoritative. Join by `sample_id` and check matching source identity. Fold validation uses `cv_fold = k`; fold training uses the other folds. Primary-only filters training records only, never validation. All models and both data conditions reuse these assignments.
+
+Stage 02 uses the training pool for input design. No augmentation, resampling, learned preprocessing, model selection, or training has occurred. Continue with [Plan 02](../01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md).
 
 ## Limitations and history
 

@@ -1,0 +1,40 @@
+{
+  "seed": 67,
+  "n_splits": 5,
+  "holdout_fold": 0,
+  "scikit_learn_version": "1.9.1",
+  "approval": {
+    "status": "approved",
+    "reviewer": "Bukutsu (owner)",
+    "reference": "Owner reply: yep all good, if limitation found just note them like last one. Approved procedure and previewed allocation.",
+    "procedure": "StratifiedGroupKFold, source+label holdout stratification, first fold test; binary-label CV stratification; stable sample_id ordering; 5 folds and seed 67."
+  },
+  "input_checksums": {
+    "prepared.csv": "e86f7424839a083580f0dce4d813efc0330963b98fce1c1efa04d3ab5b0c6e5d",
+    "record_audit.csv": "e3e852292a6001984406ae75ef42d4ef30160d2331f24e64691a4a56f2ca9405",
+    "source_manifest.csv": "944356837ae3c0a70405f6139657d3f1a0e3d9c3e16924c61071eb94e923d670",
+    "preparation_report.md": "7061620d9c4ebe9f8d4d84a01f4928667354e1ebae0f976e7c6cfd740e84d4ca"
+  },
+  "approved_allocation": {
+    "train": {
+      "primary": {
+        "Scam": 510,
+        "Not Scam": 511
+      },
+      "supplemental": {
+        "Scam": 44,
+        "Not Scam": 99
+      }
+    },
+    "test": {
+      "primary": {
+        "Scam": 127,
+        "Not Scam": 128
+      },
+      "supplemental": {
+        "Scam": 11,
+        "Not Scam": 25
+      }
+    }
+  }
+}
