@@ -10,7 +10,7 @@ This task covers initialization, classification loss, optimizer, batching, preci
 
 Read and consume the outputs of:
 
-- [Data Preparation](../00%20-%20DATA%20PREPARATION.md): audited labels, provenance, and source-role findings.
+- [Data Preparation](../00%20-%20DATA%20PREPARATION.md): audited labels, provenance, and source-format findings.
 - [Data Split and Experiment Design](../01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md): saved partitions, folds, and training data conditions.
 - [Data Preprocessing and Model Inputs](../02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md): shared component and approved input configuration.
 
@@ -32,7 +32,7 @@ Required implementation inputs:
 └── Shared input-preparation component
 ```
 
-Verify preceding completion checks and resolve source-role and length-policy checkpoints. Review actual class counts for each applicable training subset.
+Verify preceding completion checks and resolve structural-marker removal and length-policy checkpoints. Review actual class counts for each applicable training subset.
 
 Develop the training component and perform feasibility checks using an explicitly owner-approved diagnostic configuration. Its numeric settings remain an implementation confirmation checkpoint; do not guess them or rely on undocumented defaults. Diagnostic scores must not select the model.
 
@@ -113,7 +113,7 @@ HPLT requires its documented custom implementation; verify compatibility and rec
 
 For fold `k`, use saved fold `k` for validation and the other four for training. Apply the primary-only or primary + supplemental training condition exactly as Plan 01 specifies; both use the same validation records.
 
-Support `whole_conversation` and `caller_only`. Consume Plan 02's formatting, tokenizer, length, and padding instructions without redefining them.
+Use the fixed role-free `whole_conversation` representation; do not require speaker attribution or support caller-only experiments in the current scope. Consume Plan 02's formatting, tokenizer, length, and padding instructions without redefining them.
 
 Fit any approved data-derived transformation only on eligible fold-training records. Apply its frozen state to validation. Preserve IDs as separate traceability metadata; never include IDs, source categories, or labels in predictive text.
 
