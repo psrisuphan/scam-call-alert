@@ -33,6 +33,18 @@ class SplitTests(unittest.TestCase):
         self.assertEqual({"train": split.counts(self.train), "test": split.counts(self.test)},
                          self.config["approved_allocation"])
         self.assertEqual(split.assign(self.records, self.groups, self.config), self.assignments)
+        report = (DATA / "prepared/splits/split_report.md").read_text()
+        self.assertEqual(report, split.report(self.records, self.audit, self.groups,
+                                              self.assignments, self.config))
+        rows = [line for line in report.splitlines() if line.startswith("| train |")
+                or line.startswith("| test |") or line.startswith("| fold ")]
+        self.assertEqual(len(rows), 24)
+        for line in rows:
+            fields = [field.strip() for field in line.strip("|").split("|")]
+            scam, not_scam, total = map(int, fields[2:5])
+            self.assertEqual(scam + not_scam, total)
+            self.assertEqual(fields[5], f"{100 * scam / total if total else 0:.2f}%")
+            self.assertEqual(fields[6], f"{100 * not_scam / total if total else 0:.2f}%")
 
     def test_graph_transitivity_via_removed_copy_and_cross_source(self):
         records = [{"sample_id": "a"}, {"sample_id": "b"}, {"sample_id": "c"}]

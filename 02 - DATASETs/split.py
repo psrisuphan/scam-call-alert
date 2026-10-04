@@ -163,8 +163,9 @@ def report(records, audit, groups, assignments, config):
     for item in read_csv(DATA / "prepared/source_manifest.csv"):
         lines.append(f"Source: {item['source_dataset']}; file: {item['source_file']}; version: {item['version']}; SHA-256: {item['checksum']}.")
     lines += ["", "## Allocations", "",
-        "| Partition | Source | Scam | Not Scam | Total | Share of that source |",
-        "|---|---|---:|---:|---:|---:|"]
+        "Scam and Not Scam percentages use the total in each row. Source shares use the full prepared source population, including for fold rows.", "",
+        "| Partition | Source | Scam | Not Scam | Total | Scam % | Not Scam % | Share of that source |",
+        "|---|---|---:|---:|---:|---:|---:|---:|"]
     subsets = [("train", [row for row in records if by_id[row["sample_id"]]["split"] == "train"]),
                ("test", [row for row in records if by_id[row["sample_id"]]["split"] == "test"])]
     for fold in range(5):
@@ -176,7 +177,9 @@ def report(records, audit, groups, assignments, config):
         for source in SOURCES:
             value = values[source]
             size = sum(value.values())
-            lines.append(f"| {name} | {source} | {value['Scam']} | {value['Not Scam']} | {size} | {100*size/sum(totals[source].values()):.2f}% |")
+            scam_percent = 100 * value["Scam"] / size if size else 0
+            not_scam_percent = 100 * value["Not Scam"] / size if size else 0
+            lines.append(f"| {name} | {source} | {value['Scam']} | {value['Not Scam']} | {size} | {scam_percent:.2f}% | {not_scam_percent:.2f}% | {100*size/sum(totals[source].values()):.2f}% |")
     lines += ["", "## Verification and use", "",
         "Every canonical ID appears once in train/test; IDs are disjoint; related groups never cross holdout or validation-fold boundaries.",
         "Each training record validates exactly once; test records have no fold. Both classes occur in every training/validation subset, including primary-only fold training.",

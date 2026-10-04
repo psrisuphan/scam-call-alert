@@ -15,7 +15,7 @@ Assignment CSV is authoritative. It is reused for all models and both training d
 ## Provenance
 
 scikit-learn version: 1.9.1; seed: 67.
-split.py SHA-256: 1a6285dd4b0ab192e13bc2f7e8d9412ef6734e34a00d28e5b7bd5c461e2a6c5c
+split.py SHA-256: 4fe0680a7c7f120e74c22b1a7fac0ceb2493ff6d4a732402b4ce13a1b7456cc9
 split_config.json SHA-256: 97f87411af6ed92b4251ae2332ceb06d7f58322f6f0eccc2c84098db310ad5fe
 prepared.csv SHA-256: e86f7424839a083580f0dce4d813efc0330963b98fce1c1efa04d3ab5b0c6e5d
 record_audit.csv SHA-256: e3e852292a6001984406ae75ef42d4ef30160d2331f24e64691a4a56f2ca9405
@@ -27,32 +27,34 @@ Source: supplemental; file: raw/thai-call-center-call-log/Dataset.csv; version: 
 
 ## Allocations
 
-| Partition | Source | Scam | Not Scam | Total | Share of that source |
-|---|---|---:|---:|---:|---:|
-| train | primary | 510 | 511 | 1021 | 80.02% |
-| train | supplemental | 44 | 99 | 143 | 79.89% |
-| test | primary | 127 | 128 | 255 | 19.98% |
-| test | supplemental | 11 | 25 | 36 | 20.11% |
-| fold 0 validation | primary | 99 | 102 | 201 | 15.75% |
-| fold 0 validation | supplemental | 12 | 20 | 32 | 17.88% |
-| fold 0 training | primary | 411 | 409 | 820 | 64.26% |
-| fold 0 training | supplemental | 32 | 79 | 111 | 62.01% |
-| fold 1 validation | primary | 102 | 100 | 202 | 15.83% |
-| fold 1 validation | supplemental | 9 | 22 | 31 | 17.32% |
-| fold 1 training | primary | 408 | 411 | 819 | 64.18% |
-| fold 1 training | supplemental | 35 | 77 | 112 | 62.57% |
-| fold 2 validation | primary | 104 | 104 | 208 | 16.30% |
-| fold 2 validation | supplemental | 7 | 18 | 25 | 13.97% |
-| fold 2 training | primary | 406 | 407 | 813 | 63.71% |
-| fold 2 training | supplemental | 37 | 81 | 118 | 65.92% |
-| fold 3 validation | primary | 102 | 99 | 201 | 15.75% |
-| fold 3 validation | supplemental | 9 | 23 | 32 | 17.88% |
-| fold 3 training | primary | 408 | 412 | 820 | 64.26% |
-| fold 3 training | supplemental | 35 | 76 | 111 | 62.01% |
-| fold 4 validation | primary | 103 | 106 | 209 | 16.38% |
-| fold 4 validation | supplemental | 7 | 16 | 23 | 12.85% |
-| fold 4 training | primary | 407 | 405 | 812 | 63.64% |
-| fold 4 training | supplemental | 37 | 83 | 120 | 67.04% |
+Scam and Not Scam percentages use the total in each row. Source shares use the full prepared source population, including for fold rows.
+
+| Partition | Source | Scam | Not Scam | Total | Scam % | Not Scam % | Share of that source |
+|---|---|---:|---:|---:|---:|---:|---:|
+| train | primary | 510 | 511 | 1021 | 49.95% | 50.05% | 80.02% |
+| train | supplemental | 44 | 99 | 143 | 30.77% | 69.23% | 79.89% |
+| test | primary | 127 | 128 | 255 | 49.80% | 50.20% | 19.98% |
+| test | supplemental | 11 | 25 | 36 | 30.56% | 69.44% | 20.11% |
+| fold 0 validation | primary | 99 | 102 | 201 | 49.25% | 50.75% | 15.75% |
+| fold 0 validation | supplemental | 12 | 20 | 32 | 37.50% | 62.50% | 17.88% |
+| fold 0 training | primary | 411 | 409 | 820 | 50.12% | 49.88% | 64.26% |
+| fold 0 training | supplemental | 32 | 79 | 111 | 28.83% | 71.17% | 62.01% |
+| fold 1 validation | primary | 102 | 100 | 202 | 50.50% | 49.50% | 15.83% |
+| fold 1 validation | supplemental | 9 | 22 | 31 | 29.03% | 70.97% | 17.32% |
+| fold 1 training | primary | 408 | 411 | 819 | 49.82% | 50.18% | 64.18% |
+| fold 1 training | supplemental | 35 | 77 | 112 | 31.25% | 68.75% | 62.57% |
+| fold 2 validation | primary | 104 | 104 | 208 | 50.00% | 50.00% | 16.30% |
+| fold 2 validation | supplemental | 7 | 18 | 25 | 28.00% | 72.00% | 13.97% |
+| fold 2 training | primary | 406 | 407 | 813 | 49.94% | 50.06% | 63.71% |
+| fold 2 training | supplemental | 37 | 81 | 118 | 31.36% | 68.64% | 65.92% |
+| fold 3 validation | primary | 102 | 99 | 201 | 50.75% | 49.25% | 15.75% |
+| fold 3 validation | supplemental | 9 | 23 | 32 | 28.12% | 71.88% | 17.88% |
+| fold 3 training | primary | 408 | 412 | 820 | 49.76% | 50.24% | 64.26% |
+| fold 3 training | supplemental | 35 | 76 | 111 | 31.53% | 68.47% | 62.01% |
+| fold 4 validation | primary | 103 | 106 | 209 | 49.28% | 50.72% | 16.38% |
+| fold 4 validation | supplemental | 7 | 16 | 23 | 30.43% | 69.57% | 12.85% |
+| fold 4 training | primary | 407 | 405 | 812 | 50.12% | 49.88% | 63.64% |
+| fold 4 training | supplemental | 37 | 83 | 120 | 30.83% | 69.17% | 67.04% |
 
 ## Verification and use
 
