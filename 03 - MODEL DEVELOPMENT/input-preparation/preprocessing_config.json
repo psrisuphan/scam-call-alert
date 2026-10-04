@@ -1,5 +1,4 @@
 {
-  "status": "finished",
   "role_mappings": {
     "primary": {
       "ผู้โทร": "Caller",
@@ -234,5 +233,30 @@
       "after": "R ผู้รับ:"
     },
     "approval_reference": "Owner reply: ok lets go, following the summary of speaker mappings, hf_000424 boundary recovery, empty trailing turns, and minimal Thai checkpoint preparation."
-  }
+  },
+  "schema_version": 2,
+  "marker_conditions": [
+    "role_marked",
+    "role_free"
+  ],
+  "rendering": {
+    "turn_separator": "\n",
+    "role_marked": "[Caller]: … or [Receiver]: …",
+    "role_free": "spoken content only; preserve source-turn separators",
+    "sequence": [
+      "parse documented source roles",
+      "select chronological representation",
+      "render marker condition",
+      "checkpoint preparation",
+      "native tokenizer",
+      "fixed prefix truncation",
+      "dynamic batch padding"
+    ]
+  },
+  "generation_replacement_approval": {
+    "reviewer": "project owner",
+    "reference": "Owner instruction 2026-10-04: keep only the one that meets the Plan criteria itself; remove/replace previous generation.",
+    "scope": "Replace superseded input-preparation exports/configuration/report after generating and verifying the replacement separately. Canonical records and assignments unchanged."
+  },
+  "test_csv_sha256": "c1d91e5cf3a193dff15e0e8a00f70e6a80257eefb13667fd8386e7e500f6d6ae"
 }

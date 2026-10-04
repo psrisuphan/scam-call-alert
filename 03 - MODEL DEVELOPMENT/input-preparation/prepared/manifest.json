@@ -1,11 +1,11 @@
 {
   "scope": "training pool only; final test not loaded",
   "records": 1164,
-  "configuration_sha256": "5d86e0c49dfba7c3c0eb697e2eabe29c384500f5e46259ef977e9111777ff6b7",
+  "configuration_sha256": "99b71c0a6b5a3e48d6645a46a02dba715ef0ed185764dc2720a5bfa20b986926",
   "training_csv_sha256": "763abee35dd052b248d18dc78b5888b94062f75cdfeb7756ad3ce5683e2119d4",
   "assignments_sha256": "4f7a1e012f8a4883a15d8e99ab38f5da4d10a07cb0335ec09cbcee0bd914147a",
-  "component_sha256": "7507926138b65f199967892e3df3aef9866ecfab454f1465c86071d0b17ad46a",
-  "export_script_sha256": "a2e45b3d38c13d42ed499c56b283b274b457dd2dd0abd30a533fce2d4f2b3d6f",
+  "component_sha256": "50d8707a38b4b8e9a09f808158cb3b330618fd13eb4402a08a29e6413169be5e",
+  "export_script_sha256": "e1f610d34d59a5240badbfd2474a1a799fb199203d00c20f229ace135118dd2f",
   "dependencies": {
     "transformers": "4.57.6",
     "tokenizers": "0.22.2",
@@ -170,41 +170,81 @@
       ]
     }
   },
+  "representations": [
+    "whole_conversation",
+    "caller_only"
+  ],
+  "marker_conditions": [
+    "role_marked",
+    "role_free"
+  ],
   "files": {
-    "hplt.caller_only.jsonl": {
-      "sha256": "d281dac72306e89e8b04937ce844f2ded20d124ffd9966e4c5a4caf74ceec1a1",
+    "hplt.caller_only.role_free.jsonl": {
+      "sha256": "879dd7a7e521c36257ed80cba636d0be8b533fca3ef88035f60ca65b5290ac43",
       "records": 1164
     },
-    "hplt.whole_conversation.jsonl": {
-      "sha256": "4103353d64c8e6685d3a7251dc9074986ebd0ed48f9b9450ead241de66700e6a",
+    "hplt.caller_only.role_marked.jsonl": {
+      "sha256": "db419bae2ae5dd29c19ef932403d3a1490cf1514aef4f83ebdae517ead35cd78",
       "records": 1164
     },
-    "phayathaibert.caller_only.jsonl": {
-      "sha256": "ba586cc8aef7c580598e17db32e1a82627b481a417923a3f3952546667580e08",
+    "hplt.whole_conversation.role_free.jsonl": {
+      "sha256": "9bf923db1f78678b70107efaa78a9e2bba13b3694e7185299776413c0baf8e6b",
       "records": 1164
     },
-    "phayathaibert.whole_conversation.jsonl": {
-      "sha256": "1edcd81ee30602cb5298f52d292dcca2aa97d54500fdff2975b198235eff34ae",
+    "hplt.whole_conversation.role_marked.jsonl": {
+      "sha256": "8ba261ba230b7a0237645baf3f877679c36db7014a2bef313588c2d34119d01b",
+      "records": 1164
+    },
+    "phayathaibert.caller_only.role_free.jsonl": {
+      "sha256": "f3a3b7c4deddd3e960e35cf2d354321cc9d026b1ee4df41e043c5037fa0a11ac",
+      "records": 1164
+    },
+    "phayathaibert.caller_only.role_marked.jsonl": {
+      "sha256": "8291ea4873cc4a06af08499f95770e9c229e5dde0399795a3a137b9834d3e257",
+      "records": 1164
+    },
+    "phayathaibert.whole_conversation.role_free.jsonl": {
+      "sha256": "ac4eac7e9e0cd4e1e541a8ced42d09c607a7c3fb1ef5a6b8148461cad6d40b87",
+      "records": 1164
+    },
+    "phayathaibert.whole_conversation.role_marked.jsonl": {
+      "sha256": "820f477b52e17a5986a0826cc98c55d64f77af7c9010036a932f0160a65ffafd",
       "records": 1164
     },
     "training_text.csv": {
-      "sha256": "b2ff974224e76f279d741c17261eef5dcb566b575f26ed40cfe7ff422432adcd",
+      "sha256": "385565fb4f8cfe6fd783374843cbe623cfa0bf47320c565b959f694e907d443b",
       "records": 1164
     },
-    "wangchanberta.caller_only.jsonl": {
-      "sha256": "983e8a9fde099a148fabf6504e71665aab775443552dcec152a41f93b4cddf0d",
+    "wangchanberta.caller_only.role_free.jsonl": {
+      "sha256": "83e6a7da2913290f0ada88a009491368c115e99f4bdc27eaee00ba678aef301a",
       "records": 1164
     },
-    "wangchanberta.whole_conversation.jsonl": {
-      "sha256": "bf5a18c7cbe561e8dcfe1d4688625dbfabb2ce5e60a3a3d13966f175c5add6ae",
+    "wangchanberta.caller_only.role_marked.jsonl": {
+      "sha256": "13f591d932628e14e3f5639f9f51c8de460697188aa0695e9c6f83e992f1411f",
       "records": 1164
     },
-    "xlmr.caller_only.jsonl": {
-      "sha256": "08f60cf59eb90d6830935ce0e31edbeb4ad8f2d3a4764e58f468311e3f4d57db",
+    "wangchanberta.whole_conversation.role_free.jsonl": {
+      "sha256": "195a2b22e822da283a23b66cbd6c6d1df5d11450874bf605366236f40c6cd382",
       "records": 1164
     },
-    "xlmr.whole_conversation.jsonl": {
-      "sha256": "e5edbf25656e629b8ffe4592d0479ee97d89fc2a36cf64ec6a3a12d82f7ebbde",
+    "wangchanberta.whole_conversation.role_marked.jsonl": {
+      "sha256": "409bb7e1cd0bea5d7097612d95949192e7a69421cb64e6d53f323a51bfc2e26a",
+      "records": 1164
+    },
+    "xlmr.caller_only.role_free.jsonl": {
+      "sha256": "e3581e6b251fa6d0bba435a127db762283dc546485515a86a57dce2324f5c6f9",
+      "records": 1164
+    },
+    "xlmr.caller_only.role_marked.jsonl": {
+      "sha256": "f0f4a15eb16544dac7486abbbecf524c6ff646ea3194905d715f54c149753ba6",
+      "records": 1164
+    },
+    "xlmr.whole_conversation.role_free.jsonl": {
+      "sha256": "b4d7592a5bcf49e51c07a52da2e73c56077d00b101dc887449d9cef7a4e50254",
+      "records": 1164
+    },
+    "xlmr.whole_conversation.role_marked.jsonl": {
+      "sha256": "c867e08b301c2ac5d71f2d05acafe31fe1dd9712d39f9ad19757564d0750c687",
       "records": 1164
     }
   }

@@ -32,7 +32,8 @@ def export(output=DEFAULT_OUTPUT):
         staging = Path(temporary) / "prepared"
         staging.mkdir()
         columns = ["sample_id", "source_dataset", "cv_fold", "label", "label_id",
-                   "original_transcript", "whole_conversation", "caller_only"]
+                   "original_transcript"] + [f"{mode}.{marker}" for mode in config["representations"]
+                                            for marker in config["marker_conditions"]]
         with (staging / "training_text.csv").open("w", encoding="utf-8", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=columns, lineterminator="\n")
             writer.writeheader()
@@ -42,7 +43,8 @@ def export(output=DEFAULT_OUTPUT):
                     "cv_fold": assignments[record["sample_id"]]["cv_fold"],
                     "label": record["label"], "label_id": inputs.LABEL_TO_ID[record["label"]],
                     "original_transcript": record["transcript"],
-                    **{mode: inputs.representation(record, mode, config) for mode in config["representations"]},
+                    **{f"{mode}.{marker}": inputs.representation(record, mode, config, marker_condition=marker)
+                       for mode in config["representations"] for marker in config["marker_conditions"]},
                 })
         manifest = {
             "scope": "training pool only; final test not loaded",
@@ -52,19 +54,21 @@ def export(output=DEFAULT_OUTPUT):
             "component_sha256": inputs.checksum(Path(inputs.__file__)),
             "export_script_sha256": inputs.checksum(Path(__file__)),
             "dependencies": config["dependencies"],
-            "models": config["models"], "files": {},
+            "models": config["models"], "representations": config["representations"],
+            "marker_conditions": config["marker_conditions"], "files": {},
         }
         for model in config["models"]:
             tokenizer = inputs.load_tokenizer(model, config, local_files_only=True)
             for mode in config["representations"]:
-                path = staging / f"{model}.{mode}.jsonl"
-                with path.open("w", encoding="utf-8", newline="") as file:
-                    for record in records:
-                        item = inputs.tokenized_record(record, mode, model, config, tokenizer)
-                        membership = assignments[record["sample_id"]]
-                        item.update(source_dataset=record["source_dataset"], split="train",
-                                    group_id=membership["group_id"], cv_fold=int(membership["cv_fold"]))
-                        file.write(json.dumps(item, ensure_ascii=False, separators=(",", ":")) + "\n")
+                for marker_condition in config["marker_conditions"]:
+                    path = staging / f"{model}.{mode}.{marker_condition}.jsonl"
+                    with path.open("w", encoding="utf-8", newline="") as file:
+                        for record in records:
+                            item = inputs.tokenized_record(record, mode, model, config, tokenizer, marker_condition=marker_condition)
+                            membership = assignments[record["sample_id"]]
+                            item.update(source_dataset=record["source_dataset"], split="train",
+                                        group_id=membership["group_id"], cv_fold=int(membership["cv_fold"]))
+                            file.write(json.dumps(item, ensure_ascii=False, separators=(",", ":")) + "\n")
         for path in sorted(staging.iterdir()):
             manifest["files"][path.name] = {"sha256": inputs.checksum(path), "records": len(records)}
         (staging / "manifest.json").write_text(
@@ -72,7 +76,7 @@ def export(output=DEFAULT_OUTPUT):
         if output.exists():
             raise FileExistsError("Prepared inputs appeared during export; refusing replacement")
         staging.rename(output)
-    print(f"Exported {len(records)} training records, two readable representations, and eight unpadded input files to {output}")
+    print(f"Exported {len(records)} training records, four readable conditions, and sixteen unpadded input files to {output}")
 
 
 if __name__ == "__main__":

@@ -1,10 +1,12 @@
 # Preprocessing report
 
-## Current state
+## Implementation and verification scope
 
-Stage 02 is complete locally under Plan 02. The shared component retrieves assigned records, produces both approved speaker representations, encodes labels, tokenizes with matching pinned checkpoints, applies approved fixed prefix limits, and dynamically pads batches. All owner checkpoints are resolved.
+The shared procedure supports whole-conversation and caller-only representations, each rendered with neutral role markers or without structural markers. Source parsing and all prior owner-approved checkpoint preparation and fixed limits are unchanged. App text uses an unlabeled entry point and never runs source-prefix detection.
 
-All 1,164 training records produce both representations. The owner approved the speaker and checkpoint-preparation proposals with "ok lets go" after the implementation checkpoint summary. The owner approved limits 510/510/512/512 and the keep-the-beginning policy with "yep sound good". Full token lengths and prepared inputs have been checked using training data only. No held-out test transcript was inspected for input design. Stage 01 integrity tests reload saved train/test files only to check frozen membership and canonical-row equality; the length-measurement component never loads the final-test file.
+Only the 1,164 training records are used for design, coverage, export and parity checks. No held-out project transcript is loaded; the verification suite explicitly rejects reads of the actual held-out CSV while permitting synthetic fixtures. Final-test loader checks use invented records; the frozen test checksum is taken from the previously committed file bytes without decoding or inspecting them. That checksum adds a guard for later authorized evaluation; it does not select any preprocessing setting.
+
+The owner explicitly authorized replacing the superseded two-condition generation on 2026-10-04: "keep only the one that meets the Plan criteria itself" and remove/replace previous generations. The replacement is generated at separate temporary paths and verified before installation at the Plan 02 paths. No archive is added to the project. Existing canonical CSVs and split assignments remain unchanged. This replaces the earlier preservation instruction for this generation only; future generation commands still refuse to overwrite existing exports and reports.
 
 ## Source-role findings
 
@@ -56,22 +58,30 @@ HPLT and XLM-RoBERTa use their native pretrained tokenizer normalization with no
 
 Approved fixed prefix budgets, including special tokens: WangchanBERTa 510, PhayaThaiBERT 510, HPLT 512, XLM-RoBERTa 512. HPLT's 512 is an owner-approved conservative resource budget, not its architectural maximum.
 
-Measurement uses approved speaker/checkpoint preparation, matching pinned tokenizers, special tokens, no padding, and explicitly no truncation. The full training pool is covered for each of the eight model/representation combinations.
+Measurement uses approved speaker/checkpoint preparation, matching pinned tokenizers, special tokens, no padding, and explicitly no truncation. The full training pool is covered for each of the sixteen model/representation/marker-condition combinations.
 
-| Model | Representation | Median | 90th percentile | 95th percentile | Maximum | Approved limit | Above limit | Estimated content tokens lost |
-|---|---|---:|---:|---:|---:|---:|---:|---:|
-| wangchanberta | whole_conversation | 368 | 555 | 584 | 706 | 510 | 209 (17.96%) | 2.93% |
-| wangchanberta | caller_only | 212.5 | 302.7 | 324 | 388 | 510 | 0 (0.00%) | 0.00% |
-| phayathaibert | whole_conversation | 353 | 531 | 560 | 668 | 510 | 156 (13.40%) | 1.88% |
-| phayathaibert | caller_only | 202.5 | 288.7 | 309 | 369 | 510 | 0 (0.00%) | 0.00% |
-| hplt | whole_conversation | 261 | 395.7 | 423 | 587 | 512 | 5 (0.43%) | 0.04% |
-| hplt | caller_only | 141 | 215 | 235 | 329 | 512 | 0 (0.00%) | 0.00% |
-| xlmr | whole_conversation | 345.5 | 524 | 553.85 | 630 | 512 | 141 (12.11%) | 1.50% |
-| xlmr | caller_only | 188 | 275.7 | 300 | 352 | 512 | 0 (0.00%) | 0.00% |
+| Model | Representation | Markers | Median | p90 | p95 | Maximum | Limit | Above limit | Estimated content tokens lost |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|
+| wangchanberta | whole_conversation | role_marked | 368.0 | 555.0 | 584.0 | 706 | 510 | 209 (17.96%) | 2.93% |
+| wangchanberta | whole_conversation | role_free | 275.0 | 400.0 | 424.0 | 491 | 510 | 0 (0.0%) | 0.0% |
+| wangchanberta | caller_only | role_marked | 212.5 | 302.7 | 324.0 | 388 | 510 | 0 (0.0%) | 0.0% |
+| wangchanberta | caller_only | role_free | 167.0 | 235.7 | 257.0 | 311 | 510 | 0 (0.0%) | 0.0% |
+| phayathaibert | whole_conversation | role_marked | 353.0 | 531.0 | 560.0 | 668 | 510 | 156 (13.4%) | 1.88% |
+| phayathaibert | whole_conversation | role_free | 270.0 | 396.0 | 419.0 | 479 | 510 | 0 (0.0%) | 0.0% |
+| phayathaibert | caller_only | role_marked | 202.5 | 288.7 | 309.0 | 369 | 510 | 0 (0.0%) | 0.0% |
+| phayathaibert | caller_only | role_free | 164.0 | 232.0 | 253.0 | 309 | 510 | 0 (0.0%) | 0.0% |
+| hplt | whole_conversation | role_marked | 261.0 | 395.7 | 423.0 | 587 | 512 | 5 (0.43%) | 0.04% |
+| hplt | whole_conversation | role_free | 187.5 | 280.7 | 303.0 | 449 | 512 | 0 (0.0%) | 0.0% |
+| hplt | caller_only | role_marked | 141.0 | 215.0 | 235.0 | 329 | 512 | 0 (0.0%) | 0.0% |
+| hplt | caller_only | role_free | 103.0 | 157.0 | 174.85 | 257 | 512 | 0 (0.0%) | 0.0% |
+| xlmr | whole_conversation | role_marked | 345.5 | 524.0 | 553.85 | 630 | 512 | 141 (12.11%) | 1.5% |
+| xlmr | whole_conversation | role_free | 273.0 | 407.0 | 435.7 | 488 | 512 | 0 (0.0%) | 0.0% |
+| xlmr | caller_only | role_marked | 188.0 | 275.7 | 300.0 | 352 | 512 | 0 (0.0%) | 0.0% |
+| xlmr | caller_only | role_free | 157.0 | 229.0 | 251.0 | 299 | 512 | 0 (0.0%) | 0.0% |
 
 [token_length_report.json](token_length_report.json) records distributions and coverage by source and binary label, input/configuration hashes, revisions, and dependencies. Percentiles use linear interpolation at (n-1)*p and are descriptive only.
 
-Estimated loss is the number of content tokens beyond the prefix capacity, divided by all training content tokens for that representation. Required special tokens are accounted for. This is a token-count estimate, not a measure of semantic loss or prediction performance. No conversation has been excluded. The full-length measurement remains untruncated; prepared model-input copies apply the approved limits.
+Estimated loss is the number of content tokens beyond the prefix capacity, divided by all training content tokens for that representation. Required special tokens are accounted for. Marked-condition content-token totals include neutral role-prefix tokens as well as spoken text. This is a token-count estimate, not a measure of semantic loss or prediction performance. No conversation has been excluded. The full-length measurement remains untruncated; prepared model-input copies apply the approved limits.
 
 ### Approved policy
 
@@ -85,17 +95,44 @@ The approved values come from checkpoint configuration bounds or an explicit res
 
 ## Evidence and limitations
 
-Runnable scripts now live under scripts/ as steps 6-9, following the merged dataset layout. Current main was merged into the Stage 02 branch; all existing plans and the seed-67 memberships were preserved.
+Runnable scripts live under scripts/ as steps 6–9, following dataset scripts 1–5. This revision implements the owner-approved four-condition Plan 02 and shared unlabeled interface; seed-67 memberships and earlier approved source/length/checkpoint decisions are preserved.
 
 Official model cards, config.json, and tokenizer_config.json are referenced at pinned revisions in preprocessing_config.json. Documentation file hashes and dependency versions are recorded there.
 Upstream source inspected: https://github.com/vistec-AI/thai2transformers/blob/458fcd28911cc1d433a820907e468b66e7751ae3/thai2transformers/preprocess.py#L218
 Transformers 4.57.6 installed AutoTokenizer and PreTrainedTokenizerBase definitions were inspected for revision pinning, special tokens, truncation, and dynamic padding. SentencePiece-to-fast-tokenizer conversion also requires protobuf.
 Dependencies: transformers 4.57.6, tokenizers 0.22.2, huggingface_hub 0.36.2, sentencepiece 0.2.2, protobuf 7.36.2. No Torch/TensorFlow backend or GPU was required for tokenizer inspection.
 Native normalization can normalize Unicode or whitespace; canonical CSVs remain unchanged. Long-context model feasibility and task performance are untested.
-Ten input-component tests cover approved speaker representations, malformed/pending roles, hash-bound boundary recovery, empty-turn handling, assignment retrieval and checksums, shared validation membership, label maps, approval gates, complete training-pool coverage, aggregate length checks, and content-preserving checkpoint preparation.
+The expanded input checks cover all 18,624 record/model/condition conversions (1,164 × 4 × 4): neutral rendering, content/order preservation, roles and boundary approvals, numeric labels, fixed prefix truncation, special tokens, unpadded exports, attention masks, dynamic batch padding and assignment/source/group/fold metadata. The marked token arrays are also compared against the previous generation to verify unchanged behavior. Configuration identities intentionally change with the component/configuration and marker condition.
 
-Full training-pool checks exercise all 9,312 record/model/representation conversions (1,164 x 4 x 2). Each output is compared with the full token sequence: unchanged when it fits, otherwise the approved prefix plus the final special token. Exact cut counts and dropped-token totals match the aggregate report. IDs, numeric labels, model-only fields, attention masks, and dynamic padding are checked; source rows stay unchanged. Invented examples separately exercise bad inputs and synthetic final-test retrieval. Readable training text and eight unpadded JSONL exports are saved under prepared/, with all membership/label metadata outside predictive fields. Each contains the same 1,164 training IDs and is bound by a manifest to input/configuration/component/export-script hashes, dependencies, and pinned revisions. The added test verifies original/readable text, file hashes, identical temporary rebuilds, and overwrite refusal. No final-test export is made.
+All 4,656 role-free whole-conversation record/model pairs are passed through both the dataset adapter and the unlabeled entry point; inputs, configuration identities and processing notices must agree. Synthetic ordinary text containing role-like words and prefixes must retain them and must not call a dataset loader or role parser. Marker removal is tested before tokenization/truncation, with a small synthetic budget. Condition mixing, invalid text, stale export manifests, modified cache files, mismatched tokenizer checkpoints, expanded vocabularies, changed source records and changed synthetic held-out content are rejected. Cached tokenizers load from the exact pinned revision snapshot, preventing incidental remote metadata probes; verification can run fully offline after caching assets.
+
+The readable CSV stores four pre-checkpoint conditions and the unchanged original transcript. Sixteen JSONL files contain unpadded model fields plus separate label/provenance/condition/notices metadata. The manifest binds these to training data, assignments, configuration, component/export code, dependency versions and tokenizer revisions. `load_prepared` retrieves only unchanged training records selected from authoritative assignments and rejects stale artifacts. Tests rebuild separately and compare every file byte-for-byte. Existing generation commands refuse replacement.
+
+Exact role-free whole-conversation collision review across all 1,164 training records found zero duplicate rendered strings. No records were deleted and assignments were not regenerated. This is an exact rendered-text check, not proof that no semantic variants exist. Caller-only coincidences are not grounds for deleting complete conversations.
 
 Model weights, model-forward execution, hardware feasibility, training, and task performance are outside this stage and remain untested. Final-test source issues may still surface during later evaluation; they must be handled explicitly, not used to redesign this training-only pipeline.
 
 Population is unchanged. No augmentation, resampling, learned preprocessing, model training, tuning, or final test evaluation has occurred.
+
+## Verification results (2026-10-04)
+
+- Script 6 verified cached official-documentation hashes and pinned tokenizer properties for all four checkpoints, fully offline; no weights or remote model code were loaded.
+- Script 9 passed **18 tests** against the installed project outputs with `HF_HUB_OFFLINE=1`. This includes all **18,624** record/model/condition conversions, all **4,656** dataset/unlabeled role-free whole-conversation parity pairs, exact length-report reproduction and byte-identical separate export regeneration.
+- All **9,312** marked record/model inputs match the previous generation in predictive fields, numeric labels, sample/source/group IDs and fold/split metadata. New condition/configuration identities and notices are intentional.
+- Exact role-free whole-conversation collision count: **0** across **1,164** training records. No canonical record or saved assignment changed.
+- Normal export/report regeneration refuses to overwrite existing outputs. Replacing the superseded generation used the explicit owner exception recorded above.
+- Final-test loader behavior was tested only with invented temporary records. The suite rejects actual held-out CSV reads. No final-test export, learned fit, augmentation, resampling, training or performance evaluation was performed.
+
+The only completion states are recorded in `01 - PLANs/README.md`. Model-forward compatibility, training feasibility and paired validation remain responsibilities of model-development plans.
+
+## Owner-approved padding correction and verification (2026-10-04)
+
+A further audit reproduced a missing batch-assembly guard: the prior `pad_batch` accepted another checkpoint's tokenizer or changed padding settings. The existing exports were correct, but the previous 18 tests did not cover this misuse. The owner authorized correction with "yes make sure everything meets the Plan's criteria." No selected preprocessing method, dataset, membership, tokenizer revision or token limit changed.
+
+Each prepared item now carries a serializable `padding_contract` outside predictive fields. Batch assembly compares the provided tokenizer's checkpoint/revision, class, padding token/side, truncation side, special-token count and added-token identity with every frozen contract. It rejects missing contracts, mismatched checkpoints (including tokenizers sharing class/pad ID), changed settings/vocabulary, invalid field lengths and non-unpadded attention masks. Metadata remains outside `inputs`.
+
+The corrected generation was built separately, checked, then installed with the owner's corrective authorization. All **18,624** predictive inputs, labels, source/sample/group IDs, saved split/fold assignments, representation/marker conditions and processing notices match the previous generation. Added contract metadata and updated component/configuration identities are intentional; old caches are rejected.
+
+The final installed generation passed **20 Plan 02 tests fully offline**, including the new padding regressions, full population conversion, dataset/STT parity, exact export and length-report reproduction, stale-artifact rejection and frozen membership. Plans 00 and 01 also passed their **10** and **7** tests again: **37 tests passed in total**. No required-output or current-plan compliance issue remains identified by this audit. Canonical data and saved splits remain unchanged. Project held-out transcripts were not used for input design or Plan 02 tests; Plan 01 verification only checks their fixed partition integrity.
+
+Completion states are recorded only in the plans README. Training feasibility/model forward checks remain outside these three tasks.

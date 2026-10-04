@@ -4,6 +4,7 @@ from pathlib import Path
 import importlib.metadata
 import json
 import statistics
+import argparse
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -61,28 +62,34 @@ def measure(config):
         result["models"][model] = {"revision": entry["revision"],
                                   "length_policy": entry["length_policy"], "representations": {}}
         for mode in config["representations"]:
-            lengths, subsets = [], defaultdict(list)
-            for record in records:
-                text = inputs.checkpoint_text(record, mode, model, config)
-                encoded = tokenizer(text, add_special_tokens=True, padding=False,
-                                    truncation=False, return_attention_mask=False, verbose=False)
-                length = len(encoded["input_ids"])
-                lengths.append(length)
-                subsets[record["source_dataset"]].append(length)
-                subsets[record["source_dataset"] + ":" + record["label"]].append(length)
-            budget = entry["length_policy"]["max_length"]
-            result["models"][model]["representations"][mode] = {
-                "all": summarize(lengths, budget, special),
-                "at_config_bound": summarize(lengths, entry["verified_config_limit"], special),
-                "subsets": {name: summarize(values, budget, special)
-                            for name, values in sorted(subsets.items())},
-            }
+            for marker_condition in config["marker_conditions"]:
+                lengths, subsets = [], defaultdict(list)
+                for record in records:
+                    text = inputs.checkpoint_text(record, mode, model, config, marker_condition=marker_condition)
+                    encoded = tokenizer(text, add_special_tokens=True, padding=False,
+                                        truncation=False, return_attention_mask=False, verbose=False)
+                    length = len(encoded["input_ids"])
+                    lengths.append(length)
+                    subsets[record["source_dataset"]].append(length)
+                    subsets[record["source_dataset"] + ":" + record["label"]].append(length)
+                budget = entry["length_policy"]["max_length"]
+                result["models"][model]["representations"][f"{mode}.{marker_condition}"] = {
+                    "all": summarize(lengths, budget, special),
+                    "at_config_bound": summarize(lengths, entry["verified_config_limit"], special),
+                    "subsets": {name: summarize(values, budget, special)
+                                for name, values in sorted(subsets.items())},
+                }
     return result
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--output", type=Path, default=inputs.DEFAULT_CONFIG.with_name("token_length_report.json"))
+    destination = parser.parse_args().output
+    if destination.exists():
+        raise FileExistsError("Length report exists; use a separate output path")
+    destination.parent.mkdir(parents=True, exist_ok=True)
     result = measure(inputs.load_config())
-    destination = inputs.DEFAULT_CONFIG.with_name("token_length_report.json")
     destination.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("Measured", result["population"], "training records. No truncation or test loading.")
     for model, entry in result["models"].items():
