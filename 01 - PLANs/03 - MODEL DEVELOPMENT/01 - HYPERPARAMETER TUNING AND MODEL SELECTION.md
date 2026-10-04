@@ -2,9 +2,9 @@
 
 ## Purpose and scope
 
-Compare the four approved transformer candidates, tune learning rate and training duration, and select the final model, training-data condition, and transcript representation using cross-validation evidence.
+Compare the four approved transformer candidates, tune learning rate and training duration, and select the final model and training-data condition using cross-validation evidence. The representation is fixed to role-free whole-conversation text.
 
-This task owns initial-versus-tuned comparisons, primary-only versus primary + supplemental training comparisons, the focused whole-conversation versus caller-only comparison, configuration ranking, and final candidate selection.
+This task owns initial-versus-tuned comparisons, primary-only versus primary + supplemental training comparisons, configuration ranking, and final candidate selection.
 
 Reuse the existing training and input-preparation components. Do not redefine dataset membership, label mapping, tokenization, loss, or optimizer family. Final retraining and text-test evaluation belong to the next plan. Packaging, STT selection, application integration, and final system measurements remain separate.
 
@@ -20,7 +20,7 @@ Use:
 Before comparative experiments:
 
 1. Verify preceding completion checks.
-2. Resolve source-role and input-length checkpoints.
+2. Resolve structural-marker removal and input-length checkpoints.
 3. Verify each candidate's execution, recovery, memory, runtime, and persistent-storage requirements.
 4. Obtain approval of the exact warmup amount and finite maximum epoch budget.
 5. Record the complete experiment protocol.
@@ -58,7 +58,7 @@ Generated sample-level evidence and model artifacts remain outside Git in docume
 
 ### Required traceability
 
-The experiment manifest identifies experiment ID, run ID, configuration ID, checkpoint/revision, training-data condition, representation, fold, training seed, experiment purpose (initial reference, search, or speaker comparison), execution state, artifact location, and failure reason.
+The experiment manifest identifies experiment ID, run ID, configuration ID, checkpoint/revision, training-data condition, representation, fold, training seed, experiment purpose (initial reference or search), execution state, artifact location, and failure reason.
 
 CV results identify configuration, condition, representation, fold, epoch, evaluated subset, sample/class counts, metric values, undefined-metric flags, and timing. Aggregate rows must be distinguishable from individual-fold rows.
 
@@ -66,7 +66,7 @@ CV results identify configuration, condition, representation, fold, epoch, evalu
 
 ### Main comparison
 
-Evaluate all four candidates with whole-conversation input, both approved training-data conditions, three learning-rate candidates, the same five saved validation folds, and training seed **67**.
+Evaluate all four candidates with role-free whole-conversation input, both approved training-data conditions, three learning-rate candidates, the same five saved validation folds, and training seed **67**.
 
 The main matrix contains:
 
@@ -77,13 +77,9 @@ The main matrix contains:
 
 Epoch extensions continue these runs from their matching saved state; they are not separate learning-rate configurations. Reuse the matching initial-reference results from this matrix instead of repeating identical runs.
 
-### Focused speaker comparison
+### Representation boundary
 
-After reviewing the whole-conversation results, select a provisional winner and run caller-only using its model, training-data condition, learning rate, selected duration, supporting training settings, saved folds, and seed.
-
-This adds **five caller-only runs**. Do not separately retune caller-only.
-
-Either representation may become the final choice after this paired comparison. Conclusions about representation apply to this selected setup, not all four models.
+All comparisons use role-free whole-conversation text. The owner removed the caller-only ablation to match ordinary STT inference without role attribution. No additional five-run speaker comparison is required.
 
 ### Budget checkpoint
 
@@ -204,7 +200,7 @@ Check storage feasibility during diagnostics. If the retention rule cannot be su
 
 Record interruptions, failures, repeated work, and environment changes.
 
-## 8. Compare tuning, data, and speaker effects
+## 8. Compare tuning and data effects
 
 ### Initial versus tuned
 
@@ -218,12 +214,6 @@ Give primary-only and combined-data training the same grid and epoch opportuniti
 
 Report both matching-setting comparisons, showing the effect of adding supplemental data under those settings, and separately tuned comparisons, showing each condition's best result found within the approved search.
 
-### Speaker representation
-
-Compare caller-only with the provisional whole-conversation winner at matching settings and duration.
-
-Report paired fold differences, aggregate metrics, and practical input requirements. Do not separately optimize caller-only epochs.
-
 ## 9. Final candidate selection and threshold
 
 Review all candidate results using mean validation Scam F1, fold SD and individual scores, source-specific behavior, training cost and development inference latency, and practical input requirements.
@@ -232,7 +222,7 @@ Review all candidate results using mean validation Scam F1, fold SD and individu
 
 An absolute F1 difference of **0.05** is a discussion guideline for considering a performance–stability tradeoff. It is not an automatic cutoff, proof of equivalence, or a rule that lower SD always wins.
 
-The whole-conversation choice remains provisional until the speaker comparison is complete. Then approve the final model, data condition, and representation.
+Approve the final model and data condition using the completed role-free whole-conversation comparisons. The input representation is fixed, not a selection dimension.
 
 Use:
 
