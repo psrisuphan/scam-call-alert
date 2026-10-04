@@ -8,7 +8,7 @@ This task does not retrain, select configurations, tune thresholds, select STT, 
 
 ## Prerequisites
 
-Obtain the selected configuration/final evaluated weights; matching tokenizer/model implementation/pinned revisions; frozen role-free preprocessing/length policy/fitted state; label mapping/threshold; final text-evaluation report/artifact identities; and development fixtures from the training pool or independent development examples.
+Obtain the selected configuration/final evaluated weights; matching tokenizer/model implementation/pinned revisions; frozen role-free inference preprocessing/length policy/fitted state and role-marked training provenance; label mapping/threshold; final text-evaluation report/artifact identities; and development fixtures from the training pool or independent development examples.
 
 Inputs are chronological role-free conversation text. Caller/receiver attribution and caller-only mode are not required.
 
@@ -49,7 +49,7 @@ If original-model execution is infeasible, record evidence/proposed alternative 
 1. Identify exact weights evaluated by Final Model Evaluation.
 2. Include matching tokenizer/model configuration.
 3. Include required custom code and pinned dependencies.
-4. Preserve role-free policy, length handling and fitted preprocessing state.
+4. Preserve role-free inference policy, length handling and fitted state; record marked whole-conversation training provenance separately.
 5. Preserve label mapping and threshold 0.5.
 6. Record revisions/checksums/licenses/attribution.
 7. Verify loading without undocumented notebook state or environment assumptions.
@@ -104,7 +104,7 @@ Define errors for missing/malformed fields, empty/unusable transcript, unavailab
 
 Use training-pool or independent development fixtures, never final-test debugging samples.
 
-1. Require identical prepared text and unpadded token IDs.
+1. Compare the packaged service against the role-free inference path used in final evaluation, requiring identical prepared text and unpadded token IDs. Do not compare against marked training inputs as the parity reference.
 2. Compare masks/outputs with identical batching/padding.
 3. Verify class order, evaluation mode, weights, preprocessing state and threshold.
 4. Require matching labels.
@@ -115,7 +115,7 @@ Select and obtain owner confirmation of exact tolerance during compatibility che
 
 ## 6. Document intended use and limitations
 
-Model card: Thai prepared dialogue; role-free chronology/length policy; simulated/translated limitations; supplemental Not Scam mapping is not independently verified benign content; false alarms/misses/context loss; CV evidence separate from final text-test results; local requirements/dependencies; and STT/partial-context behavior requiring later evaluation.
+Model card: Thai prepared dialogue; marked whole-conversation training versus role-free app inference, paired CV marker-removal evidence and limitations, caller-only research with privileged source roles; role-free chronology/length policy; simulated/translated limitations; supplemental Not Scam mapping is not independently verified benign content; false alarms/misses/context loss; CV evidence separate from final text-test results; local requirements/dependencies; and STT/partial-context behavior requiring later evaluation.
 
 Do not claim calibrated risk, proven prevention, live-phone operation or physical-phone performance. STT accuracy, context selection, warning timing and final audio-to-warning measurements belong to later plans.
 
