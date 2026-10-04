@@ -35,7 +35,18 @@ Keep canonical and split CSVs unchanged. Use training-pool records for design in
     ├── README.md
     ├── preprocessing_config.json
     ├── preprocessing_report.md
-    └── Shared input-preparation component
+    ├── token_length_report.json
+    ├── inputs.py
+    ├── scripts/
+    │   ├── README.md
+    │   ├── 6.inspect_models.py
+    │   ├── 7.measure_lengths.py
+    │   ├── 8.export_inputs.py
+    │   └── 9.test_inputs.py
+    └── prepared/
+        ├── training_text.csv
+        ├── manifest.json
+        └── <model>.<representation>.jsonl
 ```
 
 | Output | Purpose |
@@ -45,7 +56,13 @@ Keep canonical and split CSVs unchanged. Use training-pool records for design in
 | `preprocessing_report.md` | Record source-format findings, training-pool token lengths, approved decisions, checks, and limitations. |
 | Shared component | Provide reusable record-to-model-input conversion for training and later evaluation. |
 
-Code filenames and libraries are flexible. The behavior below is required. Optional caches must remain separate from canonical data.
+Keep executable scripts in `scripts/`, numbered 6-9 after dataset steps 1-5, with [a short reproduction guide](../03%20-%20MODEL%20DEVELOPMENT/input-preparation/scripts/README.md). The shared `inputs.py` library remains beside configuration for import by scripts and training code.
+
+Include completed training-only readable text and unpadded model-input exports under `prepared/` in the private project repository. Preserve original text for comparison in `training_text.csv`. Store labels, IDs, source, group, and saved fold separately from predictive input fields. The manifest must bind exports to input/configuration/code versions, dependencies, and tokenizer revisions. Do not overwrite completed exports; regenerate separately and verify exact reproduction. Source licenses still govern sharing.
+
+No final-test export is created during this task. Exporting the full training pool does not fit a learned rule or change membership. Fold training, validation, and source filtering must still follow saved assignments. Model weights and model execution belong to subsequent plans.
+
+Code filenames and libraries are flexible beyond this agreed layout. The behavior below is required. Optional caches must remain separate from canonical data.
 
 ## 3. Retrieve assigned records
 

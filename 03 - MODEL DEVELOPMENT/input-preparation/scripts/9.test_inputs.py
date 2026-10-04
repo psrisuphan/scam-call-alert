@@ -6,8 +6,13 @@ import json
 import tempfile
 import unittest
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import inputs
-import measure_lengths
+import importlib.util
+spec = importlib.util.spec_from_file_location("measure_lengths", Path(__file__).with_name("7.measure_lengths.py"))
+measure_lengths = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(measure_lengths)
 
 
 def write_csv(path, columns, rows):
@@ -139,7 +144,7 @@ class InputTests(unittest.TestCase):
         self.assertEqual(summary["estimated_dropped_content_percent"], .48)
         self.assertEqual(summary["p90"], 419.2)
         config = inputs.load_config()
-        report = json.loads(Path(__file__).with_name("token_length_report.json").read_text())
+        report = json.loads(inputs.DEFAULT_CONFIG.with_name("token_length_report.json").read_text())
         self.assertEqual(report["population"], 1164)
         self.assertEqual(report["configuration_sha256"], inputs.checksum(inputs.DEFAULT_CONFIG))
         self.assertEqual(report["training_csv_sha256"], config["training_csv_sha256"])
@@ -177,6 +182,12 @@ class InputTests(unittest.TestCase):
             limit = entry["length_policy"]["max_length"]
             for mode in config["representations"]:
                 with self.subTest(model=model, representation=mode):
+                    saved = [json.loads(line) for line in (inputs.DEFAULT_CONFIG.parent / "prepared" /
+                             f"{model}.{mode}.jsonl").read_text().splitlines()]
+                    self.assertEqual(len(saved), len(records))
+                    saved_by_id = {item["sample_id"]: item for item in saved}
+                    assignments = {r["sample_id"]: r for r in inputs.read_csv(
+                        inputs.DEFAULT_DATA / "split_assignments.csv", inputs.ASSIGNMENT_COLUMNS)}
                     items = []
                     exceeding, dropped = 0, 0
                     for record in records:
@@ -197,8 +208,15 @@ class InputTests(unittest.TestCase):
                         self.assertEqual(set(item["inputs"]), set(entry["model_input_fields"]))
                         self.assertEqual(item["sample_id"], record["sample_id"])
                         self.assertEqual(item["label"], inputs.LABEL_TO_ID[record["label"]])
+                        stored = dict(saved_by_id[record["sample_id"]])
+                        membership = assignments[record["sample_id"]]
+                        self.assertEqual(stored.pop("split"), "train")
+                        self.assertEqual(stored.pop("cv_fold"), int(membership["cv_fold"]))
+                        self.assertEqual(stored.pop("group_id"), membership["group_id"])
+                        self.assertEqual(stored.pop("source_dataset"), record["source_dataset"])
+                        self.assertEqual(stored, item)
                         items.append(item)
-                    summary = json.loads(Path(__file__).with_name("token_length_report.json").read_text())[
+                    summary = json.loads(inputs.DEFAULT_CONFIG.with_name("token_length_report.json").read_text())[
                         "models"][model]["representations"][mode]["all"]
                     self.assertEqual(exceeding, summary["exceeding_budget"])
                     self.assertEqual(dropped, summary["estimated_dropped_content_tokens"])
@@ -217,6 +235,37 @@ class InputTests(unittest.TestCase):
                         self.assertEqual(ids, item["inputs"]["input_ids"] + [tokenizer.pad_token_id] * (width - size))
                         self.assertEqual(mask, [1] * size + [0] * (width - size))
         self.assertEqual(records, before)
+
+    def test_readable_export_manifest_and_rebuild(self):
+        config = inputs.load_config()
+        folder = inputs.DEFAULT_CONFIG.parent / "prepared"
+        manifest = json.loads((folder / "manifest.json").read_text())
+        self.assertEqual(manifest["records"], 1164)
+        self.assertEqual(manifest["configuration_sha256"], inputs.checksum(inputs.DEFAULT_CONFIG))
+        self.assertEqual(manifest["component_sha256"], inputs.checksum(Path(inputs.__file__)))
+        self.assertEqual(manifest["export_script_sha256"], inputs.checksum(Path(__file__).with_name("8.export_inputs.py")))
+        for name, entry in manifest["files"].items():
+            self.assertEqual(inputs.checksum(folder / name), entry["sha256"])
+        with (folder / "training_text.csv").open(encoding="utf-8", newline="") as file:
+            readable = list(csv.DictReader(file))
+        records = inputs.load_partition("train_pool", config=config)
+        self.assertEqual(len(readable), len(records))
+        for stored, record in zip(readable, records):
+            self.assertEqual(stored["sample_id"], record["sample_id"])
+            self.assertEqual(stored["original_transcript"], record["transcript"])
+            self.assertEqual(int(stored["label_id"]), inputs.LABEL_TO_ID[record["label"]])
+            for mode in config["representations"]:
+                self.assertEqual(stored[mode], inputs.representation(record, mode, config))
+        spec = importlib.util.spec_from_file_location("export_inputs", Path(__file__).with_name("8.export_inputs.py"))
+        exporter = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(exporter)
+        with tempfile.TemporaryDirectory(prefix="scam-input-export-test-") as temporary:
+            target = Path(temporary) / "prepared"
+            exporter.export(target)
+            self.assertEqual({p.name: inputs.checksum(p) for p in target.iterdir()},
+                             {p.name: inputs.checksum(p) for p in folder.iterdir()})
+            with self.assertRaisesRegex(FileExistsError, "separate output"):
+                exporter.export(target)
 
     def test_real_tokenizers_and_dynamic_padding_on_synthetic_inputs(self):
         config = inputs.load_config()

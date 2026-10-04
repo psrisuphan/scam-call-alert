@@ -85,14 +85,16 @@ The approved values come from checkpoint configuration bounds or an explicit res
 
 ## Evidence and limitations
 
+Runnable scripts now live under scripts/ as steps 6-9, following the merged dataset layout. Current main was merged into the Stage 02 branch; all existing plans and the seed-67 memberships were preserved.
+
 Official model cards, config.json, and tokenizer_config.json are referenced at pinned revisions in preprocessing_config.json. Documentation file hashes and dependency versions are recorded there.
 Upstream source inspected: https://github.com/vistec-AI/thai2transformers/blob/458fcd28911cc1d433a820907e468b66e7751ae3/thai2transformers/preprocess.py#L218
 Transformers 4.57.6 installed AutoTokenizer and PreTrainedTokenizerBase definitions were inspected for revision pinning, special tokens, truncation, and dynamic padding. SentencePiece-to-fast-tokenizer conversion also requires protobuf.
 Dependencies: transformers 4.57.6, tokenizers 0.22.2, huggingface_hub 0.36.2, sentencepiece 0.2.2, protobuf 7.36.2. No Torch/TensorFlow backend or GPU was required for tokenizer inspection.
 Native normalization can normalize Unicode or whitespace; canonical CSVs remain unchanged. Long-context model feasibility and task performance are untested.
-Nine input-component tests cover approved speaker representations, malformed/pending roles, hash-bound boundary recovery, empty-turn handling, assignment retrieval and checksums, shared validation membership, label maps, approval gates, complete training-pool coverage, aggregate length checks, and content-preserving checkpoint preparation.
+Ten input-component tests cover approved speaker representations, malformed/pending roles, hash-bound boundary recovery, empty-turn handling, assignment retrieval and checksums, shared validation membership, label maps, approval gates, complete training-pool coverage, aggregate length checks, and content-preserving checkpoint preparation.
 
-Full training-pool checks exercise all 9,312 record/model/representation conversions (1,164 x 4 x 2). Each output is compared with the full token sequence: unchanged when it fits, otherwise the approved prefix plus the final special token. Exact cut counts and dropped-token totals match the aggregate report. IDs, numeric labels, model-only fields, attention masks, and dynamic padding are checked; source rows stay unchanged. Invented examples separately exercise bad inputs and synthetic final-test retrieval. No token cache is saved.
+Full training-pool checks exercise all 9,312 record/model/representation conversions (1,164 x 4 x 2). Each output is compared with the full token sequence: unchanged when it fits, otherwise the approved prefix plus the final special token. Exact cut counts and dropped-token totals match the aggregate report. IDs, numeric labels, model-only fields, attention masks, and dynamic padding are checked; source rows stay unchanged. Invented examples separately exercise bad inputs and synthetic final-test retrieval. Readable training text and eight unpadded JSONL exports are saved under prepared/, with all membership/label metadata outside predictive fields. Each contains the same 1,164 training IDs and is bound by a manifest to input/configuration/component/export-script hashes, dependencies, and pinned revisions. The added test verifies original/readable text, file hashes, identical temporary rebuilds, and overwrite refusal. No final-test export is made.
 
 Model weights, model-forward execution, hardware feasibility, training, and task performance are outside this stage and remain untested. Final-test source issues may still surface during later evaluation; they must be handled explicitly, not used to redesign this training-only pipeline.
 

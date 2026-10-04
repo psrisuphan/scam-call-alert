@@ -5,6 +5,8 @@ import importlib.metadata
 import json
 import statistics
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import inputs
 
 
@@ -80,7 +82,7 @@ def measure(config):
 
 def main():
     result = measure(inputs.load_config())
-    destination = Path(__file__).with_name("token_length_report.json")
+    destination = inputs.DEFAULT_CONFIG.with_name("token_length_report.json")
     destination.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("Measured", result["population"], "training records. No truncation or test loading.")
     for model, entry in result["models"].items():

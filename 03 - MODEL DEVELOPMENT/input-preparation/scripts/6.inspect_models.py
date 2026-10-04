@@ -3,6 +3,8 @@ from pathlib import Path
 from huggingface_hub import hf_hub_download
 import importlib.metadata
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import inputs
 
 

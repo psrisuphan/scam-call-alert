@@ -6,3 +6,6 @@
 "02 - DATASETs/scripts/**" text eol=lf
 "02 - DATASETs/*.json" text eol=lf
 "02 - DATASETs/reports/**" text eol=lf
+# Training-input exports and their code/config identities must remain byte-exact.
+"03 - MODEL DEVELOPMENT/input-preparation/**" text eol=lf
+"03 - MODEL DEVELOPMENT/input-preparation/prepared/**" -text
