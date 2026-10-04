@@ -32,7 +32,7 @@ Required implementation inputs:
 └── Shared input-preparation component
 ```
 
-Verify preceding completion checks and resolve structural-marker removal and length-policy checkpoints. Review actual class counts for each applicable training subset.
+Verify preceding completion checks and resolve documented source-role parsing and length-policy checkpoints. Review actual class counts for each applicable training subset.
 
 Develop the training component and perform feasibility checks using an explicitly owner-approved diagnostic configuration. Its numeric settings remain an implementation confirmation checkpoint; do not guess them or rely on undocumented defaults. Diagnostic scores must not select the model.
 
@@ -70,7 +70,7 @@ Do not load the final test set in this task.
 | `run_summary.json` | Distinguish completed, interrupted, and failed runs; record progress, timing, artifact locations, and reasons. |
 | `checkpoints/` | Hold state required for supported recovery and any later approved checkpoint-retention rules. |
 
-Assign each independent run a unique ID; never overwrite another run. Record model, data condition, representation, fold, seed, classification-head settings, optimizer parameter groups, and all resolved training settings in the configuration. A membership checksum may identify saved ordered sample-ID lists, but the actual membership must remain recoverable.
+Assign each independent run a unique ID; never overwrite another run. Record model, data condition, training representation/marker condition, validation representation/marker conditions, fold, seed, classification-head settings, optimizer parameter groups, and all resolved training settings in the configuration. A membership checksum may identify saved ordered sample-ID lists, but the actual membership must remain recoverable.
 
 Keep generated `training/runs/` contents outside Git, including prediction CSVs and JSON logs, not only model weights. Add the appropriate ignore rule during implementation. Track reusable code and human-readable documentation; store large artifacts in documented persistent storage.
 
@@ -113,7 +113,7 @@ HPLT requires its documented custom implementation; verify compatibility and rec
 
 For fold `k`, use saved fold `k` for validation and the other four for training. Apply the primary-only or primary + supplemental training condition exactly as Plan 01 specifies; both use the same validation records.
 
-Use the fixed role-free `whole_conversation` representation; do not require speaker attribution or support caller-only experiments in the current scope. Consume Plan 02's formatting, tokenizer, length, and padding instructions without redefining them.
+Main runs train on `whole_conversation` + `role_marked`; the limited caller-only comparison trains on `caller_only` + `role_marked`. Source roles must follow Plan 02 approval rules. Consume its formatting, tokenizer, length and padding instructions without redefining them.
 
 Fit any approved data-derived transformation only on eligible fold-training records. Apply its frozen state to validation. Preserve IDs as separate traceability metadata; never include IDs, source categories, or labels in predictive text.
 
@@ -204,18 +204,18 @@ For each epoch:
 1. Train on the eligible fold-training records.
 2. Record training loss and progress.
 3. Validate in evaluation mode without gradients or parameter updates.
-4. Record validation loss, configured metrics, and probabilities.
+4. Evaluate the same frozen epoch weights on corresponding marked and role-free validation text; record loss, metrics and probabilities separately. No updates occur between conditions.
 5. Save and verify an epoch-end recovery checkpoint.
 
-Validation must not update model weights, optimizer state, or fitted preprocessing. Produce one conversation-level prediction per validation record per evaluation point; reject missing/duplicate IDs and non-finite probabilities.
+Validation must not update model weights, optimizer state, or fitted preprocessing. Produce one conversation-level prediction per validation record per marker condition per evaluation point; reject missing/duplicate IDs within each condition and non-finite probabilities. Role-free whole-conversation scores govern main selection; marked scores are diagnostic.
 
 The tuning plan owns epoch limits, metric definitions, early stopping, and checkpoint-selection rules. This component executes those rules. Diagnostic validation may record loss/probabilities without ranking configurations.
 
 ## 13. Progress for reporting
 
-`training_history.csv` records epoch, evaluation point, optimizer-update count, conversations processed, training/validation loss, configured metrics, learning rate, elapsed time, and checkpoint reference. Distinguish interval losses from complete-epoch aggregates; do not label partial progress as a full epoch.
+`training_history.csv` records training representation/marker condition and validation representation/marker condition, epoch, evaluation point, optimizer-update count, conversations processed, training/validation loss, configured metrics, learning rate, elapsed time, and checkpoint reference. Distinguish interval losses from complete-epoch aggregates; do not label partial progress as a full epoch.
 
-`validation_predictions.csv` records run ID, evaluation point, sample ID, source identity, true label, and both class probabilities. Preserve these records and history for later learning curves and comparisons.
+`validation_predictions.csv` records run ID, training representation/marker condition, validation representation/marker condition, evaluation point, sample ID, source identity, true label, and both class probabilities. Preserve these records and history for later learning curves and comparisons.
 
 Retain failed/interrupted run summaries. A recovery checkpoint is not automatically the selected best checkpoint.
 
