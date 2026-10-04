@@ -28,4 +28,6 @@ The datasets contain simulated conversations. Results should therefore be interp
 
 Stage 00 is complete. The local canonical CSV retains 1,455 conversations (1,276 primary, 179 supplemental), with source provenance, disposition audits, and reviewed relationships. See [dataset instructions](02%20-%20DATASETs/README.md) and [the preparation report](02%20-%20DATASETs/reports/preparation_csv_v2.md).
 
-Splitting, tokenization, augmentation, resampling, learned preprocessing, and model selection have not occurred. The next task is [Stage 01: data split and experiment design](01%20-%20PLANs/01%20-%20DATA%20SPLIT%20AND%20EXPERIMENT%20DESIGN.md).
+Stage 01 is complete: 1,164 training records, 291 test records, and five shared, group-aware CV folds using seed 67. See [the split report](02%20-%20DATASETs/reports/split_v1.md).
+
+The next task is [Stage 02: preprocessing and model inputs](01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md). No model-oriented preprocessing, augmentation, resampling, model selection, or training is included in this stage.
