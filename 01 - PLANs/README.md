@@ -1,5 +1,20 @@
 # Project Plans
 
+## Mandatory implementation instructions for workers and AI agents
+
+**You MUST follow the approved plans when implementing this project.** Read the relevant plan and its prerequisite plans before starting. Provisional drafts do not authorize implementation.
+
+If a plan cannot be followed, or an issue requires changing a planned method, setting, scope, sequence, or output:
+
+1. Pause the affected work and document the issue, evidence, proposed change, and its effects on other plans.
+2. Obtain explicit confirmation from the human project owner before changing the plan or implementing a deviation. Silence is not approval.
+3. After confirmation, update the affected instructions and record the approved change and rationale before continuing.
+
+**Do not independently replace, bypass, or reinterpret a planned decision.** Resolve any required owner-confirmation checkpoint before performing the work it governs. Continue unaffected work only when it remains consistent with the approved plans.
+
+Implementation details explicitly left flexible by a plan may be chosen within its stated boundaries; this does not authorize changing its required behavior or methods.
+
+
 This directory contains implementation plans for the **อย่าเอาเงินชั้นไป - Scam Call Alert** Pattern Recognition term project.
 
 Each plan explains what to do, how to do it, why the methods were selected, the required outputs, and how to check completion. The plans use the project proposal and course lecture sheets as their source material.
