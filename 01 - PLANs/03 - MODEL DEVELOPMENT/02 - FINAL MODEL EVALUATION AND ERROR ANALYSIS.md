@@ -54,7 +54,7 @@ Keep weights and generated sample-level evidence outside Git in documented persi
 
 ## 3. Freeze the evaluation protocol
 
-Evaluate **one pipeline selected through CV**, after the focused speaker comparison.
+Evaluate **one pipeline selected through CV**, using the fixed role-free whole-conversation representation.
 
 Record:
 
@@ -151,12 +151,12 @@ Record:
 - Sample ID, source, and prediction-artifact reference.
 - True/predicted labels and Scam probability.
 - Traceable transcript or excerpt evidence.
-- Relevant input-length or speaker-role findings.
+- Relevant input-length or structural-marker parsing findings.
 - Observed error category.
 - Review explanation, evidence, and uncertainty.
 - Potential future investigation.
 
-Categories may include ambiguous source labels, translated wording, missing context, mixed language, length-related information loss, or uncertain roles. Use categories supported by observations; do not assume they explain an error.
+Categories may include ambiguous source labels, translated wording, missing context, mixed language, length-related information loss, or structural parsing defects. Use categories supported by observations; do not assume they explain an error.
 
 Keep technical inference failures separately from classification errors.
 
@@ -171,7 +171,7 @@ Retain and reference:
 - Every CV fold's metrics and mean ± sample SD.
 - Per-epoch losses, metrics, and predictions.
 - Initial-versus-tuned comparisons.
-- Model, data-condition, and representation comparisons.
+- Model and data-condition comparisons. Preserve superseded experiments, if any, separately with their old input configuration clearly identified.
 - Configurations, timing, failures, interruptions, and recovery records.
 - Final training history and final-test evidence.
 
