@@ -60,7 +60,7 @@ Update a task when its plan is saved or its implementation is completed. A writt
 | [03/00 - Model Training](03%20-%20MODEL%20DEVELOPMENT/00%20-%20MODEL%20TRAINING.md) | Define the procedure for training candidate models using the approved data and input pipeline. | Planned |
 | [03/01 - Hyperparameter Tuning and Model Selection](03%20-%20MODEL%20DEVELOPMENT/01%20-%20HYPERPARAMETER%20TUNING%20AND%20MODEL%20SELECTION.md) | Define how to search configurations and select the model using validation results. | Planned |
 | [03/02 - Final Model Evaluation and Error Analysis](03%20-%20MODEL%20DEVELOPMENT/02%20-%20FINAL%20MODEL%20EVALUATION%20AND%20ERROR%20ANALYSIS.md) | Evaluate the selected model on held-out data and examine its errors. | Planned |
-| 03/03 - Model Freeze and App Handoff | Prepare the model and supporting artifacts for application integration. | Unplanned |
+| [03/03 - Model Freeze and App Handoff](03%20-%20MODEL%20DEVELOPMENT/03%20-%20MODEL%20FREEZE%20AND%20APP%20HANDOFF.md) | Prepare the model and supporting artifacts for application integration. | Planned |
 | 04/00 - Speech-to-Text Evaluation | Define how to evaluate Thai transcription from prepared audio. | Unplanned |
 | 04/01 - Mobile Emulator Prototype and Integration | Connect audio, transcription, classification, and warnings in the prototype. | Unplanned |
 | 05 - End-to-End System Evaluation | Evaluate the complete audio-to-warning workflow and its system behavior. | Unplanned |
