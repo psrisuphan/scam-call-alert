@@ -54,12 +54,12 @@ Keep weights and generated sample-level evidence outside Git in documented persi
 
 ## 3. Freeze the evaluation protocol
 
-Evaluate **one pipeline selected through CV**, using the fixed role-free whole-conversation representation.
+Evaluate one CV-selected app pipeline: retrain on **role-marked whole conversations**, then test **role-free whole conversations**. Preserve this intentional distinction; role-free CV results selected the app candidate.
 
 Record:
 
 - Model, checkpoint/tokenizer revisions, and input configuration.
-- Selected training-data condition and representation.
+- Selected training-data condition, training/inference representations and marker conditions, with separate preprocessing identities.
 - Training settings, duration, and seed **67**.
 - Decision threshold **0.5**.
 - Dataset/assignment identities and eligible training membership.
@@ -80,7 +80,7 @@ No final-test confidence intervals are required. Preserve CV mean ± sample SD s
 
 1. Initialize from the selected **original pretrained checkpoint**, with a fresh classification head and training state.
 2. Retrieve the eligible full training pool: primary records for primary-only training, or both sources for combined-data training.
-3. Apply the approved input procedure.
+3. Apply the approved whole-conversation **role-marked training** input procedure.
 4. Fit any approved data-derived transformation only on that eligible training pool.
 5. Record and freeze its fitted state before test inference.
 6. Train for the duration selected through CV, using the frozen settings.
@@ -100,7 +100,7 @@ After final training and preprocessing are frozen:
 
 1. Load the unchanged saved test records.
 2. Verify their membership against saved assignments.
-3. Apply frozen preprocessing and the matching tokenizer.
+3. Render whole-conversation role-free input before frozen checkpoint preparation/tokenization/length handling. Verify unchanged test content by checksum or canonical-row equality when loading is authorized.
 4. Run in evaluation mode without gradients or learning.
 5. Produce one conversation-level outcome per assigned sample.
 6. Apply:
@@ -114,7 +114,7 @@ For successful predictions, preserve evaluation/run and final-artifact identity,
 
 For failures, preserve sample identity, execution state, and failure reason. Leave unavailable prediction fields empty; never invent a class.
 
-Verify coverage, unique IDs, valid probabilities, and unchanged model/configuration identity.
+Verify coverage, unique IDs, valid probabilities and unchanged model/configuration identity. Do not add marked-test comparisons or a caller-only final model; diagnostics belong to CV.
 
 ## 6. Report metrics and failures
 
@@ -171,7 +171,7 @@ Retain and reference:
 - Every CV fold's metrics and mean ± sample SD.
 - Per-epoch losses, metrics, and predictions.
 - Initial-versus-tuned comparisons.
-- Model and data-condition comparisons. Preserve superseded experiments, if any, separately with their old input configuration clearly identified.
+- Model/data comparisons, paired marked/role-free validation and the five-run caller-only comparison. Preserve superseded experiments separately with old input identities clearly identified.
 - Configurations, timing, failures, interruptions, and recovery records.
 - Final training history and final-test evidence.
 
