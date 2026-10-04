@@ -4,9 +4,11 @@
 
 Implement and document a shared procedure that converts Plan 01's assigned conversation records into inputs compatible with each candidate model.
 
-This task covers speaker formatting, transcript representation, label encoding, model-specific tokenization, length handling, dynamic padding, configuration, and input checks.
+This task covers structural speaker-marker removal, role-free transcript representation, label encoding, model-specific tokenization, length handling, dynamic padding, configuration, and input checks.
 
-It preserves existing split assignments. Training, tuning, representation comparison, model selection, and final test evaluation belong to later plans.
+It preserves existing split assignments. Training, tuning, model selection, and final test evaluation belong to later plans.
+
+Existing speaker-marked/caller-only exports document the superseded pipeline and must not be used as role-free inputs. Preserve that evidence separately; regenerate and verify revised inputs before declaring this task complete. Existing recorded owner approvals for fixed token budgets and content-preserving checkpoint preparation remain applicable unless a demonstrated conflict requires renewed confirmation. Recompute descriptive coverage for role-free text; do not reopen those approvals merely because generic checkpoints appear below.
 
 ## 1. Inputs and prerequisites
 
@@ -52,7 +54,7 @@ Keep canonical and split CSVs unchanged. Use training-pool records for design in
 | Output | Purpose |
 |---|---|
 | `README.md` | Explain configuration, component usage, partition retrieval, and input checks. |
-| `preprocessing_config.json` | Record approved role mappings, representations, label encoding, checkpoint/tokenizer revisions, length policy, and padding settings. |
+| `preprocessing_config.json` | Record approved source-marker removal rules, the role-free representation, label encoding, checkpoint/tokenizer revisions, length policy, and padding settings. |
 | `preprocessing_report.md` | Record source-format findings, training-pool token lengths, approved decisions, checks, and limitations. |
 | Shared component | Provide reusable record-to-model-input conversion for training and later evaluation. |
 
@@ -77,46 +79,31 @@ The shared component must:
 
 Do not regenerate splits or folds. Provide an explicit final-test loading mode, but do not invoke it during this task.
 
-## 4. Map speaker roles
+## 4. Remove structural speaker identifiers
 
-Use the neutral roles `Caller` and `Receiver`.
+The owner approved role-free whole-conversation inputs to match ordinary STT output without assisted Caller/Receiver attribution. This supersedes the earlier role-marked inputs and caller-only ablation.
 
-Map roles using documented source meaning, not the target label or an assumption that the first speaker is the caller. Replace label-revealing names such as `Scammer` with neutral markers.
+Identify source speaker prefixes or structural role fields from the documented source format. Remove those identifiers from predictive text while preserving every speaker's spoken content and original order. Do not infer caller/receiver roles, delete speaker names mentioned as spoken dialogue, or remove words merely because they resemble a role label.
 
-Keep source labels, categories, IDs, and audit information out of model text.
+Record source-format parsing and marker-removal rules in configuration. Ambiguous structural boundaries require owner confirmation before applying a new parsing rule. Keep labels, categories, IDs, and audit metadata out of predictive text.
 
-If roles cannot be established reliably:
+Canonical and split CSVs retain their original transcripts; this change applies only during model-input preparation.
 
-- Record affected samples and the ambiguity.
-- Ask the project owner to confirm handling.
-- Do not fabricate roles, silently discard turns, or produce unreliable caller-only inputs.
+Separate source parsing from shared role-free preparation: the dataset adapter removes only documented source structure. Its output and ordinary STT text then enter the shared role-free preparation/tokenization function. Do not apply source-prefix detection to ordinary STT text or delete spoken words resembling speaker labels.
 
-Record confirmed source-role mappings in the configuration.
+## 5. Produce one role-free whole-conversation representation
 
-## 5. Produce two representations
-
-### Whole conversation
-
-Retain both speakers in original order:
+Use `whole_conversation` with an explicit role-free configuration identity. Include all dialogue content in source order, separating source turns with newlines without adding speaker prefixes. For example:
 
 ```text
-[Caller]: …
-[Receiver]: …
-[Caller]: …
+ข้อความที่พูดในช่วงแรก
+ข้อความตอบกลับ
+ข้อความที่พูดต่อมา
 ```
 
-### Caller only
+STT inference supplies recognized text in chronological order without requiring known speaker turns, speaker identifiers, or caller/receiver attribution. Preserve its spoken text and ordering through the same compatible input-preparation procedure; do not invent source-style turns from speaker assumptions.
 
-Retain caller turns in their original order:
-
-```text
-[Caller]: …
-[Caller]: …
-```
-
-Use one turn per line, followed by a colon and one separating space. Preserve the text within each turn.
-
-Whole conversation is the main representation; caller-only is the approved ablation representation. Prepare both here. Later plans determine comparison execution and budget.
+Caller-only inputs and the caller-only comparison are removed from the current scope. Missing speaker identities alone do not prevent role-free input preparation.
 
 ## 6. Preserve meaning
 
@@ -149,7 +136,7 @@ For each candidate checkpoint:
 2. Use the corresponding pretrained tokenizer.
 3. Apply documented model-specific preparation.
 4. Let the tokenizer add required special tokens.
-5. Treat speaker markers as ordinary text; do not add new vocabulary tokens.
+5. Do not insert role markers or add new vocabulary tokens.
 6. Record checkpoint/tokenizer identifiers, revisions, and settings.
 
 Do not train or adapt a tokenizer on project data in the initial pipeline.
@@ -160,7 +147,7 @@ A shared procedure does not mean a shared tokenizer: each model receives its com
 
 Using only training-pool records:
 
-1. Measure token lengths for each tokenizer and both representations, including special tokens.
+1. Measure token lengths for each tokenizer and the role-free whole-conversation representation, including special tokens.
 2. Verify documented checkpoint input limits.
 3. Report distributions and counts exceeding proposed limits.
 4. Recommend a length policy with its information-loss and implementation tradeoffs.
@@ -204,12 +191,16 @@ Any later change requires confirmation and must be confined to the applicable tr
 
 ## 12. Component interface
 
+Provide an unlabeled text-preparation entry point accepting transcript text and frozen preprocessing configuration/required fitted state. It returns model-required inputs and processing notices without requiring labels, source membership or split assignments. The dataset wrapper and local inference service call the same underlying conversion; dataset labels and provenance remain separate metadata. Preserve all approved conversion, length and training-only fitting boundaries.
+
+The dataset wrapper interface follows below.
+
 The component accepts:
 
 - Data and assignment locations.
 - Requested partition or fold.
 - Training data condition.
-- `whole_conversation` or `caller_only`.
+- The fixed role-free `whole_conversation` representation.
 - Approved checkpoint/tokenizer configuration.
 
 It returns:
@@ -236,8 +227,8 @@ Use training-pool examples to verify:
 
 - Records match saved assignments.
 - IDs remain traceable.
-- Both-speaker order and content are preserved.
-- Caller-only inputs contain only confirmed caller turns.
+- All spoken content and its original order are preserved.
+- Structural speaker identifiers are removed without deleting spoken words.
 - No label-revealing markers or metadata enter text.
 - Label encoding and decoding agree.
 - Model/tokenizer configurations match.
@@ -246,26 +237,28 @@ Use training-pool examples to verify:
 - No augmentation or resampling occurred.
 - Source CSVs remain unchanged.
 
+Check development records for identical role-free text created by structural-marker removal. Record IDs and evidence; similarity alone does not authorize deletion. If collisions reveal previously missed related conversations, pause affected work and obtain owner confirmation before revising preparation or assignments. Do not automatically delete records, regenerate splits, or inspect held-out test content during this task.
+
 Provide reusable checks for later final evaluation. Do not access the held-out test set to redesign the pipeline in this task.
 
 Document the interface, approved settings, checks, and remaining limitations.
 
 ## Completion and handoff
 
-Complete this task when speaker handling and length policies are resolved, both representations are supported by the shared component, checks pass, and documentation enables reproducible use.
+Complete this task when source-marker removal and length policies are resolved, role-free whole-conversation inputs are supported by the shared component, checks pass, and documentation enables reproducible use.
 
-Hand off the component, configuration, report, and README to model development. Do not execute training or the speaker-input comparison here.
+Hand off the component, configuration, report, and README to model development. Do not execute training or model comparisons here.
 
 ## References and rationale
 
 - [Full Proposal](../00%20-%20DOCUMENTs/Full%20Proposal/Phoebe_FullProposal.docx), section 5: consistent speaker/transcript formatting, preserved dialogue content/order, and model-specific tokenizers.
 - [L03 - Data Preprocessing and Feature Engineering](course-lecture-sheets/Pattern%20Recognition%20L03_Data%20Preprocessing%20and%20Feature%20Engineering_final.pdf), PDF p. 7 and pp. 21, 24, 27, 43: consistent representations, sampling tradeoffs, meaning-preserving augmentation, training-only augmentation, and leakage prevention.
-- [L06 - Experimental Design and System Evaluation](course-lecture-sheets/Pattern%20Recognition%20L06_Experimental%20Design%20and%20System%20Evaluation.pdf), PDF pp. 9–11: controlled comparison supporting the speaker-input ablation.
+- [L06 - Experimental Design and System Evaluation](course-lecture-sheets/Pattern%20Recognition%20L06_Experimental%20Design%20and%20System%20Evaluation.pdf), PDF pp. 9–11: consistent preprocessing and controlled comparisons.
 - [L05 - Model Selection and Hyperparameter Tuning](course-lecture-sheets/Pattern%20Recognition%20L05_Model%20Selection%20%26%20Hyperparameter%20Tuning.pdf), PDF pp. 32–33: consistent pipelines and fitting preprocessing separately within each CV training portion.
 - L06, PDF p. 18: fit data-dependent transformations within each training split, then transform validation/test inputs with the frozen result.
 - [AI-in-the-Loop authors' project](https://supreme-lab.github.io/ai-in-the-loop/) and [cited paper](https://petsymposium.org/popets/2026/popets-2026-0006.pdf): multi-turn scam-dialogue research context; these do not establish that both-speaker input outperforms caller-only.
 - Official documentation for each selected checkpoint/tokenizer must be verified and recorded during implementation for preparation, limits, special tokens, and padding.
 
-Whole-conversation input preserves receiver context; caller-only removes that context and reduces input content. Their relative performance remains an experimental question. Conservative text preservation avoids deleting or rewriting potentially meaningful scam cues. Matching tokenizers preserve checkpoint compatibility. Dynamic padding reduces unnecessary padded positions compared with padding every input to a global maximum. No augmentation avoids unverified meaning/label changes; no resampling preserves the limited observed records. These are design rationales, not guarantees of better performance.
+Role-free whole-conversation input retains context from all speakers while matching the absence of reliable caller/receiver labels in ordinary STT output. This is an owner-approved training/inference consistency decision, not evidence that role-free input gives higher scores. Conservative text preservation avoids deleting or rewriting potentially meaningful scam cues. Matching tokenizers preserve checkpoint compatibility. Dynamic padding reduces unnecessary padded positions compared with padding every input to a global maximum. No augmentation avoids unverified meaning/label changes; no resampling preserves the limited observed records. These are design rationales, not guarantees of better performance.
 
-The exact speaker syntax, label codes, padding choice, and no-augmentation/no-resampling policy are confirmed project decisions. Source-role interpretation and length handling require the documented implementation checkpoints. Lecture PDFs are local ignored materials and may be unavailable in a fresh clone.
+Role-free formatting, label codes, padding choice, and no-augmentation/no-resampling policy are confirmed project decisions. Source structural-marker parsing and length handling require the documented implementation checkpoints. Lecture PDFs are local ignored materials and may be unavailable in a fresh clone.
