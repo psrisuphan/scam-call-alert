@@ -119,6 +119,12 @@ Fit any approved data-derived transformation only on eligible fold-training reco
 
 Do not regenerate folds. The tuning plan determines the executed model/data/representation combinations and comparison budget.
 
+### Class-specific length exposure
+
+Before comparative training, verify the authoritative training-only length report/configuration identities and report marked whole-conversation truncation by model, source and class. At the reviewed fixed limits, the current report shows primary Scam affected-record rates of 40.00% (WangchanBERTa), 30.00% (PhayaThaiBERT), 0.98% (HPLT), and 27.45% (XLM-R), versus approximately 0–1% for primary Not Scam. These are record fractions, not fractions of spoken content lost or measured prediction damage; role-free training-pool whole conversations fit the current limits.
+
+Retain the approved marked training and fixed-prefix policy. Record this as an explicit methodological limitation, not proof that the policy is optimal. Present the class-specific exposure in the owner-reviewed diagnostic/budget report before comparative training. Record affected counts and retained/dropped token estimates in the feasibility report; inspect only training-pool evidence. Do not regenerate finished input artifacts, change markers/budgets, or add role-free-training experiments without separate approval. Report marker-removal and caller comparisons as potentially confounded by retained content, as the selection plan already requires.
+
 If the approved length policy uses multiple windows per conversation, resolve training-label handling, loss weighting, and conversation-level aggregation with the owner before training. Window construction belongs to Plan 02. Do not independently split windows or assume every window contains evidence for the conversation label.
 
 ## 6. Initialize independent runs
