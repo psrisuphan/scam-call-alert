@@ -16,14 +16,13 @@ If a plan cannot be followed, or an issue requires changing a planned method, se
 
 Implementation details explicitly left flexible by a plan may be chosen within its stated boundaries; this does not authorize changing its required behavior or methods.
 
-
 This directory contains implementation plans for the **อย่าเอาเงินชั้นไป - Scam Call Alert** Pattern Recognition term project.
 
 Each plan explains what to do, how to do it, why the methods were selected, the required outputs, and how to check completion. The plans use the project proposal and course lecture sheets as their source material.
 
 ## Directory structure
 
-The structure below is the intended organization. Future plan files remain proposed until their structure and contents are confirmed.
+The structure below contains the approved plans. Runtime-dependent confirmation checkpoints remain in their owning plans and must be resolved before affected execution. A Planned task is not implemented; planning approval alone does not authorize implementation.
 
 ```text
 01 - PLANs/
@@ -76,7 +75,13 @@ The main sequence is:
 
 **Data preparation → splitting and experiment design → preprocessing → model development → application integration → end-to-end evaluation → final reporting.**
 
-Training and tuning are iterative. Application integration depends on both the model handoff and the speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work.
+Training and tuning are iterative. Application integration depends on both the model handoff and the speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work. Forward references to later approved protocols supply method definitions, not a requirement to execute final evaluation before development.
+
+### Implementation entry and release gates
+
+Begin an authorized task with its completed prerequisites and recorded artifact identities. Model training may implement its component and owner-configured diagnostics before the tuning matrix is launched. Resolve training settings, combined feasibility and local-execution preflight before full comparison/final candidate release. Resolve STT selection, recording-script fidelity, staged context screening/window/completion settings and selected-background compatibility before system evaluation. Develop recorded mode first, but release the frozen application to Plan 05 only after both mandatory modes pass functional checks; formal system metrics still use recordings exclusively. Keep the full model matrix unless measured feasibility justifies an owner-approved reduction. Resolve presentation/access checkpoints before delivery.
+
+No final audio/results may resolve a design choice. Distinguish ready to begin implementation from ready to launch experiments: numeric/runtime settings needing measurements stay explicit, owner-reviewed gates rather than guessed defaults. Historical local decision notes are not authoritative instructions; use approved plans and their referenced configurations/reports. Before generating stage evidence, configure its documented persistent location and specific Git ignore rules; protect sample-level logs/media as well as weights, while preserving tracked instructions/manifests/approved aggregates.
 
 If implementation reveals an unexpected issue or a flaw in a plan, document the issue and discuss any consequential method change with the project owner. Update the affected instructions and record the reason for the agreed change. Continue unaffected work where possible.
 
