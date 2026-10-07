@@ -65,7 +65,7 @@ Update a task when its plan is saved or its implementation is completed. A writt
 | [03/03 - Model Freeze and App Handoff](03%20-%20MODEL%20DEVELOPMENT/03%20-%20MODEL%20FREEZE%20AND%20APP%20HANDOFF.md) | Prepare the model and supporting artifacts for application integration. | Planned |
 | [04/00 - Speech-to-Text Evaluation](04%20-%20APPLICATION%20DEVELOPMENT/00%20-%20SPEECH-TO-TEXT%20EVALUATION.md) | Define how to evaluate Thai transcription from prepared audio. | Planned |
 | [04/01 - Mobile Emulator Prototype and Integration](04%20-%20APPLICATION%20DEVELOPMENT/01%20-%20MOBILE%20EMULATOR%20PROTOTYPE%20AND%20INTEGRATION.md) | Integrate microphone/recorded audio, live transcripts and system warnings; compare and freeze the context approach. | Planned |
-| 05 - End-to-End System Evaluation | Evaluate the complete audio-to-warning workflow and its system behavior. | Unplanned |
+| [05 - End-to-End System Evaluation](05%20-%20END-TO-END%20SYSTEM%20EVALUATION.md) | Evaluate the frozen recorded-audio system in foreground/background conditions, preserving predictions, warning observations, timing and failures. | Planned |
 | 06 - Final Results and Limitations Report | Assemble the methods, experimental results, system measurements, and limitations into the final report. | Unplanned |
 
 ## How to follow the plans
