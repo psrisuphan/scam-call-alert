@@ -98,7 +98,9 @@ Preserve all results in supporting evidence; main/backup selection is presentati
 - Separate foreground/background results, failures and unknown observations.
 - Notification posting is not exact visible-banner latency. Human observations are visible/not visible/uncertain.
 - Live microphone demos contribute no formal accuracy/latency scores.
-- Retain paired reference diagnostic limitations, including completed-utterance omissions and differing segment boundaries.
+- Full-conversation STT/reference diagnostics are separate from selected incremental-context outcomes and warning timing; do not claim they isolate incremental transcription impact. Utterance alignment is not required.
+- Report class-specific marked-training truncation exposure, distinguishing affected-record rates/token loss from measured prediction harm.
+- Context-comparison scores use training-derived conversations and are development evidence, not unseen generalization. First-pass context screening has one run per approach/conversation; separately identify any targeted repeats and the limited stability evidence. Formal context runs are foreground; final evaluation conditions remain separately identified.
 
 ## 6. Include traceable examples
 
@@ -110,7 +112,7 @@ Keep originals unchanged. Redact personal details only in labeled presentation c
 
 Primary demonstration uses prerecorded mode: introduce simulation, Answer, show playback/live transcript/classification, background app, show real notification if triggered, and explain model output/limitations. Rehearse documented audio/build/settings. Do not force a scripted warning or guarantee one independently of model output.
 
-Optional live microphone demonstration is experimental/functional if time permits, not quantitative evaluation. Reserved final recordings stay out of rehearsals until final evaluation completes. Demo provenance and rehearsal use are recorded.
+Implement/verify the recorded pipeline first, then the mandatory live microphone mode. Demonstrate both verified modes within the flexible demo budget: prerecorded mode is the primary reproducible example, followed by a brief live microphone example. Microphone results are experimental/functional, not quantitative evaluation; do not claim a working microphone feature without its checks. Rehearse a shorter prerecorded example rather than omit the mandatory microphone demonstration. Reserved final recordings stay out of rehearsals until final evaluation completes. Demo provenance and rehearsal use are recorded.
 
 Prepare a recording of the verified prototype, clearly labeled as recorded demonstration evidence with audio/build/configuration identities. On live failure, explain it and use the fallback; never portray fallback as live operation or replace evaluation results with it.
 
@@ -158,7 +160,7 @@ Store working outputs under project-root `06 - REPORT/`, distinct from `01 - PLA
 | `slides/` | Editable final PowerPoint and matching PDF, main/backup sections. |
 | `figures/` | Exported evidence-derived visuals and reproducible generation instructions/code. |
 | `references.md` | Verified numbered bibliography. |
-| `demo_guide.md` | Primary flow, optional microphone, assumptions and fallback. |
+| `demo_guide.md` | Primary recorded flow, mandatory microphone demonstration, assumptions and fallback. |
 | `submission/` | Cloud-ready package following section 8. |
 | `submission_manifest.json` | Reviewed final file versions/checksums, artifact links and delivery export relationships. |
 | `rehearsal_and_access_checks.md` | Timing, visual checks, live/fallback readiness and professor access. |
