@@ -4,7 +4,7 @@
 
 Build a React Native application with Expo on an Android emulator, connecting progressive audio input, speech recognition, the frozen Scam classifier, live transcripts and real system notification banners.
 
-Support live microphone mode through the emulator and recorded conversation mode simulating a call with prepared audio. Compare three text-context approaches on development recordings, obtain owner confirmation of the selected approach, and freeze the integration for Plan 05.
+Build and verify recorded conversation mode first, including progressive playback, live transcript and background warnings. Implement and verify live microphone mode afterward as a mandatory experimental demo feature. Both modes must work in the frozen application; deadline prioritization does not make microphone mode optional. Compare three text-context approaches on development recordings, obtain owner confirmation of the selected approach, and freeze the integration for Plan 05.
 
 This plan owns application integration and development comparison. Classifier training/tuning, STT selection and final system evaluation belong to their respective plans. The classifier's marked training provenance remains unchanged; app inputs are chronological role-free text.
 
@@ -45,7 +45,8 @@ Assign a distinct session ID per attempt/replay. Reset transcript, context, pred
 ## 4. Pause, complete and cancel
 
 - Pause stops playback progression and new audio delivery; processing already underway may finish.
-- Natural recording completion drains pending analysis with Finishing analysis displayed; permit and record warnings arriving after playback ends.
+- Natural recording completion enters a finishing state: flush the remaining unprocessed audio tail, including a short final window with only the required already-available overlap. Do not decode an overlap-only window when no new audio remains. Reconcile its output, close any final short text segment containing new recognized speech, and process the latest eligible pending context after recognition settles. If that exact eligible context/version has already been classified, do not manufacture another prediction. Preserve revision-only behavior: no new latest-segment prediction without new speech; recent/accumulated may use changed eligible context. Wait for required accepted requests to finish, then record completion. Permit and record after-playback warnings.
+- Configure an owner-confirmed completion timeout from development evidence, recorded with other timeouts; on expiry preserve unfinished work and mark interruption/failure, never successful Not Scam. Missing audio ranges or unfinished required work prevent complete-run status. Explicit Stop bypasses this drain and remains cancellation.
 - Explicit End/Stop stops input, cancels pending work where possible and rejects later responses/alerts. Replay starts a new session.
 
 ## 5. Supply progressive audio and bounded STT windows
@@ -83,7 +84,7 @@ Request notification permission, configure the warning channel and verify actual
 
 One classification request runs at a time. If updates arrive during it, next classify the latest eligible version instead of queuing every intermediate version. Record skipped update IDs, delays and exact inputs.
 
-Construct text segments at approved update boundaries independently of request skipping; skipped requests must not alter segmentation. Confirm update interval, maximum queued-audio duration, timeouts, retry limits and delay indicator from development evidence before experiments.
+Construct text segments at approved update boundaries independently of request skipping; skipped requests must not alter segmentation. Boundaries with no genuinely new recognized speech are logged but do not create empty segments that evict recent context. Revision-only updates modify existing segments and follow section 10. Paused playback adds no future audio or synthetic text segments. Confirm update interval, maximum queued-audio duration, request/completion timeouts, retry limits and delay indicator from development evidence before experiments.
 
 At the queue limit, pause recorded playback until processing catches up; stop microphone mode with Analysis cannot keep up. Never silently discard audio. Automatic pauses/interrupted runs are not uninterrupted normal-speed evidence; preserve their counts and conditions.
 
@@ -98,13 +99,21 @@ Select before app experiments using saved assignments, class-balanced sampling, 
 
 Preserve selection order, exclusions and replacements. Insufficient eligible membership needs review. Never replace recordings because predictions are poor. Human/AI recordings are allowed; record underlying IDs, recording method, applicable generation settings, checksums and duration. Describe source/recording coverage and synthetic conditions; class balance and small sample size limit generalization.
 
+### Recording scripts and fidelity
+
+Construct each recording script using Plan 02's approved whole-conversation role-free source rendering before checkpoint-specific preparation, tokenization or truncation. Record only spoken dialogue in original order; source Caller/Receiver/Scammer/Victim prefixes, target labels, sample/source IDs, categories and commentary are not spoken. Preserve legitimate spoken names or role-like words. Do not generate audio from decoded token exports or inject checkpoint space-marker characters into speech.
+
+Use the shared source parser/rendering component rather than independently interpreting prefixes. Preserve script/configuration identity, source ID, full untruncated spoken content and checksums. Speaker instructions or voice assignment may exist separately for recording, but must not enter audio or classifier text. Human/TTS generation must not invent/paraphrase dialogue or encode target labels through added introductions. Record a stable recording procedure across classes/partitions and disclose differing recording conditions.
+
+Verify actual speech against the script before freezing recordings. Missing/altered spoken content or unresolved structural roles require evidence and owner disposition, not automatic inherited-label approval or replacement based on predictions. Final-recording fidelity checks may use their source/reference content for preparation, never model outputs for tuning. Reference copies describe actual speech; they do not repair audio sent to STT.
+
 ### Workload checkpoint
 
-Estimate duration and projected workload before generation, then verify against completed audio. If impractical, present evidence for owner approval before changing counts, repetitions or conversation content; do not silently shorten recordings.
+Estimate duration and projected workload before generation, then verify against completed audio. Feed the measured durations, generation/reference-verification effort, playback repetitions and post-playback processing into the combined feasibility estimate owned by Model Selection. If impractical, present evidence for owner approval before changing counts, repetitions or conversation content; do not silently shorten recordings.
 
 ### Reference preparation
 
-Verify text against actual speech and add utterance start/end times. At a diagnostic cutoff include only utterances completed by that time. This prevents future-reference leakage but omits already-spoken portions of unfinished utterances; differences cannot be attributed solely to STT errors. Word-level alignment is not required and would need separate approval. Utterance timing is not earliest-scam-evidence annotation.
+Verify complete reference transcripts against actual speech. Utterance/word alignment is not required for the deadline-focused scope. Plan 05 performs a separate offline full-conversation STT/reference diagnostic after measured playback, not per-update reference classification. The application still uses only audio already available; removing diagnostic alignment does not authorize future text in live predictions. Preserve any existing alignment as optional evidence without requiring new annotation.
 
 Prepare/check reserved audio for fidelity, without using it for debugging, context selection or rehearsal before final evaluation. Text-test-derived audio is another condition, not an independent dataset. Membership, labels and references must not be revised from prediction results.
 
@@ -128,13 +137,19 @@ Classifier invocation retains unchanged Plan 02 preprocessing and its prefix-tru
 
 ## 11. Compare and select using development evidence
 
-Run each approach three times per development recording: 108 assigned runs. One session/approach at a time; same recordings, normal playback speed, STT configuration and update interval; loaded models, startup separate; fresh recognition/classification; reset state; rotate and record approach order. Preserve every run, including failures/interruptions. STT may vary between repetitions; do not assume identical text.
+Start with one fresh run of each approach per development recording: 12 conversations × 3 approaches = 36 assigned first-pass runs. This is development screening, not evidence of repeated-run stability. If results are ambiguous, failures obscure a comparison, or decoding/runtime variation could change the choice, present first-pass evidence and remaining time budget to the owner before repeating promising approaches. For each nominated approach, repeat all 12 recordings twice more, retaining the first run, for three runs per recording. Nominate approaches and freeze the repeat schedule before extra runs; do not cherry-pick only favorable conversations. At most all three approaches receive these repeats, returning to the former 108-run maximum unless another scope change is approved. Keep the app visible throughout all formal context-comparison runs, so display condition is controlled rather than silently importing Plan 05's 1/2 allocation. One session/approach at a time; same recordings, normal playback speed, STT configuration and update interval; loaded models, startup separate; fresh recognition/classification; reset state; rotate and record approach order. Preserve every run, including failures/interruptions. STT may vary between repetitions; do not assume identical text.
 
-Use the agreed conversation-level outcome, failure and timing conventions from Plan 05 for development summaries, without performing final evaluation. Present Scam F1/Precision/Recall, false warnings, misses, warning coverage/timing, queue/processing delays, resources, individual repetitions and descriptive variation. Preserve mean/sample SD and applicable contributing counts; repetitions are not independent conversations. Do not label every early segment from its whole-conversation label or assign zero time to undetected events.
+Use the agreed conversation-level outcome, failure and timing conventions from Plan 05 for development summaries, without performing final evaluation. Present Scam F1/Precision/Recall, false warnings, misses, warning coverage/timing, queue/processing delays, resources and failures. Keep the comparable one-run first-pass table for all three approaches separate from any repeated-approach table; do not compare their pooled run counts as equal-strength evidence. First-pass timing SD is across contributing conversations, not within-conversation repetition SD. Retain all extra runs, sample SD where defined and observation counts; repetitions are not independent conversations. A single-pass choice has greater uncertainty and can select a worse context policy; do not promise unchanged performance. Use development-only repeats/owner review when that risk matters within the available budget. Do not label every early segment from its whole-conversation label or assign zero time to undetected events.
 
 Preserve coherent monotonic timing and distinguish audio position from elapsed time, local component duration, classifier completion, client receipt, notification posting and observed warning display. Do not subtract unsynchronized computer/emulator clocks. Identify foreground in-app versus background system-warning conditions; unavailable observations stay unavailable.
 
-Owner selects the approach from measured tradeoffs; record rationale and freeze settings before Plan 05. Unscripted microphone demos are functional evidence unless separately approved for quantitative evaluation. Final audio cannot guide selection.
+These recordings are training-derived and may have been seen by the final classifier. Their scores support development policy selection, not unseen generalization or universal superiority of one context. Keep this limitation in the comparison report and final presentation. No new holdout or training experiment is introduced.
+
+Owner selects the approach from measured tradeoffs; record rationale. Verify the selected approach in background mode on development audio, including continuous analysis and actual notification permission/channel behavior, before freezing the final integration. Use the background-start sequence defined below and exercise natural completion/short-tail drain and overload/failure handling. These are additional functional acceptance checks, not an expanded quantitative comparison or permission to tune from final audio. If checks require settings/approach changes, obtain approval and rerun affected development evidence before freezing.
+
+For background evaluation, initialize session/services while visible with recorded audio held at position zero. After confirming the app is backgrounded and the native services remain active, release playback/audio delivery and start the timing origin. Abort/log failure if this sequence cannot be established; do not analyze a foreground audio prefix and call it a background run. Preserve normal Answer-to-play behavior for the interactive foreground demo; the evaluation harness records its different staged start.
+
+Freeze the selected approach/settings and background compatibility before Plan 05. Unscripted microphone demos are functional evidence unless separately approved for quantitative evaluation. Final audio cannot guide selection.
 
 ## 12. Handle failures and retries
 
@@ -155,7 +170,7 @@ Store implementation/instructions under `04 - APPLICATION DEVELOPMENT/prototype/
 | `interface_contract.md` | Audio updates, revisions, sessions, cancellation and errors. |
 | `integration_config.json` | Frozen versions, endpoint, timing/context settings, queue limits and notification rules. |
 | `audio_manifest.csv` | Recording membership, source/group IDs, provenance, checksums and partitions. |
-| Timed reference artifacts | Verified speech content and utterance alignment. |
+| Verified reference transcripts | Complete actual spoken content for offline full-conversation diagnostics; timing alignment optional. |
 | Application/service code | Runnable two-mode application and adapters; filenames flexible. |
 | `integration_checks.md` | Functional checks, results, corrections and limitations. |
 | `context_comparison_report.md` | Approach comparison and owner selection rationale. |
@@ -171,13 +186,15 @@ Live mic sessions are not permanently saved by default. Provide an explicit Save
 
 Verify both modes for no future-input leakage; foreground/background capture, communication and analysis; transcripts/reconciliation; classifier/display agreement; permission and real notification behavior; pause/completion/cancellation/replay; queues, disconnections/retries/failures; session isolation; and required evidence/reproducible launch.
 
-Complete when compatibility checks pass, runtime settings/identities are recoverable, owner selects the context approach and the frozen application/reserved recording package are ready for Plan 05. This does not establish physical-phone/cellular-call performance or proven prevention.
+Complete when compatibility checks pass, recording scripts exclude structural metadata and preserve verified spoken content, short-tail/final-update completion is verified, runtime settings/identities are recoverable, owner selects the context approach, selected-background checks pass and the frozen application/reserved recording package are ready for Plan 05. This does not establish physical-phone/cellular-call performance or proven prevention.
 
-Before affected final-system evaluation, review Plan 05 in workflow order for consistency with this plan's text segments/revisions, conservative references and system-notification outcomes. The owner requested that Plan 05 be reviewed afterward; this plan does not silently amend or override its measurement requirements. Resolve and record approved downstream updates before affected execution.
+Develop recorded mode first, then complete mandatory microphone capture/transcript/classification/notification and background functional checks. Freeze the final application build after both modes pass their checks, including recorded-mode regression checks after microphone integration. Only then release the application to Plan 05. Final quantitative evaluation still uses recorded mode exclusively; microphone mode has functional/demo evidence, not accuracy or latency scores.
+
+Before affected final-system evaluation, review Plan 05 in workflow order for consistency with this plan's text segments/revisions, full-conversation offline diagnostics and system-notification outcomes. The owner requested that Plan 05 be reviewed afterward; this plan does not silently amend or override its measurement requirements. Resolve and record approved downstream updates before affected execution.
 
 ## Implementation confirmation checkpoints
 
-Actual host/backend; pinned app/runtime versions; STT window/overlap and reconciliation; segment/revision boundaries; update interval; recent-context count; newest-text overflow boundaries; queue limits; timeouts/retries; and measurement availability require documented development evidence and owner confirmation before affected experiments. Do not invent defaults or derive settings from final audio. Actual runtime fit and uninterrupted operation must be demonstrated, not presumed from approval.
+Actual host/backend; pinned app/runtime versions; STT window/overlap and reconciliation; segment/revision boundaries; end-of-stream flush and completion timeout; staged background-start compatibility; update interval; recent-context count; newest-text overflow boundaries; queue limits; request timeouts/retries; and measurement availability require documented development evidence and owner confirmation before affected experiments. Do not invent defaults or derive settings from final audio. Actual runtime fit and uninterrupted operation must be demonstrated, not presumed from approval.
 
 ## References and rationale
 
