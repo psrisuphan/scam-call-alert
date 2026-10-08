@@ -22,7 +22,7 @@ Each plan explains what to do, how to do it, why the methods were selected, the 
 
 ## Directory structure
 
-The structure below contains the approved plans. Runtime-dependent confirmation checkpoints remain in their owning plans and must be resolved before affected execution. A Planned task is not implemented; planning approval alone does not authorize implementation.
+The structure below contains the approved plans and an optional high-level outline. Runtime-dependent confirmation checkpoints remain in their owning plans and must be resolved before affected execution. A Planned task is not implemented; planning approval alone does not authorize implementation.
 
 ```text
 01 - PLANs/
@@ -34,7 +34,8 @@ The structure below contains the approved plans. Runtime-dependent confirmation 
 │   ├── 00 - MODEL TRAINING.md
 │   ├── 01 - HYPERPARAMETER TUNING AND MODEL SELECTION.md
 │   ├── 02 - FINAL MODEL EVALUATION AND ERROR ANALYSIS.md
-│   └── 03 - MODEL FREEZE AND APP HANDOFF.md
+│   ├── 03 - MODEL FREEZE AND APP HANDOFF.md
+│   └── 04 - OPTIONAL LLM DATA AUGMENTATION.md
 ├── 04 - APPLICATION DEVELOPMENT/
 │   ├── 00 - SPEECH-TO-TEXT EVALUATION.md
 │   └── 01 - MOBILE EMULATOR PROTOTYPE AND INTEGRATION.md
@@ -62,6 +63,7 @@ Update a task when its plan is saved or its implementation is completed. A writt
 | [03/01 - Hyperparameter Tuning and Model Selection](03%20-%20MODEL%20DEVELOPMENT/01%20-%20HYPERPARAMETER%20TUNING%20AND%20MODEL%20SELECTION.md) | Define how to search configurations and select the model using validation results. | Planned |
 | [03/02 - Final Model Evaluation and Error Analysis](03%20-%20MODEL%20DEVELOPMENT/02%20-%20FINAL%20MODEL%20EVALUATION%20AND%20ERROR%20ANALYSIS.md) | Evaluate the selected model on held-out data and examine its errors. | Planned |
 | [03/03 - Model Freeze and App Handoff](03%20-%20MODEL%20DEVELOPMENT/03%20-%20MODEL%20FREEZE%20AND%20APP%20HANDOFF.md) | Prepare the model and supporting artifacts for application integration. | Planned |
+| [03/04 - Optional LLM Data Augmentation](03%20-%20MODEL%20DEVELOPMENT/04%20-%20OPTIONAL%20LLM%20DATA%20AUGMENTATION.md) | Reserve an optional development branch if original-data CV results are unsatisfactory; finalize its detailed protocol only if needed. | Unplanned |
 | [04/00 - Speech-to-Text Evaluation](04%20-%20APPLICATION%20DEVELOPMENT/00%20-%20SPEECH-TO-TEXT%20EVALUATION.md) | Define how to evaluate Thai transcription from prepared audio. | Planned |
 | [04/01 - Mobile Emulator Prototype and Integration](04%20-%20APPLICATION%20DEVELOPMENT/01%20-%20MOBILE%20EMULATOR%20PROTOTYPE%20AND%20INTEGRATION.md) | Integrate microphone/recorded audio, live transcripts and system warnings; compare and freeze the context approach. | Planned |
 | [05 - End-to-End System Evaluation](05%20-%20END-TO-END%20SYSTEM%20EVALUATION.md) | Evaluate the frozen recorded-audio system in foreground/background conditions, preserving predictions, warning observations, timing and failures. | Planned |
@@ -76,6 +78,8 @@ The main sequence is:
 **Data preparation → splitting and experiment design → preprocessing → model development → application integration → end-to-end evaluation → final reporting.**
 
 Training and tuning are iterative. Application integration depends on both the model handoff and the speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work. Forward references to later approved protocols supply method definitions, not a requirement to execute final evaluation before development.
+
+Optional Plan 03/04 has an owner-confirmed high-level outline, but remains **Unplanned** because its implementation protocol is not finalized. Consider activation after original-data CV review and before final-test access, regardless of filename numbering. It may remain unused. Existing no-augmentation instructions remain effective until the detailed protocol and affected changes receive owner approval.
 
 ### Implementation entry and release gates
 
