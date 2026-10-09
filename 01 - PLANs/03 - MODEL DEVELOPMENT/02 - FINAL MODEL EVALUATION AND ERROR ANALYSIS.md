@@ -43,7 +43,7 @@ Resolve any incomplete configuration before accessing test records. Do not inven
 |---|---|
 | `README.md` | Explain files, reproducible evaluation, and evidence locations. |
 | `evaluation_protocol.md` | Record the frozen pipeline, dataset identities, metric rules, failure handling, and execution conditions. |
-| `final_training/` | Preserve the final training configuration, environment, history, recovery state, and final weights. |
+| `final_training/` | Preserve the final training configuration, environment, per-epoch history, per-update progress logs, final weights, and any failed/interrupted-attempt evidence. |
 | `test_predictions.csv` | Account for every assigned test sample, including successful predictions and failures. |
 | `metrics.json` | Store combined/source-specific metrics, counts, denominator rules, and completion rate. |
 | `error_analysis.csv` | Preserve every false positive and false negative with traceable evidence and review notes. |
@@ -84,11 +84,11 @@ No final-test confidence intervals are required. Preserve CV mean ± sample SD s
 4. Fit any approved data-derived transformation only on that eligible training pool.
 5. Record and freeze its fitted state before test inference.
 6. Train for the duration selected through CV, using the frozen settings.
-7. Preserve the final weights, configuration, history, and recovery evidence.
+7. Preserve the final weights, configuration, per-epoch history, per-update progress logs, and any failed/interrupted-attempt evidence. If final training is interrupted or fails before completion, preserve that attempt and rerun the full fit from the original pretrained checkpoint with fresh state and a new run ID, following Plan 03/00; do not resume the interrupted fit.
 
 Resolve final-run warmup steps from the approved warmup rule and final training membership, not by copying a CV fold's step count. If that rule is insufficiently specified, obtain clarification before training; do not select a new schedule from test results.
 
-Reuse the existing batching, precision, loss, optimizer, and recovery procedures.
+Reuse the existing batching, precision, loss, optimizer, and interruption-handling procedures. A planned epoch extension is not part of this frozen final-training run.
 
 The reusable training component must support an explicit final-training mode without a validation set. There is **no validation-based checkpoint selection in this final run**. Mark validation fields unavailable; do not fabricate validation predictions or metrics. Use the completed selected duration's weights.
 
@@ -172,7 +172,7 @@ Retain and reference:
 - Per-epoch losses, metrics, and predictions.
 - Initial-versus-tuned comparisons.
 - Model/data comparisons, paired marked/role-free validation and the five-run caller-only comparison. Preserve superseded experiments separately with old input identities clearly identified.
-- Configurations, timing, failures, interruptions, and recovery records.
+- Configurations, per-epoch history, per-update progress logs, timing/resources, failures, interruptions, fresh-rerun records, and reasons.
 - Final training history and final-test evidence.
 
 Decide main-report versus appendix inclusion later. Do not discard useful evidence merely because it is absent from the current report.
