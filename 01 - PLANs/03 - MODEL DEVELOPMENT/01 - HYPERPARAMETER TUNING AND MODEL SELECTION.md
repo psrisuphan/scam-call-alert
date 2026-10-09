@@ -2,9 +2,9 @@
 
 ## Purpose and scope
 
-Compare the four approved transformer candidates, tune learning rate and training duration, and select the final model and training-data condition using cross-validation evidence. Main training uses marked whole conversations; app selection uses role-free whole-conversation validation. Paired marked validation is diagnostic, and caller-only is a limited additional experiment.
+Compare the four approved transformer candidates, tune learning rate and training duration, and select the final model and training-data condition using cross-validation evidence. The immediate experiment is a WangchanBERTa full-context pilot comparing max and mean chunk-logit pooling. Main training uses marked whole conversations; app selection uses role-free whole-conversation validation, with paired marked validation as a diagnostic. The other three candidates follow after the WangchanBERTa results and a candidate-specific length/input review.
 
-This task owns initial-versus-tuned comparisons, primary-only versus primary + supplemental training comparisons, configuration ranking, final candidate selection, marker-removal diagnostics and the limited caller-only comparison.
+This task owns initial-versus-tuned comparisons, primary-only versus primary + supplemental training comparisons, configuration ranking, final candidate selection, and marker-removal diagnostics. The five caller-only training comparisons were dropped on 2026-10-10 because of the remaining project time; Plan 02 and its caller-only preparation instructions/artifacts remain unchanged. Record this implementation-time scope reduction in the training report and this protocol.
 
 Reuse the existing training and input-preparation components. Do not redefine dataset membership, label mapping, tokenization, loss, or optimizer family. Final retraining and text-test evaluation belong to the next plan. Packaging, STT selection, application integration, and final system measurements remain separate.
 
@@ -17,15 +17,12 @@ Use:
 - [Model Training](00%20-%20MODEL%20TRAINING.md)'s reusable training component, diagnostic report, and run artifacts.
 - The four approved checkpoints with pinned revisions.
 
-Before comparative experiments:
+Before comparative experiments, proceed in two approved stages:
 
-1. Verify preceding completion checks.
-2. Resolve source-role parsing, marker-condition and input-length checkpoints.
-3. Verify each candidate's execution, memory, runtime, output-integrity, and persistent-storage requirements.
-4. Obtain approval of the exact warmup amount and finite maximum epoch budget.
-5. Record the complete experiment protocol.
+1. For the WangchanBERTa slice, verify preceding completion checks and its source-role parsing, marker-condition, full-context windowing, execution, memory, runtime, output-integrity, and persistent-storage evidence. Obtain owner approval for the slice's exact warmup amount, finite maximum epoch budget, slice-specific time/storage budget, and launch authorization. Record these in `experiment_protocol.md`; these approvals authorize only the WangchanBERTa configurations described below, across five folds.
+2. After the WangchanBERTa slice is complete and its preliminary results are reviewed, inspect the other three candidates' training-only length evidence and input compatibility. Define and approve their input strategy before their comparisons; do not assume WangchanBERTa's window size or pooling rule applies to them. Then complete their diagnostics and obtain owner approval of the remaining-comparison persistent capacity, combined time/storage feasibility, and launch authorization. Record the agreed scope and evidence in `experiment_protocol.md` before those runs.
 
-**Do not load the final test set during this task.**
+Neither stage authorizes changing the approved search grid or methods. WangchanBERTa-only results are preliminary and cannot select or freeze the final model. **Do not load the final test set during this task.**
 
 ## 2. Outputs and their purposes
 
@@ -58,40 +55,43 @@ Generated sample-level evidence and model artifacts remain outside Git in docume
 
 ### Required traceability
 
-The experiment manifest identifies experiment ID, run ID, configuration ID, checkpoint/revision, training-data condition, training representation/marker condition, validation representation/marker condition, fold, training seed, experiment purpose (initial reference or search), execution state, artifact location, and failure reason.
+The experiment manifest identifies experiment ID, run ID, configuration ID, checkpoint/revision, training-data condition, training representation/marker condition, validation representation/marker condition, input/windowing policy, maximum content tokens, overlap, pooling method where applicable, fold, training seed, experiment purpose (initial reference or search), execution state, artifact location, and failure reason.
 
-CV results identify configuration, data condition, training representation/marker condition, validation representation/marker condition, fold, epoch, evaluated subset, sample/class counts, metric values, undefined-metric flags, and timing. Aggregate rows must be distinguishable from individual-fold rows.
+CV results identify configuration, data condition, training representation/marker condition, validation representation/marker condition, input/windowing policy, pooling method where applicable, per-conversation chunk counts, fold, epoch, evaluated subset, sample/class counts, metric values, undefined-metric flags, and timing. Aggregate rows must be distinguishable from individual-fold rows.
 
 ## 3. Experiment scope and budget
 
-### Main comparison
+### Main comparison and staged execution
 
-Train all four candidates with marked whole-conversation input; evaluate the same epoch weights with and without markers. Use both approved training-data conditions, three learning-rate candidates, the same five saved validation folds, and training seed **67**.
+The eventual cross-candidate comparison retains the four approved models, both training-data conditions, three learning-rate candidates, five saved validation folds, seed **67**, and matched marked/role-free validation. The immediate WangchanBERTa pilot adds two full-context aggregation variants: class-wise max pooling and class-wise mean pooling. Both train on role-marked whole conversations and validate on the same role-marked/role-free records. This isolates the pooling choice while preserving the agreed data and fold conditions.
 
-The main matrix contains:
+The immediate WangchanBERTa matrix is:
 
 ```text
-4 models × 2 data conditions × 3 learning rates × 5 folds
-= 120 independent training runs
+2 pooling methods × 2 data conditions × 3 learning rates × 5 folds
+= 60 independent training runs
 ```
 
-Epoch extensions continue these runs from their matching saved state; they are not separate learning-rate configurations. Reuse the matching initial-reference results from this matrix instead of repeating identical runs.
+Execute it in this order:
+
+1. Run the WangchanBERTa slice first. Before launch, satisfy its feasibility, slice budget, exact warmup and finite epoch-budget approvals, persistent-storage checks, and owner launch authorization. This slice-specific approval does not establish whole-project feasibility.
+2. Review and report the WangchanBERTa results as preliminary evidence. They cannot freeze/select a candidate, alter settings, or establish cross-model superiority.
+3. Review the remaining candidates' length evidence and agree their input policies, then complete their diagnostics and a combined feasibility/persistent-capacity review for the approved remaining comparison. Only then run it. The number of later runs depends on the owner-approved candidate-specific input protocols and is not fixed by this WangchanBERTa pilot.
+4. Review the reconciled cross-candidate evidence for final model selection. Selection remains a human-reviewed decision after all approved candidate comparisons are complete.
+
+Within the WangchanBERTa pilot, both pooling variants use the same approved grid, training procedure, epoch opportunities, data conditions, and common-fold rules. Each pooling/data-condition/learning-rate combination is an independent configuration, initialized from the original pinned checkpoint. Epoch extensions continue the matching run from its verified saved state; they are not separate configurations. Later models require their own reviewed input identity and run matrix before execution.
 
 ### Representation boundary
 
-Main selection uses role-free whole-conversation results. Marked validation is diagnostic only. After human approval of the main candidate/configuration, perform five fresh caller-only marked-training runs using that model, data condition, settings, duration, seed and saved folds. Evaluate caller-only validation with/without markers; compare against corresponding selected whole-conversation fold/epoch results. Do not separately tune or choose epochs for caller-only and do not reopen app candidate selection from its results.
+Main selection uses role-free whole-conversation results. Marked validation is diagnostic only. Caller-only training is not part of the current model-development experiments because the owner dropped its five-run comparison to preserve time; leave Plan 02's prepared caller-only data unchanged. Paired marker validation adds inference/storage cost, not duplicated training. Include it in budget diagnostics.
 
-There are 125 planned comparative training runs (120 main + 5 caller-only), excluding diagnostics/final retraining. Paired validation adds inference/storage cost, not duplicated training. Include it in budget diagnostics.
+### Staged budget approvals
 
-### Budget checkpoint
+Measure runtime and storage during diagnostics. Before the WangchanBERTa slice, obtain owner approval for its finite maximum epoch budget, exact comparative warmup rule, persistent capacity for the 12 WangchanBERTa configurations and expected fresh reruns, and a slice-specific runtime/storage estimate. This estimate covers 60 fits, both validation marker conditions, per-conversation chunk metadata, epoch snapshots and approved extensions. It is a bounded slice budget only; do not describe it as whole-project feasibility.
 
-Measure runtime and storage during diagnostics. Before the full comparison, obtain owner approval of a finite maximum epoch budget that accounts for Colab availability and the deadline.
+Give all WangchanBERTa configurations comparable epoch opportunities under the approved budget. Before the remaining candidate experiments, complete their input-policy review and diagnostics, then obtain owner approval of persistent capacity and a combined time/storage estimate in `experiment_protocol.md`. That estimate must include the approved candidate-specific run counts, both validation marker conditions, epoch extensions, selected-weight and approved epoch-end-state retention, likely fresh reruns after interruption/failure, final retraining/evaluation, downloads/checkpoint transfer/restarts, local inference/STT compatibility, recording/reference preparation, 36 first-pass development playback runs plus any owner-approved targeted repeats (up to the former 108-run maximum), 36 final runs, offline diagnostics, integration and submission/rehearsal time. Clearly mark later-work estimates; do not assume uninterrupted Colab access or demonstrated simultaneous compute. Revisit the same estimate at recording-duration and application-runtime checkpoints without using final scores to adjust scope.
 
-Give configurations comparable epoch opportunities within that budget. Retain all approved comparisons: 120 main model/learning-rate/data-condition/CV fits and five caller-only fits, 125 total. Deadline pressure alone does not authorize omitting candidates, data conditions, learning rates, folds or the caller-only comparison. If measured diagnostics show the full matrix cannot fit, present runtime/storage evidence, a reduced alternative and its risk of missing a better-tuned candidate for owner approval before scope changes. Preserve comparable comparisons and disclose any approved reduction.
-
-### Combined feasibility gate
-
-A finite epoch limit alone does not establish whole-project feasibility. Before the full matrix, record an owner-reviewed combined time/storage estimate in `experiment_protocol.md`, using diagnostic evidence and clearly marked estimates for later work. Include 125 comparative fits, both validation marker conditions, epoch extensions, selected-weight and approved epoch-end-state retention, likely fresh reruns after interruption/failure, final retraining/evaluation, downloads/checkpoint transfer/restarts, local inference/STT compatibility, recording/reference preparation, 36 first-pass development playback runs plus any owner-approved targeted repeats (up to the former 108-run maximum), 36 final runs, offline diagnostics, integration and submission/rehearsal time. Do not assume uninterrupted Colab access or simultaneous compute that has not been demonstrated. Revisit the same estimate at recording-duration and application-runtime checkpoints without using final scores to adjust scope.
+Retain the approved 60-fit WangchanBERTa comparison. Caller-only fits are excluded by the owner-approved scope reduction. The remaining three model comparisons are deferred, not cancelled; their input handling, run count, and feasibility must be reviewed before launch. Do not further reduce the WangchanBERTa comparison or later approved candidates, data conditions, learning rates, folds, or pooling methods without owner approval. If diagnostics show an approved stage cannot fit, present runtime/storage evidence, alternatives, and their risks for owner review before changing scope.
 
 For development recordings with duration sum D_dev and final recordings D_test, first-pass normal-speed playback alone is 3 × D_dev + 3 × D_test; repeating m nominated context approaches twice on every development recording adds 2 × m × D_dev (m = 1, 2 or 3); preparation, processing after playback, pauses, repeats and setup are additional. Record actual persistent capacity and checkpoint-write/retrieval overhead alongside compute time. Reserve time for application and presentation work before approving the matrix. Owners approve a documented scope/resource change if estimates do not fit; agents must not reduce runs/candidates/folds automatically.
 
@@ -126,7 +126,7 @@ Memory-driven microbatch and accumulation adjustments must preserve effective ba
 
 ### Warmup checkpoint
 
-Confirm the exact warmup amount during diagnostics, before comparative experiments. Define its optimizer-update steps from the initial three-epoch duration for each eligible training subset.
+Confirm and obtain owner approval of the exact comparative warmup rule during WangchanBERTa-specific diagnostics, before the 60-fit slice. Define its optimizer-update steps from the initial three-epoch duration for each eligible training subset. Check the other candidates' compatibility during their later diagnostics; any model-specific adjustment requires owner approval before that candidate's fits and must preserve comparable opportunities.
 
 Keep those warmup steps unchanged when extending the corresponding run. After warmup, retain its selected learning rate.
 
@@ -174,7 +174,7 @@ Compare each configuration at a **common epoch across all five folds**.
 
 ### Duration selection
 
-For each model/data-condition/learning-rate configuration:
+For each model/data-condition/learning-rate/input-pooling configuration:
 
 1. Select the epoch with the highest mean role-free whole-conversation validation Scam F1.
 2. If means tie exactly, select the earlier epoch.
@@ -183,7 +183,7 @@ Do not combine individually selected best epochs from different folds into a com
 
 ### Configuration selection
 
-Within each model and data condition, rank configurations by:
+Within each model and data condition, rank each input-pooling configuration by:
 
 1. Highest mean role-free whole-conversation validation Scam F1.
 2. Lower fold SD when means tie exactly.
@@ -191,6 +191,8 @@ Within each model and data condition, rank configurations by:
 4. Lower learning rate if still tied.
 
 Use unrounded values for tie detection. The last rule is a reproducibility convention, not an optimality claim.
+
+For the WangchanBERTa pilot, compare max-pooling and mean-pooling configurations on matched folds, data conditions, learning rates, and common epochs. Report each method's Scam F1 mean, sample SD, fold scores, supporting metrics, runtime, and results stratified by conversation chunk count. Treat both methods as separate configurations; do not assume either is preferable or pool their results together. Carry the better-supported method into any later WangchanBERTa setting comparison only through the same validation-based selection rules and owner review.
 
 Keep all results, including non-improvements. CV used for tuning and epoch selection is selection evidence, not an unbiased final performance estimate.
 
@@ -224,11 +226,11 @@ Report both matching-setting comparisons, showing the effect of adding supplemen
 
 For matching weights/fold/epoch/population, report marked versus role-free metrics and paired fold differences (role-free minus marked), with mean/sample SD and token-length/truncation exposure. Remove markers before tokenization/truncation. Do not claim this establishes superiority of marked training; changes may include differences in retained content.
 
-For the five caller-only runs, reuse the selected duration and training procedure (including approved warmup conversion for their unchanged conversation membership), with fresh state per fold. Compare marked whole versus marked caller and role-free whole versus role-free caller separately, using corresponding folds and epoch. Preserve all source-specific metrics, histories, lengths, runtime and failures. Source role information is privileged; caller-only cannot replace the app input policy.
+For the WangchanBERTa pooling comparison, compare max and mean using matched fold, data condition, learning rate, epoch, marker condition, and validation membership. Report paired fold differences in Scam F1, mean/sample SD, supporting metrics, training/inference runtime, and chunk-count-stratified behavior. Retain all results, including non-improvements. Do not describe pooling differences as a cross-model comparison or as evidence that one strategy is universally better.
 
 ## 9. Final candidate selection and threshold
 
-Review all candidate results using mean validation Scam F1, fold SD and individual scores, source-specific behavior, training cost and development inference latency, and practical input requirements.
+Review all candidate results using mean validation Scam F1, fold SD and individual scores, source-specific behavior, training cost and development inference latency, and practical input requirements. Include the WangchanBERTa max-versus-mean evidence as an input-method comparison; do not let the WangchanBERTa pilot alone select the final candidate.
 
 **Final candidate selection requires human review and a written rationale.**
 
@@ -256,7 +258,7 @@ Complete when:
 - Results, per-epoch histories, failures/interruption reasons, fresh reruns, planned extensions, and report evidence are traceable.
 - The final candidate and representation have been reviewed and approved.
 - Selected settings and threshold are frozen without final-test access.
-- The comparison report explains tradeoffs and limitations, including both validation marker conditions and the five-run caller-only comparison.
+- The comparison report explains tradeoffs and limitations, including both validation marker conditions and, for the WangchanBERTa pilot, the max-versus-mean pooling comparison and chunk-count-stratified results.
 
 Hand off `selected_config.json` and supporting evidence to [Final Model Evaluation and Error Analysis](02%20-%20FINAL%20MODEL%20EVALUATION%20AND%20ERROR%20ANALYSIS.md).
 
