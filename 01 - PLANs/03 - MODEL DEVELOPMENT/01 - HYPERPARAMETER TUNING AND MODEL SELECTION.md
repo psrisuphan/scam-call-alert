@@ -21,7 +21,7 @@ Before comparative experiments:
 
 1. Verify preceding completion checks.
 2. Resolve source-role parsing, marker-condition and input-length checkpoints.
-3. Verify each candidate's execution, recovery, memory, runtime, and persistent-storage requirements.
+3. Verify each candidate's execution, memory, runtime, output-integrity, and persistent-storage requirements.
 4. Obtain approval of the exact warmup amount and finite maximum epoch budget.
 5. Record the complete experiment protocol.
 
@@ -47,7 +47,7 @@ Store selection artifacts under:
 | `README.md` | Explain the files, run retrieval, comparison procedure, and persistent evidence locations. |
 | `experiment_protocol.md` | Record questions, controls, approved budget, metric definitions, selection rules, checkpoints, and deviations. |
 | `search_space.json` | Record searched values, fixed settings, approved epoch opportunities, and their rationale. |
-| `experiment_manifest.csv` | Map each planned run to its configuration, training artifacts, execution state, and failures. |
+| `experiment_manifest.csv` | Map each planned run to its configuration, training artifacts, execution state, failures, and append-only retry-attempt history. |
 | `cv_results.csv` | Store per-fold, per-epoch metrics and aggregate results for completed comparable configurations. |
 | `comparison_report.md` | Present comparisons, learning curves, variability, computational costs, selection rationale, and limitations. |
 | `selected_config.json` | Freeze the selected model, data condition, training/inference representations and marker conditions, training settings, duration, threshold, and preprocessing policy. |
@@ -91,7 +91,7 @@ Give configurations comparable epoch opportunities within that budget. Retain al
 
 ### Combined feasibility gate
 
-A finite epoch limit alone does not establish whole-project feasibility. Before the full matrix, record an owner-reviewed combined time/storage estimate in `experiment_protocol.md`, using diagnostic evidence and clearly marked estimates for later work. Include 125 comparative fits, both validation marker conditions, epoch extensions, selected-weight/recovery retention, final retraining/evaluation, downloads/checkpoint transfer/restarts, local inference/STT compatibility, recording/reference preparation, 36 first-pass development playback runs plus any owner-approved targeted repeats (up to the former 108-run maximum), 36 final runs, offline diagnostics, integration and submission/rehearsal time. Do not assume uninterrupted Colab access or simultaneous compute that has not been demonstrated. Revisit the same estimate at recording-duration and application-runtime checkpoints without using final scores to adjust scope.
+A finite epoch limit alone does not establish whole-project feasibility. Before the full matrix, record an owner-reviewed combined time/storage estimate in `experiment_protocol.md`, using diagnostic evidence and clearly marked estimates for later work. Include 125 comparative fits, both validation marker conditions, epoch extensions, selected-weight and approved epoch-end-state retention, likely fresh reruns after interruption/failure, final retraining/evaluation, downloads/checkpoint transfer/restarts, local inference/STT compatibility, recording/reference preparation, 36 first-pass development playback runs plus any owner-approved targeted repeats (up to the former 108-run maximum), 36 final runs, offline diagnostics, integration and submission/rehearsal time. Do not assume uninterrupted Colab access or simultaneous compute that has not been demonstrated. Revisit the same estimate at recording-duration and application-runtime checkpoints without using final scores to adjust scope.
 
 For development recordings with duration sum D_dev and final recordings D_test, first-pass normal-speed playback alone is 3 × D_dev + 3 × D_test; repeating m nominated context approaches twice on every development recording adds 2 × m × D_dev (m = 1, 2 or 3); preparation, processing after playback, pauses, repeats and setup are additional. Record actual persistent capacity and checkpoint-write/retrieval overhead alongside compute time. Reserve time for application and presentation work before approving the matrix. Owners approve a documented scope/resource change if estimates do not fit; agents must not reduce runs/candidates/folds automatically.
 
@@ -168,7 +168,7 @@ Scam F1 balances missed scams and false warnings. Macro-F1 provides equal-class 
 
 Start each run with three epochs, then extend by one epoch within the approved budget.
 
-At every epoch, retain training/validation losses, validation metrics and sample-level probabilities, learning rate and optimizer-update progress, runtime, and checkpoint references.
+At every epoch, retain training/validation losses, validation metrics and sample-level probabilities, learning rate and optimizer-update progress, runtime, resources, and checkpoint references. The training component also flushes scalar progress after optimizer updates so a failed or abruptly terminated attempt leaves its latest observed update/loss/resource evidence; these records do not contain restorable model state.
 
 Compare each configuration at a **common epoch across all five folds**.
 
@@ -194,23 +194,17 @@ Use unrounded values for tie detection. The last rule is a reproducibility conve
 
 Keep all results, including non-improvements. CV used for tuning and epoch selection is selection evidence, not an unbiased final performance estimate.
 
-## 7. Recovery and evidence retention
+## 7. Planned epoch extensions and interruption evidence
 
-Follow the Model Training plan's recovery procedure:
+Follow Plan 03/00's owner-approved interruption policy. A fit interrupted or failed before its approved target completes is preserved as an incomplete attempt, including its scalar progress log, partial epoch history, available validation outputs, and failure evidence; rerun the full fit from the original pretrained checkpoint with fresh training state and a new run ID. Keep each failed attempt and reason in the manifest's attempt history; do not resume it or count it as a completed fold. If abrupt runtime loss leaves the attempt marked `running`, inspect and preserve its available progress without inventing a cause.
 
-- Save verified recovery state every epoch.
-- Use within-epoch recovery intervals based on diagnostic runtime.
-- Save to persistent storage.
-- Verify new recovery checkpoints before replacing previous ones.
-- Resume only the same run with matching configuration and input identities.
+An explicitly approved epoch-budget extension after a run has completed its current target may continue from that same run's verified epoch-end state. This is a planned experiment extension, not recovery from a failed/interrupted fit. Preserve configuration and input identity checks and do not recalculate warmup during an extension.
 
-Preserve each epoch's model weights until the configuration's five-fold duration selection is complete. Afterwards, retain selected weights and necessary recovery state; retain all histories and predictions for reporting.
+Preserve each completed epoch's model weights until the configuration's five-fold duration selection is complete. Afterwards, retain selected weights and any latest completed epoch-end state still required for an already approved extension; retain all histories and predictions for reporting. Model-only selection snapshots support duration selection and are not optimizer-resume state.
 
-Model-only selection snapshots are not complete recovery checkpoints.
+Check storage feasibility during diagnostics for epoch snapshots, any state needed for an approved extension, histories, predictions, and expected rerun overhead. If the retention or persistent-storage rule cannot be supported, obtain approval for a documented alternative.
 
-Check storage feasibility during diagnostics. If the retention rule cannot be supported, obtain approval for a documented alternative.
-
-Record interruptions, failures, repeated work, and environment changes.
+Record interruptions, failures, fresh reruns, planned extensions, and environment changes.
 
 ## 8. Compare tuning and data effects
 
@@ -259,7 +253,7 @@ Complete when:
 
 - Required comparisons are complete or an approved scope change is documented.
 - All five folds and approved epoch opportunities are accounted for.
-- Results, failures, recovery events, and report evidence are traceable.
+- Results, per-epoch histories, failures/interruption reasons, fresh reruns, planned extensions, and report evidence are traceable.
 - The final candidate and representation have been reviewed and approved.
 - Selected settings and threshold are frozen without final-test access.
 - The comparison report explains tradeoffs and limitations, including both validation marker conditions and the five-run caller-only comparison.
