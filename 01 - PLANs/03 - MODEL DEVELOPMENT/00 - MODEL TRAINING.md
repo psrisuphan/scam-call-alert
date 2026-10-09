@@ -4,7 +4,7 @@
 
 Implement a reproducible procedure for fine-tuning the four candidate models using the approved partitions and input-preparation pipeline.
 
-This task covers initialization, classification loss, optimizer, batching, precision, training and validation execution, progress recording, and recovery. Hyperparameter search, experiment comparisons, selection rules, final test evaluation, and application packaging belong to later plans.
+This task covers initialization, classification loss, optimizer, batching, precision, training and validation execution, progress recording, planned epoch extension, and interruption handling. Hyperparameter search, experiment comparisons, selection rules, final test evaluation, and application packaging belong to later plans.
 
 ## 1. Inputs and prerequisites
 
@@ -55,20 +55,32 @@ Do not load the final test set in this task.
             ├── training_history.csv
             ├── validation_predictions.csv
             ├── run_summary.json
+            ├── run_attempts.jsonl
+            ├── attempt_failures.jsonl
+            ├── attempt_evidence/
+            │   └── <attempt_id>/
+            │       ├── attempt_state.json
+            │       ├── optimizer_progress.jsonl
+            │       ├── training_history.csv (when failure is caught)
+            │       └── validation_predictions.csv (when failure is caught)
             └── checkpoints/
 ```
 
 | Output | Purpose |
 |---|---|
-| `README.md` | Explain configuration, starting, resuming, and inspecting runs; document persistent storage and retention. |
+| `README.md` | Explain configuration, starting, intentionally extending, and inspecting runs; document interruption handling, persistent storage, and retention. |
 | `training_report.md` | Record feasibility findings, checks, failures, and owner-approved implementation adjustments. |
 | Shared component | Execute the training/validation procedure for supplied configurations; code filenames and libraries remain flexible. |
 | `run_config.json` | Preserve resolved settings, checkpoint revisions, preprocessing identity, dataset/assignment checksums, and actual training/validation membership identity. |
 | `environment.json` | Record actual hardware, runtime/OS, package versions, device backend, precision, and reproducibility settings. |
-| `training_history.csv` | Store progress, losses, configured validation metrics, learning rate, timing, and checkpoint references. |
+| `training_history.csv` | Store completed-epoch or diagnostic-limit training loss, configured validation metrics, learning rate, optimizer-update/sample counts, timing, resource snapshots, and model-snapshot references. |
 | `validation_predictions.csv` | Preserve sample-level probabilities and true labels at each evaluation point for later comparisons. |
-| `run_summary.json` | Distinguish completed, interrupted, and failed runs; record progress, timing, artifact locations, and reasons. |
-| `checkpoints/` | Hold state required for supported recovery and any later approved checkpoint-retention rules. |
+| `attempt_evidence/<attempt_id>/optimizer_progress.jsonl` | Append and flush scalar progress after every optimizer update: epoch progress fraction (`conversations_processed_in_epoch / training-record count`), update counts, conversations processed, training loss to date, actual learning rate, elapsed time, and resource snapshots. Include the final partial accumulation group. The fraction lets reviewers inspect progress around points such as 0.1, 0.2, and 0.3 epoch at the nearest actual optimizer update; do not interpolate missing points. It contains no model or optimizer state and is not a recovery checkpoint. |
+| `attempt_evidence/<attempt_id>/attempt_state.json` | Track whether an attempt is running or ended, its target, and last completed epoch so an abrupt runtime loss remains identifiable. For the latest optimizer update before an abrupt loss, use the flushed `optimizer_progress.jsonl`; a still-running record does not authorize resumption. |
+| `attempt_evidence/<attempt_id>/training_history.csv` and `validation_predictions.csv` | When a fit fails or is interrupted and Python can finalize the attempt, preserve its partial history and available validation predictions without overwriting evidence from another attempt. Completed epochs remain in the run-level files. |
+| `run_summary.json` | Distinguish completed, interrupted, and failed runs; record progress, timing, artifact locations, and reasons. A process that terminates abruptly may remain marked as running; use its flushed progress log and last completed epoch as evidence, and do not invent a termination cause. |
+| `run_attempts.jsonl` and `attempt_failures.jsonl` | Append per-invocation summaries and startup/load failures so approved epoch extensions and failures remain traceable. |
+| `checkpoints/` | Hold verified epoch-end state only for explicitly approved epoch extensions and model snapshots required for duration selection. Failed or interrupted fits are not resumed. |
 
 Assign each independent run a unique ID; never overwrite another run. Record model, data condition, training representation/marker condition, validation representation/marker conditions, fold, seed, classification-head settings, optimizer parameter groups, and all resolved training settings in the configuration. A membership checksum may identify saved ordered sample-ID lists, but the actual membership must remain recoverable.
 
@@ -84,7 +96,7 @@ Available local devices:
 - MacBook Air M2: 8 GB unified memory.
 - Lenovo laptop: Ryzen AI 7 CPU; remaining specifications are not established.
 
-Do not assume a specific Colab GPU or uninterrupted session. Record actual resources. Keep recovery checkpoints and results outside the temporary runtime and verify persistent access.
+Do not assume a specific Colab GPU or uninterrupted session. Record actual resources. Keep required epoch snapshots and run evidence outside the temporary runtime and verify persistent access.
 
 For each candidate, use training-only records to:
 
@@ -92,7 +104,7 @@ For each candidate, use training-only records to:
 2. Prepare inputs using the approved policy, including representative long inputs within that policy.
 3. Complete forward, loss, backward, and optimizer-update operations.
 4. Check finite loss, valid outputs, memory use, and processing time.
-5. Verify saving and restoring the supported run state.
+5. Verify the integrity and persistent readback of the run outputs and required model snapshots. Any state restoration is limited to an explicitly approved epoch extension after the prior target completed successfully; it is not used to continue an interrupted fit.
 
 Diagnostic states must not initialize comparative runs. Feasibility checks assess execution, not predictive superiority. Full fine-tuning remains conditional on these checks; if infeasible, document the issue and obtain an agreed resolution before experiments or task completion.
 
@@ -139,7 +151,7 @@ For each new fold, configuration, or repetition:
 
 Use **67 as the initial training seed**, recorded separately from split seed 67. The component accepts other seeds; repeat counts and seed comparisons belong to the tuning plan.
 
-Never carry learned weights, optimizer state, or fitted transformations between independent runs. Resume only from that same run's saved state. Record deterministic settings and unavoidable limitations; identical numerical results across environments are not guaranteed.
+Never carry learned weights, optimizer state, or fitted transformations between independent runs. A planned epoch extension may continue from its same run's verified epoch-end state only when the preceding approved target completed successfully and the extension is authorized by Plan 03/01. If a fit fails or is interrupted before its approved target completes, preserve that attempt and its evidence, then rerun the full fit from the original pretrained checkpoint with a fresh head, optimizer, scheduler, scaler, and random state, using a new run ID and the same approved configuration and data membership. Do not resume the failed/interrupted fit. Record deterministic settings and unavoidable limitations; identical numerical results across environments are not guaranteed.
 
 ## 7. Full fine-tuning
 
@@ -211,7 +223,7 @@ For each epoch:
 2. Record training loss and progress.
 3. Validate in evaluation mode without gradients or parameter updates.
 4. Evaluate the same frozen epoch weights on corresponding marked and role-free validation text; record loss, metrics and probabilities separately. No updates occur between conditions.
-5. Save and verify an epoch-end recovery checkpoint.
+5. Save and verify the epoch-end model snapshot required for duration selection. Save epoch-end training state only when needed for an explicitly approved Plan 03/01 epoch extension; do not create or use within-epoch recovery state as an interruption fallback.
 
 Validation must not update model weights, optimizer state, or fitted preprocessing. Produce one conversation-level prediction per validation record per marker condition per evaluation point; reject missing/duplicate IDs within each condition and non-finite probabilities. Role-free whole-conversation scores govern main selection; marked scores are diagnostic.
 
@@ -219,13 +231,21 @@ The tuning plan owns epoch limits, metric definitions, early stopping, and check
 
 ## 13. Progress for reporting
 
-`training_history.csv` records training representation/marker condition and validation representation/marker condition, epoch, evaluation point, optimizer-update count, conversations processed, training/validation loss, configured metrics, learning rate, elapsed time, and checkpoint reference. Distinguish interval losses from complete-epoch aggregates; do not label partial progress as a full epoch.
+`training_history.csv` records training representation/marker condition and validation representation/marker condition, epoch, evaluation point, optimizer-update count, conversations processed, training/validation loss, configured metrics, learning rate, elapsed time, resource snapshot, and model-snapshot reference. Distinguish partial progress from a completed-epoch aggregate; do not label an incomplete epoch as complete. The per-attempt JSONL progress log records flushed scalar progress after each optimizer update, including the fraction of the training epoch processed, cumulative epoch training loss, processed conversations, actual learning rate, elapsed time, and resource readings. The fraction is measured at actual optimizer-update boundaries, so a requested decile is represented by its nearest logged update without interpolation. This log gives within-epoch training progress; validation metrics remain at their configured evaluation points. It contains no model/optimizer state, sample text, or labels.
 
 `validation_predictions.csv` records run ID, training representation/marker condition, validation representation/marker condition, evaluation point, sample ID, source identity, true label, and both class probabilities. Preserve these records and history for later learning curves and comparisons.
 
-Retain failed/interrupted run summaries. A recovery checkpoint is not automatically the selected best checkpoint.
+Retain each failed/interrupted attempt's summary, per-update progress log, completed and partial epoch history, available validation predictions, logs, resource measurements, and failure reason under its unique run ID and attempt ID. On an abrupt runtime loss, the last flushed progress and completed-epoch history remain available even if Python cannot write a terminal failure reason. A model snapshot is not automatically the selected best checkpoint.
 
-## 14. Recovery and retention
+## 14. Interruption handling, planned extensions, and retention
+
+### Current owner-approved interruption policy
+
+Do not resume a fit that failed or was interrupted before its approved target completed. Preserve its run configuration, environment, flushed per-update progress, completed and partial epoch history, available validation predictions, summary, logs, resource readings, and failure/interruption reason; start a full fresh fit from the original pinned pretrained checkpoint using a new unique run ID, fresh model head and training state, and the same approved settings and data membership. Keep the failed attempt visible in reports, but do not score it as a completed run or overwrite it. If the runtime disappears before a terminal status can be written, retain the attempt as `running`, inspect its available progress evidence, and record the termination cause only when supported by runtime evidence.
+
+This policy was approved by the project owner on 2026-10-09 after implementation attempts failed to verify a usable mid-epoch continuation and consumed substantial project time. In the recorded diagnostic, `latest.pt` was unreadable, `previous.pt` had no remaining batches, the same-run resume failed, and a follow-up restore-only trainer smoke returned an error. Therefore, mid-epoch recovery is not a working/verified implementation path for this project and is dropped from the active workflow. This is a project feasibility/time decision, not a claim that recovery is universally impossible. A successful fit may use its verified epoch-end training state for a separately approved, planned epoch extension under Plan 03/01. That planned extension is not interruption recovery. Keep epoch model snapshots needed for duration selection and verify their identities/checksums. Persistent storage is required for run evidence and planned snapshots, but a mid-epoch state-restore test is not a completion gate.
+
+### Original proposed recovery procedure (superseded; retained for traceability)
 
 Save after every epoch. Use periodic within-epoch recovery when needed for Colab interruptions; choose and record the interval based on measured runtime, not predictive scores.
 
@@ -243,15 +263,21 @@ If exact mid-epoch recovery is unsupported, restore the last complete epoch and 
 
 Verify each new recovery checkpoint before replacing the previous one. Saving every epoch does not require retaining every large recovery checkpoint forever. Retain additional model checkpoints according to later selection rules, while preserving history and predictions. Recovery retention must never delete artifacts required for selection.
 
+### Historical diagnostic recovery investigation
+
+The owner-approved WangchanBERTa diagnostic run `diagnostic-wangchanberta-owner-approved-retry-20261009T104528Z-1791542728829738267` could not verify continuation of unprocessed training batches because neither available checkpoint provided a usable mid-epoch recovery case. The diagnostic used 32 training records and a two-update cap with an effective batch size of 16, so both updates consumed the entire diagnostic slice. Its `latest.pt` failed checkpoint-container verification (`BadZipFile`), and the same-run resume attempt failed while loading that file. A follow-up `--restore-only` trainer smoke also returned an error and produced no successful state-restoration report. The fallback `previous.pt` remained unchanged and passed read-only deserialization (`SHA-256: e6c0c958664a95aa5472d07f9471ce25d0c1333cca6281b7b7ccdf73d08a0e5`), but its saved progress was epoch 1, incomplete, cursor 32 of 32. It had no remaining batches to consume after restoration. The separate clone-based continuation check was not completed, so checkpoint readback and the Drive publication probe do not count as verified training resumption.
+
+The recovery investigation could not produce a working continuation: the readable checkpoint had no remaining batches, and the latest checkpoint was unreadable. The failure applies to this implementation attempt; it does not establish that recovery is universally impossible. It records why the owner chose not to spend further project time pursuing the method. The original proposal above remains for traceability only and is superseded by the current interruption policy. The failed resume/restore probes are historical evidence and are not required to be repaired or repeated.
+
 ## Completion and handoff
 
-Complete when all four candidates support the approved procedure, supported recovery works, documentation is sufficient, and checks establish:
+Complete when all four candidates support the approved training procedure, required epoch snapshots and run evidence are traceable and persist, interruption handling follows the owner-approved fresh-run policy, documentation is sufficient, and checks establish:
 
 - Saved folds, membership, source filters, and representations are respected.
 - Independent runs initialize fresh state.
 - Validation performs no learning; test records remain inaccessible to this workflow.
 - Loss, optimizer, batching, precision, and input preparation follow approved instructions.
-- Predictions, history, and artifacts are traceable and persist outside temporary runtimes.
+- Predictions, history, model snapshots, and artifacts are traceable and persist outside temporary runtimes.
 
 Unresolved candidate infeasibility requires an agreed resolution before completion. No predictive score threshold or completed tuning search is required here.
 
