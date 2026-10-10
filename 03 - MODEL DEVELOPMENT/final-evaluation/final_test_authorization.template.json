@@ -1,0 +1,17 @@
+{
+  "status": "template_unapproved",
+  "explicit_final_test_execution_authorized": false,
+  "reviewer": null,
+  "approval_date": null,
+  "reference": null,
+  "evaluation_id": null,
+  "final_run_id": null,
+  "persistent_output_location": null,
+  "selected_config_sha256": null,
+  "selection_completion_sha256": null,
+  "assignments_sha256": null,
+  "preprocessing_config_sha256": null,
+  "test_csv_sha256": null,
+  "model_safetensors_sha256": null,
+  "artifact_manifest_sha256": null
+}

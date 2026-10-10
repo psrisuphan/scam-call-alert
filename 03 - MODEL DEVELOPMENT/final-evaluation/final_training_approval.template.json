@@ -1,0 +1,16 @@
+{
+  "status": "template_unapproved",
+  "reference": null,
+  "reviewer": null,
+  "approval_date": null,
+  "selected_config_sha256": null,
+  "selection_completion_path": null,
+  "selection_completion_sha256": null,
+  "source_cv_run_id": null,
+  "source_cv_run_config_sha256": null,
+  "final_run_id": null,
+  "persistent_runs": null,
+  "final_warmup_updates": null,
+  "warmup_rule_reference": null,
+  "approved_settings_sha256": null
+}
