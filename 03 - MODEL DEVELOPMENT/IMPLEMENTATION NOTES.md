@@ -9,7 +9,7 @@ This document records implementation decisions and evidence that a collaborator 
 3. [Plan 02 — Data Preprocessing and Model Inputs](../01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md)
 4. The current training and selection component READMEs and the applicable owner-approved run configuration.
 
-The local `IMPLEMENTATION HANDOFF.md` and `EXECUTION CHECKPOINTS.md` are session aids and are deliberately not tracked. Use this document for durable project context; use each run's configuration, history, predictions, and verification evidence for exact execution provenance.
+The local `IMPLEMENTATION HANDOFF.md` and `EXECUTION CHECKPOINTS.md` are session aids and are deliberately not tracked. The [training implementation report](training/training_report.md) provides the detailed diagnostic/run history, truncation table, and verification record. Use this document for the durable cross-candidate guidance; use each run's configuration, history, predictions, and verification evidence for exact execution provenance.
 
 ## Owner-approved comparison sequence
 
