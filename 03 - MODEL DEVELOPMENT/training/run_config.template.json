@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "run_id": "OWNER_ASSIGN_UNIQUE_ID",
+  "mode": "diagnostic",
+  "approval": {
+    "status": "owner_approval_required",
+    "reference": null,
+    "diagnostic_numeric_settings": false,
+    "full_context_diagnostic_authorization": false,
+    "approved_settings_sha256": null
+  },
+  "model": "OWNER_SELECT_CANDIDATE",
+  "checkpoint": {"id": null, "revision": null, "custom_code_revision": null},
+  "data": {
+    "condition": null
+  },
+  "fold": null,
+  "training": {
+    "representation": "whole_conversation",
+    "marker_condition": "role_marked",
+    "window_policy": null,
+    "pooling_method": null,
+    "gradient_checkpointing": null,
+    "seed": null,
+    "epochs": null,
+    "effective_batch_size": null,
+    "microbatch_size": null,
+    "accumulation_steps": null,
+    "optimizer_updates_limit": null
+  },
+  "diagnostic_sample_selection": {"strategy": "longest_by_prepared_tokens"},
+  "validation": {
+    "representation": "whole_conversation",
+    "marker_conditions": ["role_marked", "role_free"]
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "learning_rate": null,
+    "weight_decay": null,
+    "beta1": null,
+    "beta2": null,
+    "epsilon": null,
+    "gradient_clip_norm": null
+  },
+  "schedule": {
+    "name": "linear_warmup_then_constant",
+    "warmup_updates": null
+  },
+  "precision": {
+    "mode": null,
+    "auto_policy_approved": false
+  },
+  "evaluation": {"scam_threshold": 0.5},
+  "selection": {"max_epochs": null},
+  "runtime": {
+    "device": null,
+    "local_files_only": false
+  },
+  "paths": {
+    "data": "02 - DATASETs/prepared/splits",
+    "input_config": "03 - MODEL DEVELOPMENT/input-preparation/preprocessing_config.json",
+    "input_exports": "03 - MODEL DEVELOPMENT/input-preparation/prepared",
+    "persistent_runs": "OWNER_CONFIGURE_PERSISTENT_STORAGE",
+    "persistent_storage_verified": false,
+    "storage_verification_reference": null
+  }
+}

@@ -1,0 +1,9 @@
+# Exact Plan 02 preprocessing/tokenizer runtime. The Colab-installed PyTorch
+# is intentionally not pinned here; preserve it and record the actual version.
+transformers==4.57.6
+tokenizers==0.22.2
+huggingface-hub==0.36.2
+sentencepiece==0.2.2
+protobuf==7.36.2
+matplotlib==3.11.2
+pytest

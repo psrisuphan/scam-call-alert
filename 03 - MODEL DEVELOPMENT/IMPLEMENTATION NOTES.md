@@ -8,6 +8,7 @@ This document records implementation decisions and evidence that a collaborator 
 2. [Plan 03/01 — Hyperparameter Tuning and Model Selection](../01%20-%20PLANs/03%20-%20MODEL%20DEVELOPMENT/01%20-%20HYPERPARAMETER%20TUNING%20AND%20MODEL%20SELECTION.md)
 3. [Plan 02 — Data Preprocessing and Model Inputs](../01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md)
 4. The current training and selection component READMEs and the applicable owner-approved run configuration.
+5. [WangchanBERTa reproduction guide](selection/WANGCHANBERTA%20REPRODUCTION%20GUIDE.md) for the completed configuration's exact settings, source identity, and persistent evidence locations.
 
 The local `IMPLEMENTATION HANDOFF.md` and `EXECUTION CHECKPOINTS.md` are session aids and are deliberately not tracked. The [training implementation report](training/training_report.md) provides the detailed diagnostic/run history, truncation table, and verification record. Use this document for the durable cross-candidate guidance; use each run's configuration, history, predictions, and verification evidence for exact execution provenance.
 
@@ -64,7 +65,7 @@ Persistent Drive evidence is under `scam-call-alert/model-development/comparison
 ## Next collaborator actions
 
 1. Confirm the current workspace/source and persistent Drive artifacts are accessible; retrieve the completed WangchanBERTa evidence and preserve its identities.
-2. Read Plan 03/00 and 03/01, then migrate and verify the selection tooling to primary-only cross-candidate runs followed by one selected-candidate supplemental comparison. Do not use legacy two-condition commands/configs.
+2. Read Plan 03/00 and 03/01, then use `selection/workflow.py` for the approved primary-only manifest and verified-result import. The trainer/selection source and regression suite are in the implementation handoff; do not use the old Colab notebooks, fixed-prefix diagnostic generator, caller-only templates, or legacy two-condition matrix commands. The complete 75-fit matrix still waits on its documented runtime and owner-approval gates.
 3. Continue the remaining WangchanBERTa primary-only learning-rate/pooling configurations under their existing owner-approved gates. Review and approve the subsequent candidate-specific diagnostics/input policies and resource gates before running the other three candidates.
 4. Reconcile comparable primary-only CV evidence for all four candidates before human-reviewed candidate selection. Only then run the selected candidate's matched supplemental-data comparison.
 5. Keep final retraining, held-out evaluation, model packaging, app/system evaluation, and reporting within their own approved plans and gates.

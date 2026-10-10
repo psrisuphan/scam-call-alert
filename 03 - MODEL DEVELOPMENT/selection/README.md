@@ -14,9 +14,11 @@ The earlier selector and generated 120-row matrix encoded a superseded protocol.
 
 - `search_space.json`: approved primary-only scope, fixed settings, candidate-specific WangchanBERTa pooling methods, and fit counts.
 - `workflow.py`: safe manifest generation and import of a verified aggregate export. It does not train models, read test data, or import sample-level predictions. Unresolved launch gates keep unstarted rows blocked.
+- `runtime.py`: focused metric aggregation and saved-fold membership validation used by the training runner. It contains no experiment-launch CLI.
 - `experiment_manifest.csv`: 75 planned primary-only fit rows; completed fits keep their original run IDs and source artifact hashes.
 - `cv_results.csv`: imported fold-level and aggregate validation metrics. It contains no transcript text or row-level predictions.
 - `comparison_report.md`: interpretation and provenance of the currently imported results.
+- `WANGCHANBERTA REPRODUCTION GUIDE.md`: completed-run settings, score provenance, reuse rules, and fresh-clone reproducibility limits.
 - `tests/`: regression checks for the scope and import safeguards.
 
 Training histories, sample-level predictions, checkpoints, and raw run directories stay in their approved persistent storage locations outside Git. Manifest artifact references point there. The verified export checksum and per-run artifact checksums preserve provenance; the committed metrics table is a compact, reproducible summary, not a substitute for those source artifacts.
