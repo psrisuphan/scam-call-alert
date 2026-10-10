@@ -30,6 +30,23 @@ outputs/
 checkpoints/
 wandb/
 
+# Local model-development session handoff and execution guide
+03 - MODEL DEVELOPMENT/IMPLEMENTATION HANDOFF.md
+03 - MODEL DEVELOPMENT/EXECUTION CHECKPOINTS.md
+
+# Model-development runtime evidence and bundles; tracked code/configuration stay visible.
+03 - MODEL DEVELOPMENT/training/runs/
+03 - MODEL DEVELOPMENT/selection/normalized_cv_predictions.csv
+03 - MODEL DEVELOPMENT/selection/generated_configs/
+03 - MODEL DEVELOPMENT/final-evaluation/final_training/
+03 - MODEL DEVELOPMENT/final-evaluation/evaluations/
+03 - MODEL DEVELOPMENT/final-evaluation/test_predictions.csv
+03 - MODEL DEVELOPMENT/final-evaluation/error_analysis.csv
+03 - MODEL DEVELOPMENT/final-evaluation/prediction_events.jsonl
+03 - MODEL DEVELOPMENT/final-evaluation/evaluation_events.jsonl
+03 - MODEL DEVELOPMENT/final-evaluation/error_analysis.reviewed.csv
+03 - MODEL DEVELOPMENT/handoff/bundles/
+03 - MODEL DEVELOPMENT/handoff/parity-runs/
+
 # Course materials kept local and out of Git
 01 - PLANs/course-lecture-sheets/
-
