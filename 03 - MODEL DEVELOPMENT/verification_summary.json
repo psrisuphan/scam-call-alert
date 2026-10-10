@@ -1,0 +1,86 @@
+{
+  "timestamp_utc": "2026-10-10T12:12:22.768660+00:00",
+  "scope": "Offline synthetic component verification; no real pretrained diagnostics, search, final-test inference or actual-bundle parity",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "results": [
+    {
+      "stage": "training",
+      "command": [
+        "/Users/psrisuphan/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pytest",
+        "/Users/psrisuphan/Desktop/personal/academic-materials/pattern-recognition/scam-call-alert/03 - MODEL DEVELOPMENT/training/tests",
+        "/Users/psrisuphan/Desktop/personal/academic-materials/pattern-recognition/scam-call-alert/03 - MODEL DEVELOPMENT/training/test_trainer.py",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 0,
+      "stdout": "..........................................................    [100%]\n58 passed, 11 subtests passed in 4.80s\n",
+      "stderr": ""
+    },
+    {
+      "stage": "selection",
+      "command": [
+        "/Users/psrisuphan/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pytest",
+        "/Users/psrisuphan/Desktop/personal/academic-materials/pattern-recognition/scam-call-alert/03 - MODEL DEVELOPMENT/selection/tests",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 0,
+      "stdout": "...                                                                      [100%]\n3 passed in 0.01s\n",
+      "stderr": ""
+    },
+    {
+      "stage": "final-evaluation",
+      "command": [
+        "/Users/psrisuphan/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pytest",
+        "/Users/psrisuphan/Desktop/personal/academic-materials/pattern-recognition/scam-call-alert/03 - MODEL DEVELOPMENT/final-evaluation/tests",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 0,
+      "stdout": "................                                                         [100%]\n16 passed in 0.73s\n",
+      "stderr": ""
+    },
+    {
+      "stage": "handoff",
+      "command": [
+        "/Users/psrisuphan/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "pytest",
+        "/Users/psrisuphan/Desktop/personal/academic-materials/pattern-recognition/scam-call-alert/03 - MODEL DEVELOPMENT/handoff/tests",
+        "-q",
+        "-p",
+        "no:cacheprovider"
+      ],
+      "exit_code": 0,
+      "stdout": "...................                                                      [100%]\n19 passed in 3.08s\n",
+      "stderr": ""
+    },
+    {
+      "stage": "input-preparation",
+      "command": [
+        "/Users/psrisuphan/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/Users/psrisuphan/Desktop/personal/academic-materials/pattern-recognition/scam-call-alert/03 - MODEL DEVELOPMENT/input-preparation/scripts/9.test_inputs.py"
+      ],
+      "exit_code": 0,
+      "stdout": "Exported 1164 training records, four readable conditions, and sixteen unpadded input files to /var/folders/wf/x4ypxy7n1rb6_0t4jjfqwgg00000gn/T/scam-input-export-test-_xn4puyk/prepared\n",
+      "stderr": "You're using a CamembertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a CamembertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\n........You're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\n...You're using a CamembertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a CamembertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\n......You're using a CamembertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a CamembertTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a PreTrainedTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\nYou're using a XLMRobertaTokenizerFast tokenizer. Please note that with a fast tokenizer, using the `__call__` method is faster than using a method to encode the text followed by a call to the `pad` method to get a padded encoding.\n...\n----------------------------------------------------------------------\nRan 20 tests in 86.652s\n\nOK\n"
+    }
+  ],
+  "frozen_prerequisites_unchanged": true,
+  "prerequisite_sha256": {
+    "02 - DATASETs/prepared/splits/0 - train/dataset.csv": "763abee35dd052b248d18dc78b5888b94062f75cdfeb7756ad3ce5683e2119d4",
+    "02 - DATASETs/prepared/splits/split_assignments.csv": "4f7a1e012f8a4883a15d8e99ab38f5da4d10a07cb0335ec09cbcee0bd914147a",
+    "03 - MODEL DEVELOPMENT/input-preparation/preprocessing_config.json": "99b71c0a6b5a3e48d6645a46a02dba715ef0ed185764dc2720a5bfa20b986926",
+    "03 - MODEL DEVELOPMENT/input-preparation/inputs.py": "50d8707a38b4b8e9a09f808158cb3b330618fd13eb4402a08a29e6413169be5e"
+  },
+  "passed": true
+}
