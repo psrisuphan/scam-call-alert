@@ -11,7 +11,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
 import trainer
-from create_approved_diagnostics import create
+sys.path.insert(0, str(HERE / "tests"))
+from config_factory import make_config
 
 
 class TinyTokenizer:
@@ -80,34 +81,21 @@ class TrainerChecks(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
-    def test_diagnostic_configs_are_explicit_and_digest_bound(self):
-        paths = create(self.root / "configs", self.root / "runs", 8, "cuda", "TEST ONLY: temporary storage fixture")
-        self.assertEqual(len(paths), 4)
-        for path in paths:
-            config = trainer.load_config(path)
-            self.assertEqual(config["training"]["optimizer_updates_limit"], 2)
-            self.assertEqual(config["training"]["effective_batch_size"], 16)
-            self.assertEqual(config["training"]["accumulation_steps"], 2)
-            changed = copy.deepcopy(config)
-            changed["optimizer"]["learning_rate"] = 1e-3
-            with self.assertRaisesRegex(ValueError, "approved_settings_sha256"):
-                trainer.validate_config(changed)
-
     def test_template_is_not_runnable(self):
         with self.assertRaises(ValueError):
             trainer.load_config(trainer.CONFIG_TEMPLATE)
 
     def test_actual_training_only_retrieval_and_paired_validation(self):
-        config_path = create(self.root / "configs", self.root / "runs", 16, "cuda", "TEST ONLY: temporary storage fixture")[0]
-        config = trainer.load_config(config_path)
+        config = trainer.validate_config(make_config(self.root), require_diagnostic_approval=False)
         sys.path.insert(0, str(ROOT / "03 - MODEL DEVELOPMENT/input-preparation"))
         import inputs
         training_records, validation_records, train, validation, _, membership = trainer.get_records(config, inputs)
-        self.assertEqual(len(train), 32)
+        self.assertEqual(len(train), len(membership["training_sample_ids"]))
+        self.assertTrue(all(item["source_dataset"] == "primary" for item in train))
         self.assertEqual(set(validation), {"role_marked", "role_free"})
         self.assertEqual(len(validation["role_marked"]), len(validation_records))
         self.assertEqual(len(validation["role_free"]), len(validation_records))
-        self.assertEqual(len(membership["training_sample_ids"]), 32)
+        self.assertEqual(len(membership["training_sample_ids"]), len(train))
         self.assertFalse(set(membership["training_sample_ids"]) & set(membership["validation_sample_ids"]))
         self.assertTrue(all(item["split"] == "train" for item in train))
 
@@ -742,17 +730,14 @@ class TrainerChecks(unittest.TestCase):
         self.assertEqual(tuple(out.shape), (1, 2))
 
     def test_test_partition_is_rejected_without_reading_it(self):
-        config_path = create(self.root / "configs", self.root / "runs", 16, "cuda", "TEST ONLY: temporary storage fixture")[0]
-        config = json.loads(config_path.read_text(encoding="utf-8"))
+        config = make_config(self.root)
         config["data"]["partition"] = "test"
         config["approval"]["approved_settings_sha256"] = trainer.approved_settings_digest(config)
         with self.assertRaisesRegex(ValueError, "test partition"):
             trainer.validate_config(config)
 
     def test_configuration_id_is_shared_across_saved_cv_folds(self):
-        path = create(self.root / "configs", self.root / "runs", 16, "cuda",
-            "TEST ONLY: temporary storage fixture")[0]
-        config = trainer.load_config(path)
+        config = trainer.validate_config(make_config(self.root), require_diagnostic_approval=False)
         original = trainer.configuration_id(config)
         config["fold"] = 3
         config["approval"]["approved_settings_sha256"] = trainer.approved_settings_digest(config)

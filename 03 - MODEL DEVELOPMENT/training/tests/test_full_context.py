@@ -13,7 +13,8 @@ sys.path.insert(0, str(INPUT_DIR))
 import inputs
 sys.path.insert(0, str(MODULE.parent))
 import trainer
-from create_approved_diagnostics import create as create_diagnostic_configs
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from config_factory import make_config
 
 spec = importlib.util.spec_from_file_location("full_context_under_test", MODULE)
 full_context = importlib.util.module_from_spec(spec)
@@ -188,12 +189,7 @@ def test_full_text_loader_checks_manifest_hash_columns_and_fold_membership(tmp_p
 
 
 def test_full_context_requires_explicit_gradient_checkpointing_setting(tmp_path):
-    paths = create_diagnostic_configs(tmp_path / "configs", tmp_path / "runs", 8,
-        "cuda", "TEST ONLY: temporary config fixture")
-    config = next(json.loads(path.read_text()) for path in paths
-                  if json.loads(path.read_text()).get("model") == "wangchanberta")
-    config["training"]["window_policy"] = "wangchan_full_context_v1"
-    config["training"]["pooling_method"] = "max"
+    config = make_config(tmp_path, full_context=True)
     config["approval"]["approved_settings_sha256"] = trainer.approved_settings_digest(config)
     with pytest.raises(ValueError, match="training.gradient_checkpointing"):
         trainer.validate_config(config)

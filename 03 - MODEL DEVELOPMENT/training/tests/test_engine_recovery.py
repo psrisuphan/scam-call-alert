@@ -392,7 +392,7 @@ def test_bad_extension_checkpoint_does_not_rewrite_run_config(tmp_path, monkeypa
 
 
 def test_per_configuration_pruning_verifies_fivefold_cv_evidence(tmp_path, monkeypatch):
-    from selection import PREDICTION_FIELDS
+    from runtime import PREDICTION_FIELDS
 
     configuration_id = "xlmr__primary_plus_supplemental__lr-2e-05"
     manifest_rows = []
