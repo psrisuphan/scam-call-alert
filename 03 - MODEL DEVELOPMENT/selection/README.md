@@ -17,7 +17,9 @@ The earlier selector and generated 120-row matrix encoded a superseded protocol.
 - `runtime.py`: focused metric aggregation and saved-fold membership validation used by the training runner. It contains no experiment-launch CLI.
 - `experiment_manifest.csv`: 75 planned primary-only fit rows; completed fits keep their original run IDs and source artifact hashes.
 - `cv_results.csv`: imported fold-level and aggregate validation metrics. It contains no transcript text or row-level predictions.
-- `comparison_report.md`: interpretation and provenance of the currently imported results.
+- `comparison_report.md`: interpretation and provenance of the currently imported results, plus separately labeled HPLT/XLM-R execution observations.
+- `phaya_primary_reference_verification.json`: verified PhayaThaiBERT LR `3e-5` fold/epoch aggregates and artifact identities; no sample-level predictions or text.
+- `other_models_reference_observations.json`: last observed HPLT/XLM-R execution states before runtime loss. These observations do not verify artifact integrity or prove later terminal states. The manifest distinguishes them from `completed` rows.
 - `WANGCHANBERTA REPRODUCTION GUIDE.md`: completed-run settings, score provenance, reuse rules, and fresh-clone reproducibility limits.
 - `tests/`: regression checks for the scope and import safeguards.
 
@@ -41,4 +43,4 @@ Manifest generation replaces the prior obsolete matrix with the approved 75 prim
 
 For the initial configuration, the imported export contains fold metrics and artifact hashes but not sample-level predictions. For the other five configurations, metrics were imported from the verified run histories and their run summaries. The repository tables are aggregate development evidence, not a complete row-level reconstruction; full re-aggregation requires the persistent Drive artifacts and their recorded identities.
 
-The six completed WangchanBERTa configurations are development validation evidence for one candidate, not a final selection or test-set score. The full results and provenance are in `comparison_report.md`, `cv_results.csv`, `experiment_manifest.csv`, and `WANGCHANBERTA REPRODUCTION GUIDE.md`. No new run is authorized by this import step.
+The six WangchanBERTa configurations and PhayaThaiBERT LR `3e-5` reference configuration are development validation evidence, not final selection or test-set scores. Only verified PhayaThaiBERT metrics were appended; existing WangchanBERTa rows and artifact identities were preserved. HPLT/XLM-R execution observations do not count as independently verified results. Do not regenerate the manifest or run the legacy importer. The full results and provenance are in `comparison_report.md`, `cv_results.csv`, `experiment_manifest.csv`, and `WANGCHANBERTA REPRODUCTION GUIDE.md`. No new run is authorized by this import step.

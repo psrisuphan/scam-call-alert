@@ -1,0 +1,88 @@
+{
+  "recorded_date": "2026-10-11",
+  "scope": "Last observed execution state; not independent artifact verification or terminal-state proof after runtime loss",
+  "slice": "/content/drive/MyDrive/scam-call-alert/model-development/comparison-slices/other-models-primary-reference-20261011T074624Z",
+  "monitor_log_sha256": "f282ec03ebd94d8cf9979ab573ff9b82f3ff5fb6258a9f98fbbf7abd0adea9f2",
+  "observations": [
+    {
+      "model": "hplt",
+      "fold": 0,
+      "status": "completed",
+      "epoch": 3,
+      "updates": 156,
+      "fraction": 1.0
+    },
+    {
+      "model": "hplt",
+      "fold": 1,
+      "status": "completed",
+      "epoch": 3,
+      "updates": 156,
+      "fraction": 1.0
+    },
+    {
+      "model": "hplt",
+      "fold": 2,
+      "status": "completed",
+      "epoch": 3,
+      "updates": 153,
+      "fraction": 1.0
+    },
+    {
+      "model": "hplt",
+      "fold": 3,
+      "status": "completed",
+      "epoch": 3,
+      "updates": 156,
+      "fraction": 1.0
+    },
+    {
+      "model": "hplt",
+      "fold": 4,
+      "status": "completed",
+      "epoch": 3,
+      "updates": 153,
+      "fraction": 1.0
+    },
+    {
+      "model": "xlmr",
+      "fold": 0,
+      "status": "completed",
+      "epoch": 3,
+      "updates": 156,
+      "fraction": 1.0
+    },
+    {
+      "model": "xlmr",
+      "fold": 1,
+      "status": "running",
+      "epoch": 3,
+      "updates": 129,
+      "fraction": 0.4884004884004884
+    },
+    {
+      "model": "xlmr",
+      "fold": 2,
+      "status": "queued",
+      "epoch": null,
+      "updates": null,
+      "fraction": null
+    },
+    {
+      "model": "xlmr",
+      "fold": 3,
+      "status": "queued",
+      "epoch": null,
+      "updates": null,
+      "fraction": null
+    },
+    {
+      "model": "xlmr",
+      "fold": 4,
+      "status": "queued",
+      "epoch": null,
+      "updates": null,
+      "fraction": null
+    }
+  ]
+}

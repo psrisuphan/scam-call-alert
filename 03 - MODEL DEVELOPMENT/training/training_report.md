@@ -1,7 +1,23 @@
 # Training feasibility and implementation report
 
+## Remaining-candidate checkpoint (2026-10-11)
 
-## Current status — WangchanBERTa primary-only configurations (2026-10-11)
+PhayaThaiBERT LR `3e-5` has completed and passed five-fold verification at epochs 1–3. Role-free Scam F1 mean ± sample SD: epoch 1 `0.955559 ± 0.024674`, epoch 2 `0.976796 ± 0.012884`, epoch 3 `0.976003 ± 0.011300`. Settings, identities, limitations and persistent paths are recorded in [the comparison report](../selection/comparison_report.md) and [verification export](../selection/phaya_primary_reference_verification.json). This is one reference configuration; Plans 03/00 and 03/01 remain Planned.
+
+The owner approved candidate-specific fixed prefixes (Phaya 510, HPLT/XLM-R 512), three initial epochs with finite maximum four, warmup `ceil(0.10 * ceil(train_count/16) * 3)`, T4 FP16, and microbatch 4 × accumulation 4 after bounded training-only diagnostics. Extensions require separate approval. Whole-conversation role-marked training and paired validation retain seed 67, effective batch 16 and the original optimizer/threshold settings. Diagnostics must not select models.
+
+Two previously local, owner-approved compatibility fixes are now tracked:
+- Exact pinned PhayaThaiBERT/XLM-R unused masked-LM keys, plus XLM-R unused pooler keys, are allowed after checkpoint ID, revision, model type and architecture checks. Missing/mismatched backbone weights and unrelated keys still fail; HPLT receives no new exception.
+- Checkpoint publication verification returns identity/update metadata rather than retaining full loaded model and optimizer tensors. Checkpoint contents, verification checks, extension behavior and the fresh-restart interruption policy are unchanged.
+
+The tracked trainer matches the executed trainer SHA-256 `d44342cfb5024fdf88de15229f86943b47ee53602714ffe9c9ed4af994725cbd`. Training-only bundle SHA-256 was `5e1449bde3f206a415afe896082f4eced78089daa814a26c1f445f3c3cc95996`. The current local regression run passed 64 tests and 13 subtests; this checks implementation behavior, not uninterrupted Colab availability.
+
+HPLT's five LR `3e-5` folds and XLM-R fold 0 were observed completed, but independent verification remains pending after runtime disappearance. XLM-R fold 1 was last observed running; inspect preserved evidence before assigning its terminal status or starting a fresh fit. The original queue slice is `comparison-slices/other-models-primary-reference-20261011T074624Z`. Subsequent T4 allocation returns HTTP 503; its cause is unconfirmed. No final test was opened or candidate selected, and existing WangchanBERTa evidence was preserved.
+
+The earlier checkpoints below retain their historical evidence. Their pending counts and unverified-compatibility statements describe those checkpoints, not this update.
+
+
+## Earlier checkpoint — WangchanBERTa primary-only configurations (2026-10-11)
 
 All six approved WangchanBERTa settings are complete: max/mean pooling × learning rates `2e-5`, `3e-5`, and `5e-5`, five saved folds each (30 fits total), three epochs per fit. The original max/LR 2e-5 set was completed and verified earlier; the remaining 25 fits have now completed and their run summaries were verified against the stored run-config and training-history SHA-256 values before the metrics were added. Prediction hash values are recorded, but the prediction files were not independently downloaded and rehashed for this documentation pass. The 75-row matrix therefore has 30 completed WangchanBERTa rows and 45 other-candidate rows still blocked/pending.
 
