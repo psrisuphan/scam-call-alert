@@ -471,7 +471,8 @@ def build_model(model_key, checkpoint, revision, *, local_files_only=False):
     allow_wangchan_checkpoint_extras = is_approved_wangchan_checkpoint(
         model_key, checkpoint, revision, config)
     validate_pretrained_loading_info(model_key, loading, top_roots,
-                                     allow_wangchan_checkpoint_extras=allow_wangchan_checkpoint_extras)
+                                     allow_wangchan_checkpoint_extras=allow_wangchan_checkpoint_extras,
+                                     approved_extra_keys=approved_candidate_extra_keys(model_key, checkpoint, revision, config))
     for name, module in model.named_modules():
         if any(name == root or name.startswith(root + ".") for root in top_roots):
             if not list(module.children()):
@@ -524,8 +525,33 @@ def is_approved_wangchan_checkpoint(model_key, checkpoint, revision, model_confi
             and "RobertaForMaskedLM" in architectures)
 
 
+def approved_candidate_extra_keys(model_key, checkpoint, revision, model_config):
+    """Allow only observed unused task weights for two exact pinned MLM bases."""
+    expected_architectures = {
+        "phayathaibert": ("camembert", "CamembertForMaskedLM"),
+        "xlmr": ("xlm-roberta", "XLMRobertaForMaskedLM"),
+    }
+    if model_key not in expected_architectures:
+        return frozenset()
+    frozen = json.loads((INPUT_DIR / "preprocessing_config.json").read_text())
+    expected = frozen["models"][model_key]
+    model_type, architecture = expected_architectures[model_key]
+    if (checkpoint != expected["checkpoint"] or revision != expected["revision"]
+            or getattr(model_config, "model_type", None) != model_type
+            or architecture not in (getattr(model_config, "architectures", None) or [])):
+        return frozenset()
+    unused = frozenset({
+        "lm_head.bias", "lm_head.dense.bias", "lm_head.dense.weight",
+        "lm_head.layer_norm.bias", "lm_head.layer_norm.weight",
+    })
+    if model_key == "xlmr":
+        unused |= WANGCHANBERTA_UNUSED_POOLER_KEYS
+    return unused
+
+
 def validate_pretrained_loading_info(model_key, loading, classification_head_roots,
-                                     *, allow_wangchan_checkpoint_extras=False):
+                                     *, allow_wangchan_checkpoint_extras=False,
+                                     approved_extra_keys=frozenset()):
     """Reject incomplete backbone loads; allow only exact unused keys for the pinned Wangchan checkpoint."""
     def is_classification_head_key(key):
         return any(key == root or key.startswith(root + ".")
@@ -541,7 +567,8 @@ def validate_pretrained_loading_info(model_key, loading, classification_head_roo
                    if not is_classification_head_key(key)]
     bad_unexpected = [key for key in loading.get("unexpected_keys", [])
                       if not is_classification_head_key(key)
-                      and not is_known_wangchan_checkpoint_extra(key)]
+                      and not is_known_wangchan_checkpoint_extra(key)
+                      and key not in approved_extra_keys]
     bad_mismatched = [item[0] for item in loading.get("mismatched_keys", [])
                       if not is_classification_head_key(item[0])]
     if bad_missing or bad_unexpected or bad_mismatched:
@@ -696,7 +723,10 @@ def _verify_recovery_checkpoint(path, expected, torch):
             or ("optimizer_updates" in expected
                 and loaded.get("optimizer_updates") != expected.get("optimizer_updates"))):
         raise RuntimeError(f"Recovery checkpoint verification failed: {path}")
-    return loaded
+    # Publication/rollback callers need identity metadata only. Retaining full
+    # model/optimizer tensors for latest and previous can exhaust Colab host RAM.
+    return {"run_identity": loaded["run_identity"],
+            "optimizer_updates": loaded.get("optimizer_updates")}
 
 
 def load_recovery_checkpoint(run_dir, expected_run_identity, torch):
