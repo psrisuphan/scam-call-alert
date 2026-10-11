@@ -1,6 +1,26 @@
 # Primary-only model comparison: current evidence
 
-## Scope and status
+## Current owner decision (2026-10-11)
+
+The owner approved stopping comparative training and selecting **PhayaThaiBERT, LR 3e-5, common epoch 2, primary-only**. The remaining 30 fits and the matched supplemental comparison are omitted by approved scope reduction. The 45 completed fold fits remain development evidence; no omitted fit is scored. See Plan 03/01's amendment for the authoritative revised scope.
+
+PhayaThaiBERT's epoch-2 role-free Scam F1 is 0.976796 ± 0.012884, versus XLM-R's 0.973643 ± 0.005730. The selected model has the highest observed mean, but the small lead does not prove superiority; XLM-R has lower fold SD and mixed-runtime execution. Unequal learning-rate tuning limits the comparison. No five-fold supplemental effect was measured. The single local supplemental fold is not selection evidence.
+
+Selection was approved by the owner; the task is not yet complete. Required report reconciliation and local classifier/STT compatibility remain before freezing selected_config.json. One fresh full-primary final retraining run is still required by Plan 03/02. The held-out test remains closed.
+
+## Post-selection verification findings (2026-10-11)
+
+A read-only SSH check independently matched prediction SHA-256 values and recomputed combined-source, source-specific and available chunk-count aggregates for 13 Drive-hosted PhayaThaiBERT/HPLT/XLM-R fits (18,162 prediction rows). Both local CPU XLM-R prediction files also matched their recorded SHA-256 values. Detailed aggregate evidence is retained outside Git in .colab-cli/cloud-training/selection-prediction-reconciliation.log. This check is not a new full membership/snapshot verification.
+
+The two WangchanBERTa slice directories recorded in the manifest were absent from the currently mounted MyDrive. Consequently none of its 30 prediction files could be retrieved there in this pass. This is an access/location mismatch, not proof of deletion or invalid metrics. Preserve prior verification and completion records; pause final evidence reconciliation until the owning storage/location is resolved. Do not fabricate the missing breakdowns.
+
+The selected STT configuration targets MacBook Air M2/MPS. This Linux laptop cannot demonstrate that host's combined compatibility. The STT owning plan also records a deferred official-classifier integration check; reconcile its timing with Plan 03/01's prefreeze requirement before claiming that gate passed.
+
+Downstream final-evaluation code still requires a legacy 120+5-fit completion record, inconsistent with the approved reduced scope. That path must be corrected and tested with owner-confirmed requirements before final training. No selected_config.json was falsely marked frozen and no test set was opened.
+
+## Historical scope and status
+
+The following status notes preserve earlier reporting states; they do not override the current owner decision or the later verified HPLT/XLM-R results.
 
 The approved primary-only comparison contains 75 fold fits: six WangchanBERTa configurations (two pooling methods × three learning rates × five folds) and 45 fits for the other three candidates. The six WangchanBERTa configurations are now complete: 30/30 fold fits finished three epochs. PhayaThaiBERT LR `3e-5` is also verified across five folds (35 verified fits total). HPLT LR `3e-5` folds 0–4 and XLM-R LR `3e-5` fold 0 were observed completed but still await independent verification; XLM-R fold 1 was last observed running before runtime loss. The other learning-rate configurations remain pending. After the four-candidate comparison and reviewed candidate selection, one matched five-fold primary + supplemental follow-up may be run for that candidate/configuration. The held-out test set has not been opened.
 

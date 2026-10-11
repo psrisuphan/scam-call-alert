@@ -1,5 +1,17 @@
 # 01 - HYPERPARAMETER TUNING AND MODEL SELECTION
 
+## Owner-approved scope reduction and selection (2026-10-11)
+
+The owner stated that no further comparative training was affordable, requested stopping and moving on, and replied “approve” to selecting **PhayaThaiBERT, learning rate 3e-5, two epochs, primary-only**, omitting the 30 remaining learning-rate fits and the matched supplemental comparison, while retaining one final retraining run.
+
+This amendment supersedes requirements below to complete all 75 primary-only fits and the supplemental follow-up. Retain the 45 completed fits and all partial/failed evidence. The 30 unrun fits are excluded by owner-approved scope reduction, not completed or scored. Do not run supplemental training; use primary-only for final retraining. The isolated supplemental Fold 0 does not justify a data-condition comparison.
+
+Selection rationale: the recorded five-fold role-free Scam F1 is highest for PhayaThaiBERT at common epoch 2 (mean 0.9767957025575449, sample SD 0.01288413515844797), versus XLM-R at epoch 2 (0.9736430118322441, SD 0.00572982528081046). The owner accepts the higher observed mean despite higher variability. The difference is small and does not prove statistical superiority. Learning-rate tuning coverage is unequal; PhayaThaiBERT/HPLT/XLM-R were tested only at 3e-5, and XLM-R mixes T4 FP16 and CPU FP32. Do not claim optimal tuning or a measured supplemental-data benefit.
+
+All unaffected gates remain: reconcile/verify required reporting evidence, demonstrate local classifier/STT compatibility, record remaining practicality limitations, and freeze complete settings and preprocessing identities in selected_config.json before Plan 03/02. Owner candidate approval is not proof these checks passed. Do not declare Plan 03/01 Finished prematurely.
+
+Plan 03/02 still requires one fresh final training run from the pinned original checkpoint on the full eligible primary pool for two epochs, with final warmup resolved from the approved rule. Do not substitute a CV fold's weights. No final-test access or final-run launch is authorized solely by this amendment.
+
 ## Purpose and scope
 
 Compare the four approved transformer candidates using **primary-only training** first, tune learning rate and training duration, and select the best-supported model/configuration using cross-validation evidence. After that candidate is selected, run one matched five-fold comparison for that candidate/configuration using primary + supplemental training to assess whether the supplemental data helps. Main training uses marked whole conversations; app selection uses role-free whole-conversation validation, with paired marked validation as a diagnostic. The WangchanBERTa comparison runs first; the other three candidates follow after its results and a candidate-specific length/input review.

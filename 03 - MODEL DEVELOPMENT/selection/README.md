@@ -2,7 +2,11 @@
 
 This directory records the Plan 03/01 primary-only candidate comparison. Read [Plan 03/01](../../01%20-%20PLANs/03%20-%20MODEL%20DEVELOPMENT/01%20-%20HYPERPARAMETER%20TUNING%20AND%20MODEL%20SELECTION.md) before generating or executing experiments. The final test set is outside this workflow and must remain unopened.
 
-## Current experiment order
+## Current approved reduction
+
+The owner approved stopping comparative training on 2026-10-11: retain 45 completed fits, omit the remaining 30 fits and matched supplemental comparison, and select PhayaThaiBERT at LR 3e-5, common epoch 2, primary-only. See `experiment_protocol.md` and Plan 03/01's amendment. Selection completion and local compatibility remain unresolved; no final model has been trained or test set opened. The historical full-grid sequence below must not launch.
+
+## Historical experiment order
 
 1. Compare all approved candidates using primary-only training: 30 WangchanBERTa fits (two pooling methods × three learning rates × five folds), plus 45 fits for the other three candidates (three learning rates × five folds each), 75 total.
 2. Select a candidate/configuration using the approved CV evidence and review process.
