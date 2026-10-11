@@ -1,0 +1,132 @@
+{
+  "comparison_scope": {
+    "owner_approval_date": "2026-10-11",
+    "mode": "standalone_without_classifier",
+    "included": [
+      "corpus and per-clip CER",
+      "model loading time",
+      "per-clip and repetition processing time",
+      "failures and coverage",
+      "standalone process CPU/RSS profile",
+      "PyTorch MPS driver-allocated memory where applicable",
+      "ONNX Runtime provider for Typhoon"
+    ],
+    "excluded": [
+      "classifier/STT combined CPU/memory compatibility and demand",
+      "system-wide CPU/GPU utilization",
+      "separate VRAM (Apple Silicon unified memory)"
+    ],
+    "deferred_check": "Verify the selected STT candidate with the official selected classifier during Application Integration before app freeze.",
+    "provisional_classifier_allowed": false,
+    "resource_protocol": {
+      "fresh_process_per_candidate": true,
+      "cpu_sampling_interval_seconds": 0.5,
+      "cpu_summary": [
+        "mean",
+        "peak"
+      ],
+      "process_rss_snapshots": [
+        "before model load",
+        "after model load",
+        "after warm-up",
+        "peak during timed inference"
+      ],
+      "mps_memory_candidates": [
+        "Whisper base",
+        "Whisper small",
+        "Wav2Vec2"
+      ],
+      "mps_metric": "torch.mps.driver_allocated_memory; report separately from process RSS; non-additive",
+      "typhoon_memory": "process RSS; MPS metric not applicable; report actual ONNX Runtime encoder/decoder providers",
+      "classifier_loaded": false
+    }
+  },
+  "host": {
+    "device": "MacBook Air M2",
+    "os": "macOS 27.0.1",
+    "architecture": "arm64",
+    "system_memory_bytes": 8589934592,
+    "python": "3.12.15",
+    "backend": "PyTorch MPS for PyTorch candidates; ONNX Runtime auto provider for Typhoon",
+    "mps_available": true
+  },
+  "dataset": {
+    "name": "Google FLEURS",
+    "config": "th_th",
+    "source_split": "dev",
+    "revision": "70bb2e84b976b7e960aa89f1c648e09c59f894dd",
+    "selection_seed": 67,
+    "selection_duration_seconds": 456.06,
+    "selection_clip_count": 35,
+    "selection_manifest_sha256": "54cb9185d02aa2f62ddac6b4a2546fb30601dee37778e1a0c1839aff83dce70c",
+    "audio_storage": "~/Library/Application Support/scam-call-alert/application-development/stt/fleurs-th-dev-70bb2e84/selected-7m30s"
+  },
+  "software": {
+    "openai-whisper": "20250625",
+    "pythaiasr": "2.3.0",
+    "torch": "2.14.1",
+    "torchaudio": "2.11.0",
+    "transformers": "4.57.6",
+    "soundfile": "0.14.0",
+    "ffmpeg": "9.0.2",
+    "onnxruntime": "1.31.0",
+    "psutil": "7.2.2"
+  },
+  "candidates": [
+    {
+      "id": "whisper-base-multilingual",
+      "implementation": "openai-whisper",
+      "checkpoint": "base",
+      "checkpoint_url": "https://openaipublic.azureedge.net/main/whisper/models/ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e/base.pt",
+      "checkpoint_sha256": "ed3a0b6b1c0edf879ad9b11b1af5a0e6ab5db9205f891f668f8b0e6c6326e34e",
+      "preflight": "One-clip MPS smoke inference succeeded; not a benchmark result.",
+      "effective_comparison_settings": "openai-whisper standard transcribe defaults; detected language recorded per clip."
+    },
+    {
+      "id": "whisper-small-multilingual",
+      "implementation": "openai-whisper",
+      "checkpoint": "small",
+      "checkpoint_url": "https://openaipublic.azureedge.net/main/whisper/models/9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794/small.pt",
+      "checkpoint_sha256": "9ecf779972d90ba49c06d968637d720dd632c55bbf19d441fb42bf17a411e794",
+      "preflight": "One-clip MPS smoke inference succeeded; not a benchmark result.",
+      "effective_comparison_settings": "openai-whisper standard transcribe defaults; detected language recorded per clip."
+    },
+    {
+      "id": "wav2vec2-large-xlsr-53-th",
+      "implementation": "PyThaiASR ASR API",
+      "checkpoint": "airesearch/wav2vec2-large-xlsr-53-th",
+      "checkpoint_revision": "3155938c549b23eee16b1d4b55dcb161b7fe4bcf",
+      "checkpoint_weight_sha256": "54824f24eb41e1b095bcc1d1b735da40b344ed24e484abccfd0795d0036418b8",
+      "settings": {
+        "language_model": false,
+        "device": "mps",
+        "decoder": "PyThaiASR/Wav2Vec2 default CTC argmax"
+      },
+      "preflight": "One-clip MPS smoke inference succeeded using the pinned local snapshot; not a benchmark result."
+    },
+    {
+      "id": "typhoon-asr-realtime",
+      "implementation": "PyThaiASR 2.3.0 FastConformerRNNT ONNX",
+      "checkpoint": "wannaphong/typhoon-asr-realtime-onnx",
+      "checkpoint_revision": "04af3e7b6d822cb2807bc539301669d4f84691e7",
+      "files": {
+        "encoder-fastconformer-quran-ar.onnx": "9573e8224cbad1be622b779e780cccc5638a4dd19097fd6c7258d8ec1c21cf91",
+        "decoder_joint-fastconformer-quran-ar.onnx": "c445e567e1133506c1ff5e4722ee61b8adf830243e0449de3b796a3205ea1e4a",
+        "tokenizer/vocab.json": "a7277aeb7b08f6c8a1ed7838b55d204cf6766dbe583d690bbb9fb0d42de0c2b1",
+        "export_metadata.json": "da2a9bcab663f313e83e702ed67c713beb3e5ba66f3d420977212c014672764b"
+      },
+      "settings": {
+        "provider": "PyThaiASR device=auto; record actual encoder/decoder providers",
+        "sample_rate_hz": 16000,
+        "chunking": "Full-clip offline transcribe API; no streaming benchmark"
+      },
+      "preflight": "One-clip smoke inference succeeded on the frozen 35-clip manifest; both encoder and decoder report CoreMLExecutionProvider with CPUExecutionProvider fallback. Non-empty output returned. This is compatibility only, not a scored benchmark result."
+    }
+  ],
+  "limitations": [
+    "FLEURS is read speech based on parallel sentences, not spontaneous phone conversation.",
+    "The subset contains 35 clips; repeated runs do not increase clip coverage.",
+    "Individual one-clip smoke timings are compatibility diagnostics and must not be compared or reported as model performance.",
+    "CPU/RSS and MPS allocation are process-level standalone measurements sampled every 0.5 seconds; short-lived peaks between samples may be missed, and no classifier is loaded."
+  ]
+}

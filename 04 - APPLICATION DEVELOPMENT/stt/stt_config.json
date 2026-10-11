@@ -1,0 +1,43 @@
+{
+  "selection_status": "owner_selected_for_application_integration_pending_compatibility",
+  "owner_selection_date": "2026-10-11",
+  "selected_candidate": {
+    "id": "wav2vec2-large-xlsr-53-th",
+    "display_name": "PyThaiASR + Wav2Vec2 Thai",
+    "implementation": "PyThaiASR ASR API",
+    "package_version": "2.3.0",
+    "checkpoint": "airesearch/wav2vec2-large-xlsr-53-th",
+    "checkpoint_revision": "3155938c549b23eee16b1d4b55dcb161b7fe4bcf",
+    "checkpoint_weight_sha256": "54824f24eb41e1b095bcc1d1b735da40b344ed24e484abccfd0795d0036418b8",
+    "inference": {
+      "device": "mps",
+      "language_model": false,
+      "decoder": "PyThaiASR default Wav2Vec2 CTC argmax",
+      "audio_sample_rate_hz": 16000,
+      "audio_channels": 1,
+      "audio_array": "float32 NumPy array",
+      "text_postprocessing": "None beyond the model's standard decoder"
+    }
+  },
+  "selection_evidence": {
+    "dataset": "Google FLEURS th_th dev; seed-67 frozen 35-clip subset; 456.06 seconds",
+    "quality": "Corpus CER 13.55% in each of three repetitions; lowest among the four candidates tested",
+    "processing": "Mean successful-path batch RTF 0.028; fastest among the four candidates tested",
+    "standalone_resources": {
+      "cpu_mean_percent": 10.1,
+      "cpu_peak_percent": 25.5,
+      "peak_process_rss_gb": 0.464,
+      "peak_pytorch_mps_driver_allocated_gib": 3.104
+    },
+    "limitations": [
+      "FLEURS is read speech, not spontaneous scam-call speech.",
+      "Only 35 clips were evaluated; the result is development evidence, not a general Thai ASR guarantee.",
+      "MPS allocation is non-additive with process RSS and uses Apple Silicon unified memory.",
+      "Standalone resource measurements exclude the classifier and do not establish combined application feasibility."
+    ]
+  },
+  "integration_gate": {
+    "required_before_final_app_freeze": "Verify the selected model loads with the official selected classifier on the target host, accepts the shared audio/input contract, and meets app operation and resource needs.",
+    "if_gate_fails": "Preserve evidence and discuss the proposed change with the owner; do not silently replace the selected candidate."
+  }
+}
