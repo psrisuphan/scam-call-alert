@@ -4,6 +4,14 @@
 
 Package the selected and evaluated classifier as a reproducible local inference service for the mobile emulator application. Preserve evaluated model behavior, preprocessing, label mapping and threshold.
 
+### Owner-approved temporary app-development exception (2026-10-11)
+
+To begin application integration before the four-candidate comparison and final selection finish, create a separate provisional WangchanBERTa model bundle from the completed epoch-3, max-pooling, learning-rate `5e-5`, fold-0 CV run (`wangchan-primary-max-lr5e-05-fold-0`). This run's configuration has the highest mean role-free Scam F1 among the six completed WangchanBERTa configurations; using it here is an expedient development fixture, not final model selection. The held-out test set remains unopened.
+
+Store this bundle and its inference adapter under the approved persistent Drive model-development area in a clearly named `provisional-app-model/` location, outside Git and separate from `handoff/bundles/`. Preserve the run ID, epoch, config/checkpoint identities, checksums, preprocessing, two-class label mapping, threshold `0.5`, and runtime dependencies. The adapter must implement the exact WangchanBERTa training/validation policy for this run: complete role-free conversation, ordered 508-content-token windows, stride 381 (127-token overlap), special tokens, and class-wise max-logit pooling before softmax. Do not use the current prefix-only final-evaluation/handoff path for this provisional checkpoint.
+
+The provisional bundle may be used only to wire the app/service boundary and perform software/functional smoke checks. Its predictions, scores, and runtime are not candidate-selection, model-parity, app-context-comparison, or Plan 05 evidence. Do not use final-test records. The referenced CV summary is role-free Scam F1 `0.962344 ± 0.013827` at epoch 3 (mean ± sample SD across folds); it justifies this temporary fixture choice only and does not select the final model. Once the official candidate and final inference artifact are ready, replace the provisional bundle, then repeat the affected integration and compatibility checks against the official artifact before context comparison or formal system evaluation. Keep the official selected-model prerequisites and completion criteria below unchanged.
+
 This task does not retrain, select configurations, tune thresholds, select STT, build the application or perform final system evaluation.
 
 ## Prerequisites

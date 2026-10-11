@@ -47,6 +47,8 @@ wandb/
 03 - MODEL DEVELOPMENT/final-evaluation/error_analysis.reviewed.csv
 03 - MODEL DEVELOPMENT/handoff/bundles/
 03 - MODEL DEVELOPMENT/handoff/parity-runs/
+03 - MODEL DEVELOPMENT/provisional-app-model/bundles/
+03 - MODEL DEVELOPMENT/provisional-app-model/runtime-artifacts/
 
 # Course materials kept local and out of Git
 01 - PLANs/course-lecture-sheets/

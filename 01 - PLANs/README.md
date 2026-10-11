@@ -77,7 +77,7 @@ The main sequence is:
 
 **Data preparation → splitting and experiment design → preprocessing → model development → application integration → end-to-end evaluation → final reporting.**
 
-Training and tuning are iterative. Application integration depends on both the model handoff and the speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work. Forward references to later approved protocols supply method definitions, not a requirement to execute final evaluation before development.
+Training and tuning are iterative. Owner-approved early app wiring may use the temporary WangchanBERTa bundle specified in Plan 03/03 while candidate comparisons continue; official context comparison, integration freeze, and Plan 05 still require the selected/final-evaluated model handoff and speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work. Forward references to later approved protocols supply method definitions, not a requirement to execute final evaluation before development.
 
 Optional Plan 03/04 has an owner-confirmed high-level outline, but remains **Unplanned** because its implementation protocol is not finalized. Consider activation after original-data CV review and before final-test access, regardless of filename numbering. It may remain unused. Existing no-augmentation instructions remain effective until the detailed protocol and affected changes receive owner approval.
 

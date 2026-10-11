@@ -12,7 +12,9 @@ The simulated-call interface, microphone mode and background monitoring are owne
 
 ## 1. Verify prerequisites
 
-Obtain Plan 02's shared unlabeled preparation component; Model Freeze and App Handoff's evaluated classifier bundle, manifest and inference contract; STT Evaluation's selected adapter/configuration; and saved conversation identities, related-record groups and train/test assignments.
+For early application wiring only, use the owner-approved provisional WangchanBERTa bundle and adapter documented in Plan 03/03. Treat it as a replaceable development fixture: do not use its predictions, scores, or runtime as selection, parity, context-comparison, or system-evaluation evidence. Do not access final-test records. Before formal context comparison, replace it with Plan 03/03's selected and final-evaluated bundle and repeat affected integration checks.
+
+The remaining prerequisites are Plan 02's shared unlabeled preparation component; STT Evaluation's selected adapter/configuration; and saved conversation identities, related-record groups and train/test assignments. The official evaluated classifier bundle, manifest and inference contract remain mandatory before formal context comparison, freezing the integration, or Plan 05.
 
 Verify revisions/checksums. Preserve weights, tokenizer, preprocessing, label mapping and threshold 0.5. Do not silently substitute components. STT and classification run on the approved local computer; resolve prerequisite host/backend compatibility checkpoints before integration measurements.
 
