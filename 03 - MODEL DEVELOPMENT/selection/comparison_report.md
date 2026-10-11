@@ -18,9 +18,11 @@ WangchanBERTa fits used primary-only role-marked whole-conversation training, sa
 | Mean, LR 3e-5 | 0.954449 ± 0.009765 | 0.964989 ± 0.006088 | 0.913000 / 1.000000 | 0.954472 | 0.954477 | 0.114466 |
 | Max, LR 5e-5 | **0.962344 ± 0.013827** | 0.969942 ± 0.010419 | 0.936988 / 0.989189 | 0.963060 | 0.963075 | 0.097962 |
 | Mean, LR 5e-5 | 0.954162 ± 0.008099 | 0.965638 ± 0.008470 | 0.916932 / 0.994595 | 0.954473 | 0.954477 | 0.128064 |
-| PhayaThaiBERT, LR 3e-5 | 0.976003 ± 0.011300 | 0.976410 ± 0.013856 | 0.965163 / 0.987355 | 0.976779 | 0.976809 | 0.060712 |
+| PhayaThaiBERT, LR 3e-5 | **0.976003 ± 0.011300** | 0.976410 ± 0.013856 | 0.965163 / 0.987355 | 0.976779 | 0.976809 | 0.060712 |
+| HPLT Thai, LR 3e-5 | 0.941220 ± 0.030459 | 0.959621 ± 0.010196 | 0.998000 / 0.891777 | 0.946958 | 0.947614 | 0.332635 |
+| XLM-RoBERTa, LR 3e-5 | 0.970691 ± 0.012578 | 0.968865 ± 0.010702 | 0.983721 / 0.958477 | 0.972400 | 0.972514 | 0.170987 |
 
-Max pooling at LR 5e-5 has the highest epoch-3 role-free Scam F1 mean among these six WangchanBERTa settings; max pooling at LR 2e-5 has the lowest observed role-free Scam F1 SD. These are descriptive comparisons within this candidate, not a final selection: the approved review considers focus-metric performance together with fold variability, and the other candidates/configurations are not yet fully compared. Role-marked scores are diagnostic and do not determine selection.
+Across all four candidates evaluated on primary-only 5-fold CV, **PhayaThaiBERT** achieves the highest role-free Scam F1 mean (`0.976003` at epoch 3, `0.976796` at epoch 2), followed closely by **XLM-RoBERTa** (`0.970691` at epoch 3, `0.973643` at epoch 2), **WangchanBERTa** (`0.962344` at epoch 3), and **HPLT Thai** (`0.941220` at epoch 3).
 
 ### Role-free Scam F1 by epoch
 
@@ -34,7 +36,9 @@ This records the CV trajectory for every configuration, preserving the epoch-1 a
 | Mean, LR 3e-5 | 0.960739 ± 0.011521 | 0.954277 ± 0.014013 | 0.954449 ± 0.009765 |
 | Max, LR 5e-5 | 0.963573 ± 0.014052 | 0.962344 ± 0.013827 | 0.962344 ± 0.013827 |
 | Mean, LR 5e-5 | 0.956217 ± 0.012712 | 0.954202 ± 0.011530 | 0.954162 ± 0.008099 |
-| PhayaThaiBERT, LR 3e-5 | 0.955559 ± 0.024674 | 0.976796 ± 0.012884 | 0.976003 ± 0.011300 |
+| PhayaThaiBERT, LR 3e-5 | 0.955559 ± 0.024674 | **0.976796 ± 0.012884** | **0.976003 ± 0.011300** |
+| HPLT Thai, LR 3e-5 | 0.503603 ± 0.178756 | 0.724400 ± 0.275895 | 0.941220 ± 0.030459 |
+| XLM-RoBERTa, LR 3e-5 | 0.955164 ± 0.031624 | 0.973643 ± 0.005730 | 0.970691 ± 0.012578 |
 
 The complete metric record—including precision, recall, Macro-F1, accuracy, train/validation loss, both marker conditions, and epoch-level entries—is in [`cv_results.csv`](cv_results.csv). It contains per-fold metrics for epochs 1–3 for the five newly completed configurations, epoch-3 per-fold metrics for the initial configuration, and epoch 1–3 aggregates for all six WangchanBERTa configurations. PhayaThaiBERT adds 30 per-fold rows and six aggregate rows for epochs 1–3 and both marker conditions. Its training-loss fields are blank pending retrieval of verified histories.
 
