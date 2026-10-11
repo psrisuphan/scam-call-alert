@@ -53,6 +53,7 @@ TRAINING_FILES = [
     "03 - MODEL DEVELOPMENT/training/tests/test_review_regressions.py",
     "03 - MODEL DEVELOPMENT/training/tests/test_engine_recovery.py",
     "03 - MODEL DEVELOPMENT/training/tests/config_factory.py",
+    "03 - MODEL DEVELOPMENT/training/tests/test_candidate_checkpoint_compatibility.py",
     "03 - MODEL DEVELOPMENT/training/test_trainer.py",
     "03 - MODEL DEVELOPMENT/training/prune_epoch_snapshots.py",
     "03 - MODEL DEVELOPMENT/training/report_truncation.py",
@@ -72,6 +73,7 @@ SELECTION_FILES = [
     "03 - MODEL DEVELOPMENT/selection/cv_results.csv",
     "03 - MODEL DEVELOPMENT/selection/comparison_report.md",
     "03 - MODEL DEVELOPMENT/selection/search_space.json",
+    "03 - MODEL DEVELOPMENT/selection/experiment_protocol.md",
     "03 - MODEL DEVELOPMENT/selection/experiment_manifest.csv",
 ]
 
