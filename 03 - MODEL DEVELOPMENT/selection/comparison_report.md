@@ -2,36 +2,50 @@
 
 ## Scope and status
 
-The approved protocol compares the four candidates with primary-only training: 30 WangchanBERTa fits (max/mean pooling × three learning rates × five folds) plus 45 fits for the other candidates. One selected candidate/configuration may later receive a matched five-fold primary + supplemental follow-up. No test-set data was used.
+The approved primary-only comparison contains 75 fold fits: six WangchanBERTa configurations (two pooling methods × three learning rates × five folds) and 45 fits for the other three candidates. The six WangchanBERTa configurations are now complete: 30/30 fold fits finished three epochs. The other 45 fits remain blocked/pending. After the four-candidate comparison and reviewed candidate selection, one matched five-fold primary + supplemental follow-up may be run for that candidate/configuration. The held-out test set has not been opened.
 
-The current evidence covers **one of 15 configurations**: WangchanBERTa, 2e-5 learning rate, class-wise max pooling, seed 67, effective batch 16, three epochs, and folds 0–4. It is an early result, not cross-candidate selection or final-test performance. The existing five folds were imported by run identity; no training was repeated.
+These results are development cross-validation evidence for **WangchanBERTa only**. Role-free validation Scam F1 is the selection metric; role-marked validation is diagnostic. Scores below summarize fold-level metrics as mean ± sample SD (denominator 4), unless marked as a single mean. They do not select the final candidate before the other models are compared and are not final-test performance.
 
-## Epoch-3 validation scores
+## Completed configurations: epoch 3
 
-Scam is the positive class. Each fold evaluates both marker conditions on the combined validation records. SD is the sample standard deviation across five fold scores (denominator 4).
+All fits used primary-only role-marked whole-conversation training, saved folds 0–4, seed 67, effective batch 16 conversations, three epochs, WangchanBERTa full-context windows (508 content tokens, stride 381, overlap 127), the listed pooling method, one unweighted conversation-level cross-entropy loss, and paired role-free/role-marked whole-conversation validation at threshold 0.5. Runtime was Colab Tesla T4 with FP16. Each validation fold contains the combined validation population from both sources, even though training used primary data only.
 
-| Validation input | Scam precision (mean) | Scam recall (mean) | Scam F1 (mean ± sample SD) | Macro-F1 (mean) | Accuracy (mean) | Validation loss (mean) |
+| Configuration | Role-free Scam F1 (mean ± SD) | Role-marked Scam F1 (mean ± SD) | Role-free precision / recall | Role-free Macro-F1 | Role-free accuracy | Role-free validation loss |
 |---|---:|---:|---:|---:|---:|---:|
-| Role-free (selection condition) | 0.933601 | 0.989156 | **0.960559 ± 0.005358** | 0.961324 | 0.961340 | 0.074191 |
-| Role-marked (diagnostic) | 0.964572 | 0.980147 | 0.972219 ± 0.008171 | 0.973324 | 0.973372 | 0.056321 |
+| Max, LR 2e-5 | 0.960559 ± 0.005358 | 0.972219 ± 0.008171 | 0.933601 / 0.989156 | 0.961324 | 0.961340 | 0.074191 |
+| Mean, LR 2e-5 | 0.951139 ± 0.013833 | 0.965792 ± 0.008262 | 0.908517 / 0.998198 | 0.951033 | 0.951040 | 0.098871 |
+| Max, LR 3e-5 | 0.961599 ± 0.008594 | 0.971681 ± 0.005055 | 0.932402 / 0.992776 | 0.962194 | 0.962206 | 0.084124 |
+| Mean, LR 3e-5 | 0.954449 ± 0.009765 | 0.964989 ± 0.006088 | 0.913000 / 1.000000 | 0.954472 | 0.954477 | 0.114466 |
+| Max, LR 5e-5 | **0.962344 ± 0.013827** | 0.969942 ± 0.010419 | 0.936988 / 0.989189 | 0.963060 | 0.963075 | 0.097962 |
+| Mean, LR 5e-5 | 0.954162 ± 0.008099 | 0.965638 ± 0.008470 | 0.916932 / 0.994595 | 0.954473 | 0.954477 | 0.128064 |
 
-The exported aggregate trajectory across the three completed epochs was:
+Max pooling at LR 5e-5 has the highest epoch-3 role-free Scam F1 mean among these six WangchanBERTa settings; max pooling at LR 2e-5 has the lowest observed role-free Scam F1 SD. These are descriptive comparisons within this candidate, not a final selection: the approved review considers focus-metric performance together with fold variability, and the other three candidates have not been compared yet. Role-marked scores are diagnostic and do not determine selection.
 
-| Epoch | Role-free Scam F1 (mean ± sample SD) | Role-free train loss | Role-free validation loss | Role-marked Scam F1 (mean ± sample SD) | Role-marked validation loss |
-|---:|---:|---:|---:|---:|---:|
-| 1 | 0.962286 ± 0.011756 | 0.356845 | 0.095214 | 0.970477 ± 0.014520 | 0.076315 |
-| 2 | 0.962402 ± 0.009112 | 0.006811 | 0.072650 | 0.972474 ± 0.008387 | 0.053534 |
-| 3 | 0.960559 ± 0.005358 | 0.000999 | 0.074191 | 0.972219 ± 0.008171 | 0.056321 |
+### Role-free Scam F1 by epoch
 
-| Marker condition | Fold Scam F1 scores (folds 0–4) |
-|---|---|
-| Role-free | 0.951965, 0.964912, 0.965217, 0.960699, 0.960000 |
-| Role-marked | 0.959276, 0.977578, 0.977974, 0.968889, 0.977376 |
+This records the CV trajectory for every configuration, preserving the epoch-1 and epoch-2 results as well as the common epoch-3 endpoint. Each cell is mean ± sample SD across the five validation folds.
 
-Fold validation counts were 233, 233, 233, 233, and 232 (total 1,164). Fold class counts were 122 Not Scam and 111 Scam for folds 0–3; fold 4 contained 122 Not Scam and 110 Scam. `cv_results.csv` includes the exported epoch aggregates for epochs 1–3 and fold-level metrics at epoch 3. The underlying export has no per-fold epoch 1–2 or sample rows, so the report does not claim a regenerated prediction-level aggregate.
+| Configuration | Epoch 1 | Epoch 2 | Epoch 3 |
+|---|---:|---:|---:|
+| Max, LR 2e-5 | 0.962286 ± 0.011756 | 0.962402 ± 0.009112 | 0.960559 ± 0.005358 |
+| Mean, LR 2e-5 | 0.963719 ± 0.017411 | 0.951871 ± 0.011702 | 0.951139 ± 0.013833 |
+| Max, LR 3e-5 | 0.965391 ± 0.010423 | 0.962522 ± 0.011987 | 0.961599 ± 0.008594 |
+| Mean, LR 3e-5 | 0.960739 ± 0.011521 | 0.954277 ± 0.014013 | 0.954449 ± 0.009765 |
+| Max, LR 5e-5 | 0.963573 ± 0.014052 | 0.962344 ± 0.013827 | 0.962344 ± 0.013827 |
+| Mean, LR 5e-5 | 0.956217 ± 0.012712 | 0.954202 ± 0.011530 | 0.954162 ± 0.008099 |
+
+The complete metric record—including precision, recall, Macro-F1, accuracy, train/validation loss, both marker conditions, and epoch-level entries—is in [`cv_results.csv`](cv_results.csv). It contains per-fold metrics for epochs 1–3 for the five newly completed configurations, epoch-3 per-fold metrics for the initial configuration, and epoch 1–3 aggregates for all six configurations.
+
+## Reporting still required before completing Plan 03/01
+
+This result note records the six configurations' focus metrics and the supporting aggregate metrics currently imported. It is **not yet the complete Plan 03/01 comparison report**. The tracked result table does not yet include performance stratified by conversation chunk count, source-stratified scores, per-fold training/inference runtime, undefined-metric flags, or confusion counts. Those fields are required for the planned comparison and should be derived from the persistent per-sample predictions and run histories before candidate selection/completion. Do not infer chunk-stratified behavior or runtime from the aggregate Scam F1 table.
+
+The run prediction artifacts include chunk counts, content-token counts, per-sample inference timings, marker condition, source, and probabilities, and the histories include epoch timing/resource snapshots. Their hash references are preserved in the manifest. The 25 newer prediction files were not independently downloaded and rehashed during this review, so verify their recorded SHA-256 before aggregating them. Until that evidence is checked and the missing breakdowns are reported, treat the current report as a result summary rather than the final comparison deliverable.
 
 ## Provenance and interpretation
 
-The importer validated the export status, settings, five fold IDs, per-run run-config/history/prediction SHA-256 values, and three completed epochs. The export SHA-256 is `0596c22980f8cadc4ac43031a15d88cd098a0e871d2a8156ff230404c6bf10c3`. The run artifacts and raw sample predictions remain in persistent Drive at the artifact locations referenced in `experiment_manifest.csv`; they are not committed to Git. `cv_results.csv` is the compact per-fold and aggregate metric table.
+The original max-pooling LR 2e-5 configuration remains tied to its verified aggregate export and original five run IDs. The other five configurations were imported from their 25 completed per-fold run records. For those 25 runs, each `run_summary.json` was checked against the SHA-256 recorded for its `run_config.json` and `training_history.csv`; those config and history files matched. Run IDs and config/history/prediction hash values are recorded in [`experiment_manifest.csv`](experiment_manifest.csv). The prediction hash values are retained from run summaries but the prediction files were not independently downloaded and rehashed for this documentation pass. The five new configurations share the persistent Drive root `scam-call-alert/model-development/comparison-slices/wangchan-primary-remaining-20261010/runs/`. The original configuration's artifacts are under `scam-call-alert/model-development/comparison-slices/wangchanberta-fullcontext-20261010-pilot1/repairs/overflow-fix-20261010-v1/`. The manifest contains the exact per-run paths and hashes. Raw histories, sample-level predictions, checkpoints, and model weights remain in persistent Drive, not Git.
 
-These are development CV results from the validation folds, not final-test estimates. The model-selection condition is role-free whole-conversation Scam F1; marked-condition scores are diagnostic and do not override it. Do not infer generalization beyond this dataset or use these results as a final model choice. Continue the remaining approved primary-only configurations under the current gates, reusing the five completed fits without rerunning them.
+The new run summaries, configs, and histories were checksum-verified before metric import. `cv_results.csv` is a compact aggregate evidence table, not a replacement for the Drive run records. No transcript text or sample-level predictions were copied into Git.
+
+These are development CV results from the approved validation folds, not final-test estimates. Do not infer performance beyond this dataset, use final-test data for tuning, or call WangchanBERTa the selected candidate yet. Continue the remaining candidates under their existing Plan 03 gates, reuse these 30 completed fits, then compare all four candidates using the approved role-free condition and fold variability.

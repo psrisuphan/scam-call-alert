@@ -8,7 +8,7 @@ This document records implementation decisions and evidence that a collaborator 
 2. [Plan 03/01 — Hyperparameter Tuning and Model Selection](../01%20-%20PLANs/03%20-%20MODEL%20DEVELOPMENT/01%20-%20HYPERPARAMETER%20TUNING%20AND%20MODEL%20SELECTION.md)
 3. [Plan 02 — Data Preprocessing and Model Inputs](../01%20-%20PLANs/02%20-%20DATA%20PREPROCESSING%20AND%20MODEL%20INPUTS.md)
 4. The current training and selection component READMEs and the applicable owner-approved run configuration.
-5. [WangchanBERTa reproduction guide](selection/WANGCHANBERTA%20REPRODUCTION%20GUIDE.md) for the completed configuration's exact settings, source identity, and persistent evidence locations.
+5. [WangchanBERTa reproduction guide](selection/WANGCHANBERTA%20REPRODUCTION%20GUIDE.md) for all six completed WangchanBERTa configurations, settings, scores, and persistent evidence locations.
 
 The local `IMPLEMENTATION HANDOFF.md` and `EXECUTION CHECKPOINTS.md` are session aids and are deliberately not tracked. The [training implementation report](training/training_report.md) provides the detailed diagnostic/run history, truncation table, and verification record. Use this document for the durable cross-candidate guidance; use each run's configuration, history, predictions, and verification evidence for exact execution provenance.
 
@@ -20,9 +20,9 @@ The owner approved this time-bounded sequence on 2026-10-10:
 2. After reviewing those results, run one matched five-fold **primary + supplemental** comparison for the selected candidate/configuration only. Keep the model, selected settings, seed, folds, validation membership, marker conditions, and common epoch fixed; change only the training-data condition. Do not retune this follow-up or run it for the other candidates.
 3. Use the paired results to decide the selected model's final training-data condition. Do not claim the supplemental-data effect is known for the other three candidates.
 
-The approved learning-rate grid is `2e-5`, `3e-5`, and `5e-5` (with `3e-5` as the initial reference); seed is `67`, and the approved fold count is five. The planned first pass is 75 primary-only fold fits: 30 WangchanBERTa fits (two pooling methods × three learning rates × five folds) and 45 fits for the other three candidates (three learning rates × five folds each). The selected candidate's one supplemental comparison adds five fits, for 80 planned fits before approved retries or epoch extensions. One WangchanBERTa configuration is already complete, so it is included in—not additional to—the 30.
+The approved learning-rate grid is `2e-5`, `3e-5`, and `5e-5` (with `3e-5` as the initial reference); seed is `67`, and the approved fold count is five. The planned first pass is 75 primary-only fold fits: 30 WangchanBERTa fits (two pooling methods × three learning rates × five folds) and 45 fits for the other three candidates (three learning rates × five folds each). The selected candidate's one supplemental comparison adds five fits, for 80 planned fits before approved retries or epoch extensions. All six WangchanBERTa configurations (30 fold fits) are now complete; they are included in—not additional to—the 30.
 
-The previous search implementation encoded an all-model/two-data-condition matrix. It has now been replaced in the tracked selection workflow with the Plan 03/01 primary-only-first sequence. `selection/workflow.py` generates the approved 75-fit primary-only manifest and imports the existing WangchanBERTa five-fold aggregate export by its original run IDs and artifact hashes; it does not launch training or access the final test set. The existing 2e-5/max-pooling folds are marked complete and must not be rerun. Remaining rows stay blocked while launch gates are unresolved. The matched five-fold supplemental comparison is deferred until one primary-only candidate/configuration is selected. See `selection/comparison_report.md` and `selection/cv_results.csv` for the current scores and imported-evidence limits.
+The previous search implementation encoded an all-model/two-data-condition matrix. It has now been replaced in the tracked selection workflow with the Plan 03/01 primary-only-first sequence. `selection/workflow.py` was used for the original five-fold aggregate import; it does not launch training or access the final test set. The manifest now records all 30 completed WangchanBERTa fold runs and their Drive artifact identities; the other 45 candidate fits remain blocked/pending. Do not rerun the manifest-generation or original-export import commands against the current files because they would erase newer completion/results data. The matched five-fold supplemental comparison is deferred until one primary-only candidate/configuration is selected. See `selection/comparison_report.md`, `selection/cv_results.csv`, and the reproduction guide for current scores and provenance.
 
 ## WangchanBERTa full-context implementation finding
 
@@ -40,18 +40,15 @@ This windowing choice is an approved WangchanBERTa implementation policy, not ev
 
 Caller-only training comparisons were dropped by the owner on 2026-10-10 because of the remaining project time. Plan 02's caller-only prepared data remains unchanged; it is not an active model-selection experiment. Do not add an LSTM to the current candidate comparison.
 
-## First completed five-fold configuration
+## Completed WangchanBERTa five-fold configurations
 
-The first verified full-context comparative configuration is `wangchanberta__primary_only__lr-2e-05__pool-max`. It completed five folds at epoch 3 (maximum approved for this run: 4; no extension was run) with:
+All six WangchanBERTa primary-only configurations are complete: max and mean pooling at learning rates `2e-5`, `3e-5`, and `5e-5`, five folds each, three epochs per fit. Their settings and complete epoch-level validation metrics are in `selection/WANGCHANBERTA REPRODUCTION GUIDE.md` and `selection/cv_results.csv`; `selection/experiment_manifest.csv` is authoritative for run IDs, Drive paths, and hashes. The concise result interpretation is in `selection/comparison_report.md`.
 
-- WangchanBERTa, primary-only training, role-marked whole conversations.
-- Learning rate `2e-5`, seed `67`, effective batch size `16` conversations, three epochs, warmup equal to 10% of planned optimizer updates rounded up.
-- FP16 on a Colab Tesla T4; overlapping 508-content-token windows at stride 381; class-wise max pooling; one conversation-level unweighted cross-entropy loss.
-- Paired role-free and role-marked validation; the held-out test set was not accessed.
+At epoch 3, role-free Scam F1 (mean ± sample SD across folds) was: max/LR 2e-5 `0.960559 ± 0.005358`; mean/LR 2e-5 `0.951139 ± 0.013833`; max/LR 3e-5 `0.961599 ± 0.008594`; mean/LR 3e-5 `0.954449 ± 0.009765`; max/LR 5e-5 `0.962344 ± 0.013827`; mean/LR 5e-5 `0.954162 ± 0.008099`. Role-marked diagnostic Scam F1 is in the report/CSV. The best mean score and lowest SD occur in different settings; these six results do not select an overall candidate because the other three models remain to be compared. All are CV validation results, not final-test estimates. The test set remains unopened.
 
-Role-free Scam F1 by fold: `0.951965, 0.964912, 0.965217, 0.960699, 0.960000`; mean `0.960559`, sample SD `0.005358`. Role-marked Scam F1 mean was `0.972219`, sample SD `0.008171`. Role-marked supporting results were macro-F1 `0.973324 ± 0.007689`, accuracy `0.973372 ± 0.007662`, training loss `0.000999 ± 0.000257`, and validation loss `0.056321 ± 0.017067`. These are development-CV validation results for one configuration, not final-test results, not the completed WangchanBERTa search, and not a cross-candidate selection.
+The aggregate results currently recorded satisfy the focus-metric summary, but they do not yet satisfy every reporting field in Plan 03/01: chunk-count/source breakdowns, per-fold runtime/inference timing, undefined-metric flags, and confusion counts remain to be reconciled from the run histories and sample-level predictions before candidate selection/completion. Verify prediction files against manifest hashes before aggregating; the 25 new prediction files have not yet been independently downloaded and rehashed. The comparison report marks this limitation explicitly.
 
-Persistent Drive evidence is under `scam-call-alert/model-development/comparison-slices/wangchanberta-fullcontext-20261010-pilot1/repairs/overflow-fix-20261010-v1/evidence/results-epoch3/` (`epoch3_cv_results.json` and `.md`). The verifier marked this configuration `verified_five_fold_epoch3`. Consult the files in that persistent location for per-fold artifacts, hashes, and complete provenance; this summary is not a substitute for them.
+The original max/LR 2e-5 configuration retains its original aggregate-export provenance. The other 25 fits' run summaries, configs, and histories were checked by hash before importing metrics; their run IDs and config/history/prediction hashes are in the manifest. Detailed run evidence remains in Drive under the paths recorded there. All 30 completed fits must be reused, not rerun or overwritten.
 
 ## Execution lessons to carry forward
 
@@ -64,10 +61,9 @@ Persistent Drive evidence is under `scam-call-alert/model-development/comparison
 
 ## Next collaborator actions
 
-1. Confirm the current workspace/source and persistent Drive artifacts are accessible; retrieve the completed WangchanBERTa evidence and preserve its identities.
-2. Read Plan 03/00 and 03/01, then use `selection/workflow.py` for the approved primary-only manifest and verified-result import. The trainer/selection source and regression suite are in the implementation handoff; do not use the old Colab notebooks, fixed-prefix diagnostic generator, caller-only templates, or legacy two-condition matrix commands. The complete 75-fit matrix still waits on its documented runtime and owner-approval gates.
-3. Continue the remaining WangchanBERTa primary-only learning-rate/pooling configurations under their existing owner-approved gates. Review and approve the subsequent candidate-specific diagnostics/input policies and resource gates before running the other three candidates.
-4. Reconcile comparable primary-only CV evidence for all four candidates before human-reviewed candidate selection. Only then run the selected candidate's matched supplemental-data comparison.
-5. Keep final retraining, held-out evaluation, model packaging, app/system evaluation, and reporting within their own approved plans and gates.
+1. Reuse the 30 completed WangchanBERTa fits and their existing IDs; do not rerun them. The full results and Drive provenance are recorded in the selection report, CSV, manifest, and reproduction guide.
+2. Read Plan 03/00 and 03/01 and resolve the applicable gates for the other candidate-specific diagnostics/input policies and resource budgets before launching those candidate comparisons. Do not run the old Colab notebooks, fixed-prefix diagnostic generator, caller-only templates, legacy two-condition matrix commands, or the current workflow regeneration/import commands on the completed manifest/results.
+3. Complete comparable primary-only CV evidence for the other three candidates, then review all four candidates using the approved selection guidance. Only after that selection, run the selected candidate's matched supplemental-data comparison.
+4. Keep final retraining, held-out evaluation, model packaging, app/system evaluation, and reporting within their own approved plans and gates.
 
 If a requested step conflicts with an approved plan, stop that affected step, show the evidence and downstream impact, and obtain explicit owner confirmation before changing the plan or proceeding with a deviation.

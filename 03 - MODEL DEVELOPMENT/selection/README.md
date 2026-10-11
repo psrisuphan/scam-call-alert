@@ -13,7 +13,7 @@ The earlier selector and generated 120-row matrix encoded a superseded protocol.
 ## Tracked files
 
 - `search_space.json`: approved primary-only scope, fixed settings, candidate-specific WangchanBERTa pooling methods, and fit counts.
-- `workflow.py`: safe manifest generation and import of a verified aggregate export. It does not train models, read test data, or import sample-level predictions. Unresolved launch gates keep unstarted rows blocked.
+- `workflow.py`: original manifest generation and import of the initial verified aggregate export. It does not train models, read test data, or import sample-level predictions. Its current manifest generation/import behavior is unsafe for the now-completed rows; see the warning below and do not run it on current tracked files.
 - `runtime.py`: focused metric aggregation and saved-fold membership validation used by the training runner. It contains no experiment-launch CLI.
 - `experiment_manifest.csv`: 75 planned primary-only fit rows; completed fits keep their original run IDs and source artifact hashes.
 - `cv_results.csv`: imported fold-level and aggregate validation metrics. It contains no transcript text or row-level predictions.
@@ -21,9 +21,13 @@ The earlier selector and generated 120-row matrix encoded a superseded protocol.
 - `WANGCHANBERTA REPRODUCTION GUIDE.md`: completed-run settings, score provenance, reuse rules, and fresh-clone reproducibility limits.
 - `tests/`: regression checks for the scope and import safeguards.
 
-Training histories, sample-level predictions, checkpoints, and raw run directories stay in their approved persistent storage locations outside Git. Manifest artifact references point there. The verified export checksum and per-run artifact checksums preserve provenance; the committed metrics table is a compact, reproducible summary, not a substitute for those source artifacts.
+Training histories, sample-level predictions, checkpoints, and raw run directories stay in their approved persistent storage locations outside Git. Manifest artifact references point there. The original export checksum and per-run artifact hashes preserve provenance; for the 25 newer runs, config/history hashes were checked before metric import while prediction hashes are recorded but the prediction files were not independently downloaded and rehashed. The committed metrics table is a compact summary, not a substitute for source artifacts.
 
-## Safe workflow commands
+## Workflow command warning
+
+The commands below document the original workflow implementation. **Do not run them against the current tracked manifest/results.** `manifest` regenerates all 75 rows and would erase completed run identities; `import-verified-export` only imports the original max-pooling LR 2e-5 export and rewrites the result CSV for that configuration. The current six-configuration evidence has been recorded manually from verified run records. Upgrade and review the importer before using it again on current data.
+
+## Original workflow commands (historical)
 
 From the repository root:
 
@@ -35,6 +39,6 @@ python3 "03 - MODEL DEVELOPMENT/selection/workflow.py" import-verified-export \
 
 Manifest generation replaces the prior obsolete matrix with the approved 75 primary-only rows. Importing the existing WangchanBERTa export marks only its five completed rows and writes the score table; it does not execute or repeat training. The importer validates the exact configuration, run IDs, folds, status, marker conditions, and checksum formats and records the export checksum. It refuses unexpected settings or incomplete fold coverage.
 
-The imported export contains per-fold metrics and artifact hashes, but not sample-level predictions. `cv_results.csv` therefore reports the verified fold metrics available in that export; full prediction-level re-aggregation remains possible from the persistent run artifacts and must retain their identities. Do not describe this imported summary as a complete row-level reconstruction.
+For the initial configuration, the imported export contains fold metrics and artifact hashes but not sample-level predictions. For the other five configurations, metrics were imported from the verified run histories and their run summaries. The repository tables are aggregate development evidence, not a complete row-level reconstruction; full re-aggregation requires the persistent Drive artifacts and their recorded identities.
 
-The current WangchanBERTa result is development validation evidence for one configuration only. It is not a final selection and is not a test-set score. No new run is authorized by this import step.
+The six completed WangchanBERTa configurations are development validation evidence for one candidate, not a final selection or test-set score. The full results and provenance are in `comparison_report.md`, `cv_results.csv`, `experiment_manifest.csv`, and `WANGCHANBERTA REPRODUCTION GUIDE.md`. No new run is authorized by this import step.
