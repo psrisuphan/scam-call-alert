@@ -54,6 +54,8 @@ TRAINING_FILES = [
     "03 - MODEL DEVELOPMENT/training/tests/test_engine_recovery.py",
     "03 - MODEL DEVELOPMENT/training/tests/config_factory.py",
     "03 - MODEL DEVELOPMENT/training/tests/test_candidate_checkpoint_compatibility.py",
+    "03 - MODEL DEVELOPMENT/training/tests/test_selected_final_duration.py",
+    "03 - MODEL DEVELOPMENT/training/tests/test_local_final_staging.py",
     "03 - MODEL DEVELOPMENT/training/test_trainer.py",
     "03 - MODEL DEVELOPMENT/training/prune_epoch_snapshots.py",
     "03 - MODEL DEVELOPMENT/training/report_truncation.py",

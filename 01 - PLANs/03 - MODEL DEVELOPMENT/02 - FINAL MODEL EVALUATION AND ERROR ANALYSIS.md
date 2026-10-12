@@ -8,6 +8,16 @@ This task covers final retraining using the frozen selected configuration, final
 
 Do not reopen model selection, hyperparameter tuning, representation selection, or the decision threshold. Packaging and application/system evaluation belong to later plans.
 
+## Owner-approved persistence repair and replacement fit (2026-10-12)
+
+After the first final run computed two epochs, fresh-runtime inspection found no persisted checkpoint/model weights and a training-history checksum mismatch. Preserve that run, its completed computation summary and the recovery findings; it is not a usable completed final model.
+
+The owner replied “yea proceed” to repairing persistence and performing exactly one fresh replacement final fit. Keep the selected pretrained revision, primary-only membership, two epochs, LR 3e-5, seed 67, effective batch 16, T4 FP16, 20 warmup updates, representations and threshold unchanged. Use a new run ID and fresh pretrained/head/optimizer state. Do not resume the old fit or automatically retry the replacement.
+
+For this replacement, save checkpoints and export on local Colab disk, avoiding large writes through the Drive mount. Before launching, verify local staging capacity and a bounded SSH transfer/readback to the owner's persistent, Git-ignored `03 - MODEL DEVELOPMENT/final-evaluation/final_training/` directory. Record both staging and persistent paths explicitly; a runtime-local completed summary does not establish persistence.
+
+Transfer required run evidence and weights to that persistent directory with bounded operations. Verify byte counts and SHA-256 on the received files, independently read back the persistent copies, and validate the checkpoint/export identities. Preserve partial transfers and failures rather than overwriting evidence. Keep the runtime until persistence verification succeeds; do not promise protection from Colab reclamation. Drive backup may follow, but mount-visible files or fsync are not proof of cloud persistence. No held-out access is authorized by this repair.
+
 ## 1. Inputs and prerequisites
 
 Use:

@@ -87,7 +87,7 @@ def canonical_hash(value) -> str:
 
 def approved_settings_payload(config):
     keys = ("mode", "model", "checkpoint", "data", "fold", "training", "validation",
-            "optimizer", "schedule", "precision", "selection", "evaluation")
+            "optimizer", "schedule", "precision", "selection", "evaluation", "persistence")
     return {key: config[key] for key in keys if key in config}
 
 
@@ -258,8 +258,8 @@ def validate_config(config: dict, *, require_diagnostic_approval=True) -> dict:
         if config["training"]["representation"] == "caller_only":
             raise ValueError("Caller-only comparative fits are inactive under the 2026-10-10 owner-approved scope")
     if mode == "final_training":
-        if config["training"]["epochs"] < 3:
-            raise ValueError("Final duration must come from the approved CV selection (at least three epochs)")
+        if config["training"]["epochs"] <= 0:
+            raise ValueError("Final duration must be positive and come from the approved CV selection")
         if config["training"]["seed"] != 67 or config["training"]["effective_batch_size"] != 16:
             raise ValueError("Final retraining must use the selected seed and effective batch")
         if config["training"]["representation"] != "whole_conversation":
@@ -280,6 +280,16 @@ def validate_config(config: dict, *, require_diagnostic_approval=True) -> dict:
         raise ValueError("Persistent storage must be mounted and verified before execution")
     if not Path(config["paths"]["persistent_runs"]).expanduser().is_absolute():
         raise ValueError("persistent_runs must be an explicit absolute path")
+    if "staging_runs" in config["paths"]:
+        persistence = config.get("persistence", {})
+        staging = Path(_require(config, "paths.staging_runs", str)).expanduser()
+        if (mode != "final_training" or not staging.is_absolute()
+                or str(staging) == config["paths"]["persistent_runs"]
+                or persistence.get("mode") != "local_first_verified_transfer"
+                or persistence.get("owner_approved") is not True
+                or not persistence.get("approval_reference")
+                or persistence.get("verified_transfer_required") is not True):
+            raise ValueError("Local staging requires the explicit approved final-training persistence repair")
     return config
 
 
@@ -1758,7 +1768,7 @@ def _run_training_impl(config: dict, *, resume=False, extend_to_epoch=None, rest
     data_loading_start = time.monotonic()
     train_records, val_records, train, val, input_config, membership = get_records(config, inputs)
     data_loading_seconds = time.monotonic() - data_loading_start
-    run_root = Path(config["paths"]["persistent_runs"]).expanduser().resolve()
+    run_root = Path(config["paths"].get("staging_runs", config["paths"]["persistent_runs"])).expanduser().resolve()
     run_dir = run_root / config["run_id"]
     if restore_only and (not run_dir.is_dir() or run_dir.is_symlink()):
         raise FileNotFoundError(f"Restore-only verification requires an existing regular run directory: {run_dir}")
@@ -2282,7 +2292,7 @@ def run_training(config: dict, *, resume=False, extend_to_epoch=None, restore_on
         # successful evidence or a mismatched run configuration.
         try:
             run_id = config.get("run_id")
-            root = Path(config.get("paths", {}).get("persistent_runs", "" )).expanduser()
+            root = Path(config.get("paths", {}).get("staging_runs", config.get("paths", {}).get("persistent_runs", ""))).expanduser()
             if run_id and root.is_absolute() and all(c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_" for c in run_id):
                 run_dir = root / run_id
                 run_dir.mkdir(parents=True, exist_ok=True)
