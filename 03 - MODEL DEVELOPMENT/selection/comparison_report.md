@@ -6,17 +6,150 @@ The owner approved stopping comparative training and selecting **PhayaThaiBERT, 
 
 PhayaThaiBERT's epoch-2 role-free Scam F1 is 0.976796 ± 0.012884, versus XLM-R's 0.973643 ± 0.005730. The selected model has the highest observed mean, but the small lead does not prove superiority; XLM-R has lower fold SD and mixed-runtime execution. Unequal learning-rate tuning limits the comparison. No five-fold supplemental effect was measured. The single local supplemental fold is not selection evidence.
 
-Selection was approved by the owner; the task is not yet complete. Required report reconciliation and local classifier/STT compatibility remain before freezing selected_config.json. One fresh full-primary final retraining run is still required by Plan 03/02. The held-out test remains closed.
+Selection was approved by the owner; Plan 03/01 is not yet complete. The selected predictive configuration is frozen in selected_config.json. The owner-approved timing amendment assigns final classifier/STT compatibility to the coworker on MacBook Air M2 after final training and before held-out access. The first final fit completed computation but failed persistence; preserve its evidence. After explicit approval of persistence repair and one fresh replacement fit, phaya-final-replacement-primary-epoch2-20261012T050936Z completed two epochs/128 updates and its weights, checkpoint and run evidence were independently verified in owner-local persistent storage. See final-evaluation/README.md for locations and hashes. The held-out test remains closed.
 
 ## Post-selection verification findings (2026-10-11)
 
 A read-only SSH check independently matched prediction SHA-256 values and recomputed combined-source, source-specific and available chunk-count aggregates for 13 Drive-hosted PhayaThaiBERT/HPLT/XLM-R fits (18,162 prediction rows). Both local CPU XLM-R prediction files also matched their recorded SHA-256 values. Detailed aggregate evidence is retained outside Git in .colab-cli/cloud-training/selection-prediction-reconciliation.log. This check is not a new full membership/snapshot verification.
 
-The two WangchanBERTa slice directories recorded in the manifest were absent from the currently mounted MyDrive. Consequently none of its 30 prediction files could be retrieved there in this pass. This is an access/location mismatch, not proof of deletion or invalid metrics. Preserve prior verification and completion records; pause final evidence reconciliation until the owning storage/location is resolved. Do not fabricate the missing breakdowns.
+The two WangchanBERTa slice directories recorded in the manifest were absent from the currently mounted MyDrive. Consequently none of its 30 prediction files could be retrieved there in this pass. This is an access/location mismatch, not proof of deletion or invalid metrics. The owner accepted proceeding with this access limitation; preserve prior verification and completion records without fabricating the missing breakdowns.
 
-The selected STT configuration targets MacBook Air M2/MPS. This Linux laptop cannot demonstrate that host's combined compatibility. The STT owning plan also records a deferred official-classifier integration check; reconcile its timing with Plan 03/01's prefreeze requirement before claiming that gate passed.
+The selected STT configuration targets MacBook Air M2/MPS. This Linux laptop cannot demonstrate that host's combined compatibility. Plan 03/01's owner-approved timing amendment permits final retraining before the coworker check, but compatibility remains pending and blocks held-out access.
 
-Downstream final-evaluation code still requires a legacy 120+5-fit completion record, inconsistent with the approved reduced scope. That path must be corrected and tested with owner-confirmed requirements before final training. No selected_config.json was falsely marked frozen and no test set was opened.
+The final-evaluation guard has been updated and tested for 45 completed fits and 30 owner-approved exclusions. The authorized final run was launched directly through the reusable trainer with frozen settings and hash-bound selected configuration/report evidence. Its original run config does not include the selection-completion binding required by evaluation.py. Preserve that config and resolve the provenance integration before using the shared evaluation/parity pipeline; do not bypass the gate or claim selection complete. No test set was opened.
+
+## Available source and marker breakdowns (2026-10-12)
+
+These tables reuse the earlier hash-verified aggregate recomputation for 13 Drive fits and freshly rehash/recompute the two local CPU XLM-R prediction files. They cover all five folds for PhayaThaiBERT, HPLT and XLM-R at LR 3e-5, with both marker conditions. All combined-source fold metrics across epochs 1–3 agree with the existing cv_results.csv to within 1e-10.
+
+This reporting pass does not reverify full fold membership or checkpoint snapshots. WangchanBERTa's 30 prediction files remain inaccessible, so its source/chunk breakdowns are not supplied. No new experiment or held-out inference was performed.
+
+### Source-specific role-free results
+
+Use each configuration's selected common epoch: PhayaThaiBERT 2, HPLT 3, XLM-R 2. F1 is the arithmetic mean ± sample SD of five fold scores; other score columns are fold means. Counts and confusion cells are sums over the five validation folds, not the denominator of the mean-fold scores. Confusion order is [Not Scam, Scam], true rows and predicted columns.
+
+| Model | Epoch | Source | N (Not Scam / Scam) | Scam F1 mean ± SD | Precision | Recall | Macro-F1 | Accuracy | Pooled confusion [[TN, FP], [FN, TP]] |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---|
+| PhayaThaiBERT | 2 | primary | 1021 (511 / 510) | 1.000000 ± 0.000000 | 1.000000 | 1.000000 | 1.000000 | 1.000000 | [[511, 0], [0, 510]] |
+| PhayaThaiBERT | 2 | supplemental | 143 (99 / 44) | 0.740857 ± 0.115665 | 0.701190 | 0.803968 | 0.803358 | 0.824758 | [[82, 17], [9, 35]] |
+| HPLT | 3 | primary | 1021 (511 / 510) | 0.982466 ± 0.033737 | 0.998000 | 0.969193 | 0.983511 | 0.983587 | [[510, 1], [16, 494]] |
+| HPLT | 3 | supplemental | 143 (99 / 44) | 0.000000 ± 0.000000 | 0.000000 | 0.000000 | 0.409351 | 0.693816 | [[99, 0], [44, 0]] |
+| XLM-R | 2 | primary | 1021 (511 / 510) | 0.998039 ± 0.002685 | 0.998058 | 0.998039 | 0.998014 | 0.998015 | [[510, 1], [1, 509]] |
+| XLM-R | 2 | supplemental | 143 (99 / 44) | 0.632677 ± 0.111945 | 0.790130 | 0.571429 | 0.751333 | 0.810812 | [[90, 9], [18, 26]] |
+
+At the selected PhayaThaiBERT epoch, all 26 role-free validation errors are in the supplemental source: 17 false positives and 9 false negatives. Primary-source fold F1 is 1.0, while supplemental-source mean-fold F1 is 0.740857. The combined-source mean therefore hides a substantial source difference. This is CV selection evidence on the saved datasets, not proof of real-call robustness or a measured benefit from supplemental training. HPLT's epoch-3 role-free predictions classify every supplemental record as Not Scam, missing all 44 supplemental Scam records; its undefined precision is explicitly flagged below.
+
+### Fold-level source support and Scam F1
+
+| Model | Fold | Epoch | Primary N (Not Scam / Scam) | Primary F1 | Supplemental N (Not Scam / Scam) | Supplemental F1 |
+|---|---:|---:|---:|---:|---:|---:|
+| PhayaThaiBERT | 0 | 2 | 201 (102 / 99) | 1.000000 | 32 (20 / 12) | 0.750000 |
+| PhayaThaiBERT | 1 | 2 | 202 (100 / 102) | 1.000000 | 31 (22 / 9) | 0.666667 |
+| PhayaThaiBERT | 2 | 2 | 208 (104 / 104) | 1.000000 | 25 (18 / 7) | 0.933333 |
+| PhayaThaiBERT | 3 | 2 | 201 (99 / 102) | 1.000000 | 32 (23 / 9) | 0.640000 |
+| PhayaThaiBERT | 4 | 2 | 209 (106 / 103) | 1.000000 | 23 (16 / 7) | 0.714286 |
+| HPLT | 0 | 3 | 201 (102 / 99) | 0.994975 | 32 (20 / 12) | 0.000000 |
+| HPLT | 1 | 3 | 202 (100 / 102) | 1.000000 | 31 (22 / 9) | 0.000000 |
+| HPLT | 2 | 3 | 208 (104 / 104) | 0.922280 | 25 (18 / 7) | 0.000000 |
+| HPLT | 3 | 3 | 201 (99 / 102) | 0.995074 | 32 (23 / 9) | 0.000000 |
+| HPLT | 4 | 3 | 209 (106 / 103) | 1.000000 | 23 (16 / 7) | 0.000000 |
+| XLM-R | 0 | 2 | 201 (102 / 99) | 1.000000 | 32 (20 / 12) | 0.727273 |
+| XLM-R | 1 | 2 | 202 (100 / 102) | 0.995074 | 31 (22 / 9) | 0.625000 |
+| XLM-R | 2 | 2 | 208 (104 / 104) | 1.000000 | 25 (18 / 7) | 0.666667 |
+| XLM-R | 3 | 2 | 201 (99 / 102) | 0.995122 | 32 (23 / 9) | 0.700000 |
+| XLM-R | 4 | 2 | 209 (106 / 103) | 1.000000 | 23 (16 / 7) | 0.444444 |
+
+### Paired marker diagnostics
+
+These are combined-source, matching-fold/weight/epoch comparisons. Delta is role-free minus marked fold F1, summarized as mean ± sample SD. It does not establish superiority of marked training and can include retained-content differences after marker removal.
+
+| Model | Epoch | Role-free F1 mean ± SD | Marked F1 mean ± SD | Paired delta mean ± SD |
+|---|---:|---:|---:|---:|
+| PhayaThaiBERT | 2 | 0.976796 ± 0.012884 | 0.979067 ± 0.013556 | -0.002271 ± 0.008743 |
+| HPLT | 3 | 0.941220 ± 0.030459 | 0.959621 ± 0.010196 | -0.018401 ± 0.033402 |
+| XLM-R | 2 | 0.973643 ± 0.005730 | 0.971818 ± 0.006558 | +0.001825 ± 0.002499 |
+
+All reported source subsets are nonempty. Undefined precision is reported as zero and flagged below. Execution failures were zero in the 15 verified prediction files. This pass does not establish measured inference latency: available inference_seconds fields for these prefix-model artifacts are blank, and the earlier aggregate value 0 represents missing timing rather than zero-time inference.
+
+Required WangchanBERTa source/chunk breakdowns, complete runtime/loss-curve reporting and class-specific truncation discussion remain outstanding or evidence-limited. Plan 03/01 is not marked Finished.
+
+Evidence: manifest prediction hashes, the existing remote reconciliation log and the freshly verified local prediction hashes. Detailed derived evidence is stored outside Git at /content/drive/MyDrive/scam-call-alert/model-development/final-evaluation/execution-20261012T024607Z/evidence/reporting-breakdown-evidence.json (SHA-256 97d96aaa2de65cfd009fe5bd96a2dc2d891a742aa3775d4fba8a899503cc3abf); it contains aggregate counts only. The final-run launch retained an immutable copy of the earlier comparison report, so this reporting update does not rewrite the launched configuration or its bound report snapshot.
+
+### Undefined metrics at the reported epochs
+
+| Model | Fold | Epoch | Marker | Subset | Flag and reason |
+|---|---:|---:|---|---|---|
+| HPLT | 0 | 3 | role_free | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 0 | 3 | role_marked | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 1 | 3 | role_free | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 2 | 3 | role_free | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 2 | 3 | role_marked | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 3 | 3 | role_free | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 3 | 3 | role_marked | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 4 | 3 | role_free | source:supplemental | precision = 0: no predicted Scam |
+| HPLT | 4 | 3 | role_marked | source:supplemental | precision = 0: no predicted Scam |
+
+## Available run cost and loss trajectories (2026-10-12)
+
+These figures reuse the existing five-fold verification records; each run/config/history/prediction identity is matched to the current manifest. Elapsed time is the recorded completed-run duration, including that run's I/O and setup behavior, not isolated GPU compute. Downloads, other attempts and independent verification may be outside these durations. Mixed hardware and differing storage conditions prevent a controlled speed comparison.
+
+| Model | Fold | Runtime | Recorded elapsed minutes |
+|---|---:|---|---:|
+| PhayaThaiBERT | 0 | T4 FP16 | 13.69 |
+| PhayaThaiBERT | 1 | T4 FP16 | 11.95 |
+| PhayaThaiBERT | 2 | T4 FP16 | 17.85 |
+| PhayaThaiBERT | 3 | T4 FP16 | 22.10 |
+| PhayaThaiBERT | 4 | T4 FP16 | 31.56 |
+| PhayaThaiBERT total | 5 folds | T4 FP16 | 97.16 |
+| HPLT | 0 | T4 FP16 | 9.54 |
+| HPLT | 1 | T4 FP16 | 11.17 |
+| HPLT | 2 | T4 FP16 | 11.50 |
+| HPLT | 3 | T4 FP16 | 11.25 |
+| HPLT | 4 | T4 FP16 | 12.02 |
+| HPLT total | 5 folds | T4 FP16 | 55.49 |
+| XLM-R | 0 | T4 FP16 | 16.75 |
+| XLM-R | 1 | T4 FP16 | 16.35 |
+| XLM-R | 2 | T4 FP16 | 16.77 |
+| XLM-R | 3 | CPU FP32 | 47.65 |
+| XLM-R | 4 | CPU FP32 | 51.85 |
+| XLM-R total | 5 folds | Mixed T4/CPU | 149.36 |
+
+### Loss trajectories
+
+Each cell is training loss / role-free validation loss / marked validation loss, at the common epoch shown. Validation losses and WangchanBERTa training losses are fold means from the existing aggregate rows. HPLT/XLM-R training-loss means are recomputed from their five-fold verification records, whose hashes are listed below. “Unavailable” means the recorded field is absent, not zero. CV losses are development evidence and do not select checkpoints in the final no-validation fit.
+
+| Configuration | Epoch 1 | Epoch 2 | Epoch 3 |
+|---|---|---|---|
+| wangchanberta__primary_only__lr-2e-05__pool-max | 0.356845 / 0.095214 / 0.076315 | 0.006811 / 0.072650 / 0.053534 | 0.000999 / 0.074191 / 0.056321 |
+| wangchanberta__primary_only__lr-5e-05__pool-mean | 0.233290 / 0.114917 / 0.096357 | 0.009231 / 0.137733 / 0.120603 | 0.000435 / 0.128064 / 0.112587 |
+| wangchanberta__primary_only__lr-3e-05__pool-mean | 0.306901 / 0.079662 / 0.062399 | 0.002643 / 0.103134 / 0.085432 | 0.000330 / 0.114466 / 0.098954 |
+| wangchanberta__primary_only__lr-2e-05__pool-mean | 0.356243 / 0.087122 / 0.070421 | 0.008029 / 0.097881 / 0.077077 | 0.000942 / 0.098871 / 0.077957 |
+| wangchanberta__primary_only__lr-5e-05__pool-max | 0.239419 / 0.082534 / 0.091263 | 0.006430 / 0.098667 / 0.084077 | 0.000163 / 0.097962 / 0.083660 |
+| wangchanberta__primary_only__lr-3e-05__pool-max | 0.300181 / 0.070831 / 0.058447 | 0.002737 / 0.081808 / 0.068940 | 0.000761 / 0.084124 / 0.067894 |
+| phayathaibert__primary_only__lr-3e-05 | Unavailable / 0.109804 / 0.089634 | Unavailable / 0.057255 / 0.051603 | Unavailable / 0.060712 / 0.054939 |
+| hplt__primary_only__lr-3e-05 | 0.353872 / 1.059247 / 0.428600 | 0.066975 / 0.568592 / 0.416763 | 0.039440 / 0.332635 / 0.338482 |
+| xlmr__primary_only__lr-3e-05 | 0.448065 / 0.134856 / 0.112678 | 0.015295 / 0.157309 / 0.171759 | 0.003046 / 0.170987 / 0.199370 |
+
+PhayaThaiBERT training-loss fields remain unavailable in the currently retrieved CV reporting records; do not invent them. The training-only token-length report remains the authoritative truncation evidence. These tables do not replace the missing WangchanBERTa source/chunk breakdowns or measured per-request inference latency.
+
+Evidence snapshots used here:
+- .colab-cli/cloud-training/phaya-fivefold-verification.json (SHA-256 5660ae87e27b0927b8ac2df4e434701a27e7a791ca4f52d5cf473c9cd633a8cc).
+- .colab-cli/cloud-training/hplt-fivefold-verification.json (SHA-256 6abc47afb2732770b983781990f63cb5b776fc974031bc0cbf877d417f88b1fe).
+- .colab-cli/local-training/xlmr-primary-lr3e-05-fivefold-verification.json (SHA-256 6b54ce3f8de14b707d42fb32d63ec9190258e2033ebbce9dea3671810fad1256).
+
+### Class-specific prefix truncation exposure
+
+Reuse the approved training-only token-length report, without reading test data or changing the input policy. Counts below are role-marked whole-conversation primary records exceeding each approved total-token prefix budget; token loss is not measured semantic or prediction loss.
+
+| Model | Budget | Primary Not Scam exceeding / N | Primary Scam exceeding / N |
+|---|---:|---:|---:|
+| PhayaThaiBERT | 510 | 3 / 511 (0.59%) | 153 / 510 (30.00%) |
+| HPLT | 512 | 0 / 511 (0.00%) | 5 / 510 (0.98%) |
+| XLM-R | 512 | 1 / 511 (0.20%) | 140 / 510 (27.45%) |
+
+PhayaThaiBERT truncation exposure is much higher for primary Scam records (30%) than Not Scam records (0.59%). This is a known input limitation, even though its selected-epoch primary CV scores are perfect. The report cannot establish how much this affects prediction or later STT/partial-context inputs. Supplemental records do not exceed these prefix budgets in the role-marked training-pool report. WangchanBERTa uses its separately approved full-context windows; its earlier prefix length report is not evidence of content loss in those windowed runs.
+
+Source: input-preparation/token_length_report.json (SHA-256 b2b79fabd9b46dc7aa8d67a582240ec2a530ec57b17a6eaac7ecdf1fc5e96e4d), marked training-pool subsets only. Paired role-free content retention remains a separate diagnostic, not inferred from these counts.
 
 ## Historical scope and status
 

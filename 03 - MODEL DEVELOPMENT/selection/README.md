@@ -4,7 +4,7 @@ This directory records the Plan 03/01 primary-only candidate comparison. Read [P
 
 ## Current approved reduction
 
-The owner approved stopping comparative training on 2026-10-11: retain 45 completed fits, omit the remaining 30 fits and matched supplemental comparison, and select PhayaThaiBERT at LR 3e-5, common epoch 2, primary-only. See `experiment_protocol.md` and Plan 03/01's amendment. Selection completion and local compatibility remain unresolved; no final model has been trained or test set opened. The historical full-grid sequence below must not launch.
+The owner approved stopping comparative training on 2026-10-11: retain 45 completed fits, omit the remaining 30 fits and matched supplemental comparison, and select PhayaThaiBERT at LR 3e-5, common epoch 2, primary-only. See `experiment_protocol.md` and Plan 03/01's amendment. Selection completion and local compatibility remain unresolved. The owner-approved replacement final model has been trained and independently persisted/verified locally; see ../final-evaluation/README.md. No test set has been opened. The historical full-grid sequence below must not launch.
 
 ## Historical experiment order
 

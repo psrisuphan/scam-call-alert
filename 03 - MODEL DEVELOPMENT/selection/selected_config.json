@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "status": "frozen_by_human_approval",
+  "model_key": "phayathaibert",
+  "checkpoint": "clicknext/phayathaibert",
+  "checkpoint_revision": "a81ece95beb7a24271905d30c23887d343193c62",
+  "configuration_id": "phayathaibert__primary_only__lr-3e-05",
+  "data_condition": "primary_only",
+  "learning_rate": 3e-05,
+  "selected_duration_epochs": 2,
+  "training_seed": 67,
+  "threshold": 0.5,
+  "training_representation": "whole_conversation",
+  "training_marker_condition": "role_marked",
+  "inference_representation": "whole_conversation",
+  "inference_marker_condition": "role_free",
+  "preprocessing_config_sha256": "99b71c0a6b5a3e48d6645a46a02dba715ef0ed185764dc2720a5bfa20b986926",
+  "input_policy": {
+    "kind": "fixed_prefix",
+    "max_total_tokens": 510,
+    "truncation_side": "right"
+  },
+  "training_settings": {
+    "training": {
+      "representation": "whole_conversation",
+      "marker_condition": "role_marked",
+      "window_policy": null,
+      "pooling_method": null,
+      "gradient_checkpointing": false,
+      "seed": 67,
+      "epochs": 2,
+      "effective_batch_size": 16,
+      "microbatch_size": 4,
+      "accumulation_steps": 4,
+      "optimizer_updates_limit": null
+    },
+    "optimizer": {
+      "name": "AdamW",
+      "learning_rate": 3e-05,
+      "weight_decay": 0.01,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "epsilon": 1e-08,
+      "gradient_clip_norm": 1.0
+    },
+    "precision": {
+      "mode": "fp16",
+      "auto_policy_approved": false
+    },
+    "runtime": {
+      "device": "cuda",
+      "local_files_only": false
+    },
+    "schedule": {
+      "name": "linear_warmup_then_constant",
+      "warmup_updates": 20
+    }
+  },
+  "warmup_rule": {
+    "fraction": 0.1,
+    "rounding": "ceil",
+    "reference_epochs": 3,
+    "approval_reference": "Plan 03/01 recorded reference warmup: ceil(0.10 * ceil(eligible_train_count/16) * 3)"
+  },
+  "approval": {
+    "reviewer": "Bukutsu (owner)",
+    "reference": "Owner approve to PhayaThaiBERT LR3e-5 epoch2 primary-only with one final retraining; later authorized Mac check by coworker after final training before test.",
+    "gates": {
+      "final_candidate_human_approval": "01 - PLANs/03 - MODEL DEVELOPMENT/01 - HYPERPARAMETER TUNING AND MODEL SELECTION.md"
+    }
+  },
+  "selection_artifacts": {
+    "selected_cv_runs": [
+      {
+        "run_id": "phaya-primary-lr3e-05-fold-0-20261011T044510Z",
+        "run_config_sha256": "a802fe56850b3145e27503f37b03017d2c5c60dc4319c8f38744621483873f93",
+        "history_sha256": "c20ffbe479645cca662a00b1291864c667c2fc4bf06621aba51d5fedbcb1dc14",
+        "predictions_sha256": "132c9b19cedc95cfefa0de25eb057743b794e0ec0f3c50edfb946266becfd5af",
+        "artifact_location": "/content/drive/MyDrive/scam-call-alert/model-development/comparison-slices/remaining-primary-first-fit-20261011T044510Z/runs/phaya-primary-lr3e-05-fold-0-20261011T044510Z",
+        "fold": "0"
+      },
+      {
+        "run_id": "phaya-primary-lr3e-05-fold-1-20261011T051518Z",
+        "run_config_sha256": "c5aa43f6d99402580b0238e19aaa0aac2877c0359031838237e33b1e4a7d5b49",
+        "history_sha256": "57120dace24cbcc80fcb0715be217eb925ef831775dfefb5b6d54fe689327484",
+        "predictions_sha256": "8404b71a699dd6b97854fa5e8919750e2b0e515babb946a0c75c76f219e85f74",
+        "artifact_location": "/content/drive/MyDrive/scam-call-alert/model-development/comparison-slices/phaya-primary-reference-remaining-20261011T051518Z/runs/phaya-primary-lr3e-05-fold-1-20261011T051518Z",
+        "fold": "1"
+      },
+      {
+        "run_id": "phaya-primary-lr3e-05-fold-2-20261011T051518Z",
+        "run_config_sha256": "9858ff883fbaa827bf367cd2fe89ae38424709ac06694b994a07e6faef7b2c92",
+        "history_sha256": "1e7ba872ecbe1008b2363d0cf5a2e45f914dcf103f07db34e8c3cde8399b3eb8",
+        "predictions_sha256": "c9aad8ffcb09621e94ad8caa9a228fecc1d72c5067e6995130031b3cb24a76d0",
+        "artifact_location": "/content/drive/MyDrive/scam-call-alert/model-development/comparison-slices/phaya-primary-reference-remaining-20261011T051518Z/runs/phaya-primary-lr3e-05-fold-2-20261011T051518Z",
+        "fold": "2"
+      },
+      {
+        "run_id": "phaya-primary-lr3e-05-fold-3-20261011T051518Z",
+        "run_config_sha256": "93c2470a87c8c6fe41473e2a029d1c6463bc27367478b701573cad8b48d18380",
+        "history_sha256": "1a11eae69d9f447f6b72feed3089289b94120139981d3ad4249195cad1fff16e",
+        "predictions_sha256": "28925e0cfa6fca41815ab4c623d133493be179d9fb3ae5dfa5709feb3264933d",
+        "artifact_location": "/content/drive/MyDrive/scam-call-alert/model-development/comparison-slices/phaya-primary-reference-remaining-20261011T051518Z/runs/phaya-primary-lr3e-05-fold-3-20261011T051518Z",
+        "fold": "3"
+      },
+      {
+        "run_id": "phaya-primary-lr3e-05-fold-4-20261011T051518Z",
+        "run_config_sha256": "cfda56ff9107577dd0fbe65800de35ab5a14f895296faa4728a30c71ffc92a3c",
+        "history_sha256": "316ad63d81e1a8e247ef732e06988e292b8e17c29668af307db06da3155879df",
+        "predictions_sha256": "783d9a1d8b784815bf1c19b09bcbb9b67c2c54b3e04e36705f70006848369c03",
+        "artifact_location": "/content/drive/MyDrive/scam-call-alert/model-development/comparison-slices/phaya-primary-reference-remaining-20261011T051518Z/runs/phaya-primary-lr3e-05-fold-4-20261011T051518Z",
+        "fold": "4"
+      }
+    ],
+    "comparison_report": "03 - MODEL DEVELOPMENT/selection/comparison_report.md"
+  },
+  "compatibility_gate": {
+    "status": "pending_coworker_verification",
+    "host": "MacBook Air M2",
+    "required_before": "held_out_test_access"
+  },
+  "limitations": [
+    "Unequal LR tuning coverage; 30 unrun fits excluded by owner approval.",
+    "Matched supplemental comparison omitted; final condition primary-only.",
+    "Coworker WangchanBERTa prediction artifacts inaccessible; prior aggregate provenance retained.",
+    "Phaya lead over XLM-R is small; no statistical superiority claim; XLM-R mixed hardware."
+  ],
+  "final_test_authorized": false
+}
