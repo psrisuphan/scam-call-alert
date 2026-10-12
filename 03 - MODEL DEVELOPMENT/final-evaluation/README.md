@@ -2,7 +2,7 @@
 
 This directory contains tooling, templates and the final-run protocol. Importing `evaluation.py` does not load a dataset, model weights, or the test partition.
 
-Coworker continuation instructions: [COWORKER_HANDOFF.md](COWORKER_HANDOFF.md). The private compatibility-transfer archive is prepared separately; model files are not downloaded by Git and the provenance blocker must clear before the Mac check.
+Coworker continuation instructions: [COWORKER_HANDOFF.md](COWORKER_HANDOFF.md). The compatibility-transfer archive and checksum sidecar are listed in the owner's [Google Drive handoff folder](https://drive.google.com/drive/folders/1FwMMh3IlETobUeF5DY6HPcWUX_WgZ0SA?usp=drive_link). The Drive copy has not been independently downloaded/checksum-verified; verify it after download. Model files are not downloaded by Git and the provenance blocker must clear before the Mac check.
 
 ## Verified replacement final training
 

@@ -34,7 +34,11 @@ Use the final model, not a CV fold or the provisional WangchanBERTa app fixture.
 
 Weights are intentionally outside Git. Pulling this repository does not download them.
 
-Ask the owner for the private `mac-compatibility-transfer.tar.gz` and its `.sha256` sidecar. They are prepared in the owner's Git-ignored directory:
+Download `mac-compatibility-transfer.tar.gz` and `mac-compatibility-transfer.tar.gz.sha256` from the owner's [Google Drive handoff folder](https://drive.google.com/drive/folders/1FwMMh3IlETobUeF5DY6HPcWUX_WgZ0SA?usp=drive_link).
+
+Both files were visible in the folder listing on 2026-10-12: the archive displayed as 1.1 GB and the checksum sidecar as 100 bytes. The Drive copy has not been independently downloaded and checksum-verified by the agent. Verify the downloaded archive before extraction using the command below. Listing visibility is not proof of byte integrity, and does not change the remaining provenance/compatibility/test gates.
+
+The verified owner-local originals remain in the Git-ignored directory:
 
 `03 - MODEL DEVELOPMENT/final-evaluation/final_training/phaya-final-replacement-primary-epoch2-20261012T050936Z-execution/`.
 
