@@ -71,6 +71,25 @@ def expected_full_pool_warmup(selected: dict[str, Any], assignments_path: Path, 
     return math.ceil(value) if rounding == "ceil" else math.floor(value) if rounding == "floor" else math.floor(value + 0.5)
 
 
+def expected_frozen_training_warmup(selected: dict[str, Any], final_training: dict[str, Any]) -> int:
+    """Check deployment warmup from hash-bound membership, without dataset files."""
+    sys.path.insert(0, str(TRAINING_DIR))
+    import trainer
+    identities = final_training.get("identities", {})
+    ids = identities.get("training_sample_ids")
+    if (not isinstance(ids, list) or not ids or any(not isinstance(x, str) or not x for x in ids)
+            or len(set(ids)) != len(ids) or ids != sorted(ids)
+            or trainer.canonical_hash(ids) != identities.get("training_membership_sha256")):
+        raise ValueError("Frozen training membership is missing, duplicated or not checksum-bound")
+    batch = selected["training_settings"]["training"]["effective_batch_size"]
+    rule = selected["warmup_rule"]
+    value = float(rule["fraction"]) * 3 * math.ceil(len(ids) / batch)
+    rounding = rule["rounding"]
+    if rounding not in ("ceil", "floor", "nearest"):
+        raise ValueError("Unknown approved warmup rounding rule")
+    return math.ceil(value) if rounding == "ceil" else math.floor(value) if rounding == "floor" else math.floor(value + 0.5)
+
+
 def write_csv(path: Path, fields: list[str], rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as stream:
@@ -134,6 +153,42 @@ def read_evaluation_journal(path: Path, authorization: dict[str, Any], artifact_
     return outcomes, errors
 
 
+def validate_selection_scope(completion: dict[str, Any]) -> None:
+    """Require the owner-approved reduced scope, with its approval hash-bound."""
+    scope = completion.get("scope_approval", {})
+    if (completion.get("main_fit_count") != 45
+            or completion.get("excluded_main_fit_count") != 30
+            or completion.get("caller_only_fit_count") != 0
+            or completion.get("supplemental_fit_count") != 0
+            or scope.get("status") != "owner_approved"
+            or not scope.get("reference")):
+        raise ValueError("Selection completion must account for the approved 45 fits and 30 exclusions")
+    path = Path(scope.get("path") or "")
+    if not path.is_file() or sha256(path) != scope.get("sha256"):
+        raise ValueError("Reduced-scope approval evidence is missing or changed")
+
+
+def validate_mac_compatibility(authorization: dict[str, Any]) -> None:
+    """Block test access until final-model/STT compatibility evidence verifies."""
+    evidence = authorization.get("mac_compatibility", {})
+    path = Path(evidence.get("path") or "")
+    if not path.is_file() or sha256(path) != evidence.get("sha256"):
+        raise ValueError("Final-test access requires hash-bound Mac compatibility evidence")
+    record = read_json(path)
+    required = {
+        "selected_config_sha256": authorization.get("selected_config_sha256"),
+        "model_safetensors_sha256": authorization.get("model_safetensors_sha256"),
+    }
+    if (record.get("status") != "passed"
+            or record.get("host") != "MacBook Air M2"
+            or record.get("stt_checkpoint") != "airesearch/wav2vec2-large-xlsr-53-th"
+            or record.get("stt_checkpoint_revision") != "3155938c549b23eee16b1d4b55dcb161b7fe4bcf"
+            or record.get("audio_partition") != "development"
+            or not record.get("execution_evidence")
+            or any(not value or record.get(key) != value for key, value in required.items())):
+        raise ValueError("Mac compatibility evidence does not match the final pipeline")
+
+
 def prepare_final_training_config(args: argparse.Namespace) -> None:
     selected_path = Path(args.selected_config).resolve()
     cv_path = Path(args.cv_run_config).resolve()
@@ -143,6 +198,7 @@ def prepare_final_training_config(args: argparse.Namespace) -> None:
     owner = read_json(owner_path)
     completion_path = Path(args.completion_record).resolve()
     completion = read_json(completion_path)
+    validate_selection_scope(completion)
     if selected.get("status") != "frozen_by_human_approval":
         raise ValueError("A human-frozen selected_config.json is required")
     print_digest = bool(getattr(args, "print_settings_digest", False))
@@ -154,10 +210,9 @@ def prepare_final_training_config(args: argparse.Namespace) -> None:
         raise ValueError("Final-training approval must identify reviewer/date")
     if (completion.get("status") != "complete_verified"
             or completion.get("selected_config_sha256") != sha256(selected_path)
-            or completion.get("main_fit_count") != 120 or completion.get("caller_only_fit_count") != 5
             or owner.get("selection_completion_sha256") != sha256(completion_path)
             or owner.get("selection_completion_path") != str(completion_path)):
-        raise ValueError("Final training requires the verified 120+5 selection completion artifact bound in owner approval")
+        raise ValueError("Final training requires the verified reduced-scope completion artifact bound in owner approval")
     for evidence in completion.get("evidence", {}).values():
         evidence_path = Path(evidence["path"])
         if not evidence_path.is_file() or sha256(evidence_path) != evidence["sha256"]:
@@ -264,10 +319,11 @@ def draft_approval(args: argparse.Namespace) -> None:
         template = read_json(FINAL_DIR / "final_training_approval.template.json")
         completion_path = Path(args.completion_record).resolve()
         completion = read_json(completion_path)
+        validate_selection_scope(completion)
         cv_path = Path(args.cv_run_config).resolve()
         cv = read_json(cv_path)
         if completion.get("status") != "complete_verified" or completion.get("selected_config_sha256") != sha256(selected_path):
-            raise ValueError("Final-training approval draft requires matching 120+5 selection completion")
+            raise ValueError("Final-training approval draft requires matching reduced-scope selection completion")
         expected = expected_full_pool_warmup(selected, Path(args.assignments).resolve(), Path(args.training_csv).resolve())
         template.update({
             "selected_config_sha256": sha256(selected_path),
@@ -385,9 +441,7 @@ def load_pipeline(model_dir: Path, selected_config_path: Path, input_config_path
     expected_schedule.pop("warmup_updates", None); final_schedule.pop("warmup_updates", None)
     if final_schedule != expected_schedule:
         raise ValueError("Final-training schedule differs from selected_config")
-    assigned_warmup = expected_full_pool_warmup(
-        selected, Path(final_training["paths"]["data"]) / "split_assignments.csv",
-        Path(final_training["paths"]["data"]) / "0 - train/dataset.csv")
+    assigned_warmup = expected_frozen_training_warmup(selected, final_training)
     if final_training.get("schedule", {}).get("warmup_updates") != assigned_warmup:
         raise ValueError("Final-training warmup differs from the approved full-pool rule")
     trainer.validate_config(final_training, require_diagnostic_approval=False)
@@ -527,9 +581,10 @@ def _authorize_test(args: argparse.Namespace, selected_path: Path, model_dir: Pa
             or authorization.get("selection_completion_sha256") != sha256(completion_path)):
         raise ValueError("Final-test authorization must bind the verified selection completion artifact")
     completion = read_json(completion_path)
+    validate_selection_scope(completion)
+    validate_mac_compatibility(authorization)
     if (completion.get("status") != "complete_verified"
-            or completion.get("selected_config_sha256") != sha256(selected_path)
-            or completion.get("main_fit_count") != 120 or completion.get("caller_only_fit_count") != 5):
+            or completion.get("selected_config_sha256") != sha256(selected_path)):
         raise ValueError("Selection completion record is incomplete or does not match this selected config")
     if authorization.get("artifact_manifest_sha256") != sha256(model_dir / "artifact_manifest.json"):
         raise ValueError("Final-test authorization final-artifact manifest checksum mismatch")

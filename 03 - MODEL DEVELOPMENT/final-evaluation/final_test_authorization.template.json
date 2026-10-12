@@ -13,5 +13,6 @@
   "preprocessing_config_sha256": null,
   "test_csv_sha256": null,
   "model_safetensors_sha256": null,
-  "artifact_manifest_sha256": null
+  "artifact_manifest_sha256": null,
+  "mac_compatibility": {"path": null, "sha256": null}
 }

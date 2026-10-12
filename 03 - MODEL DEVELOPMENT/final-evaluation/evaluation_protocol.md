@@ -1,6 +1,6 @@
-# Final evaluation preparation draft
+# Final training protocol and pending evaluation
 
-This document records preparation only. It is not a completed selection record, owner-approved final-run configuration, test authorization or final result. No final training/test inference has run.
+This document records the frozen final-training settings and pending evaluation boundaries. It is not a selection-completion record, test authorization or final-test result. The first authorized final run failed persistence despite its completed computation summary. The separately owner-approved replacement completed two epochs and its model/checkpoints were independently verified in owner-local persistent storage. Final training is recoverable; selection provenance, Mac compatibility and held-out evaluation remain pending. No held-out test inference has run.
 
 ## Approved candidate decision
 
@@ -16,12 +16,46 @@ Final training must initialize fresh from the original pinned pretrained checkpo
 
 ## Outstanding boundaries
 
-- Complete/freeze selected_config.json and the selection completion record without falsely approving unresolved compatibility or verification.
-- Resolve local classifier/STT compatibility on the intended MacBook Air M2 host and the timing conflict with the STT plan's deferred integration check.
-- The legacy final-evaluation README/code still require 120 main fits plus five caller-only fits. This is incompatible with the approved reduced scope. Pause those commands until the guard is corrected and tested against evidence-bound scope.
+- selected_config.json is frozen. Finish selection reporting without falsely approving unresolved compatibility or verification. The launched original run config lacks the selection-completion binding required by evaluation.py; preserve it and resolve that provenance integration before using the evaluation/parity pipeline.
+- Owner-approved timing change: the coworker checks final classifier/STT compatibility on MacBook Air M2 after final training and before any held-out access. That gate remains pending, not passed.
+- The final-evaluation guard now accounts for 45 completed fits and 30 approved exclusions, with zero caller-only and supplemental fits. It requires hash-bound scope approval. Final-test authorization also requires hash-bound passed Mac compatibility evidence matching selected configuration and final weights.
 - Coworker WangchanBERTa run files remain unavailable at the mounted paths; retain existing aggregates and prior verification provenance with that limitation.
 - Final-test inference requires separate authorization after final training and all frozen artifact identities verify.
 
-## Verification to date
+## Verified replacement final-run evidence
 
-The existing synthetic final-evaluation suite passed 16 tests locally. This verifies covered implementation behavior, not completed selection, real final training or held-out inference. No test CSV was opened for this preparation.
+Owner-approved persistence repair: Plan 03/02 records one fresh replacement fit using local staging and bounded verified transfer. The failed run below was preserved; no resume, CV-weight substitution or additional search occurred.
+
+Replacement run: phaya-final-replacement-primary-epoch2-20261012T050936Z.
+Persistent owner-local output: final_training/phaya-final-replacement-primary-epoch2-20261012T050936Z/.
+Verification/source/approval evidence: sibling phaya-final-replacement-primary-epoch2-20261012T050936Z-execution/.
+
+The replacement completed two epochs, 128 contiguous optimizer updates, 1,021 training records and zero validation records. It used the same pinned pretrained revision and selected settings, including 20 warmup updates, seed 67, microbatch 4 × accumulation 4 and T4 FP16. Final weights are the completed epoch-2 weights. Run duration was 269.68 seconds, excluding independent verification and persistence transfer.
+
+All 18 required run files (7,792,893,010 bytes in total) were checksum/byte-count verified during transfer, independently read back, then the final checkpoint/export identities were revalidated locally. The previous epoch checkpoint and original failed-run evidence were retained. Weights and sample-ID-bearing configurations remain Git ignored. No cloud-backup completion is claimed.
+
+Final model.safetensors SHA-256: af64d3a917d5db82bc9dfe794c8f29125bbf13ad9060f726c75ac001f99d838b.
+Training loss by epoch: 0.19045969620018643, 0.0006572449280302078. No validation/test metric is inferred from these losses.
+
+The selection-completion linkage remains unresolved, as explicitly recorded in the verification evidence. Do not bypass its guard or invent completion. Mac compatibility and separate held-out authorization remain required. No final-test record was loaded.
+
+## Previous final-run evidence
+
+Run ID: phaya-final-primary-epoch2-20261012T024607Z.
+
+Persistent execution root: /content/drive/MyDrive/scam-call-alert/model-development/final-evaluation/execution-20261012T024607Z/.
+
+The retrieved training summary records two completed epochs, 128 optimizer updates, 1,021 training records, zero validation records, no failure/interruption and 1,926.97 seconds elapsed through checkpoint finalization. This is observed run evidence, not an independently verified inference export or a model performance result.
+
+Summary-bound hashes:
+- run_config.json: ba0584987ab945f0771319f7d56f54932f37766ca5c66d927a2dc11bec067f21
+- training_history.csv: 9e0935886f79bb60ec85d1070f2f4f9ae13b4cfff2f0249c6527434e475486af
+- validation_predictions.csv (header only expected): 675ba4b6d1b0c161ee8b2073e9ce298a74684923cefc1ace01a5f49ac3a96d1f
+
+These hashes were retrieved from the summary. Fresh-runtime checksum verification matched run_config.json and validation_predictions.csv, but training_history.csv instead has SHA-256 51dfe66c7ea5870a75e2826453d656056b7647f544400f624bc4a2c1343e1752 and contains only epoch 1. The persistent progress log also stops at update 64, despite the summary and attempt state recording 128. The export manifest references model.safetensors (SHA-256 af764642e92b3002ec6e8f1a62a1bcb0410b856ccbc2a3d33d3104869e1962d7), but that file is absent. No checkpoint or alternate weight file was found within the inspected persistent final-evaluation area. Therefore export verification failed on missing artifacts; do not use this run for evaluation or claim weights are recoverable.
+
+Detailed recovery findings are preserved in execution-20261012T024607Z/evidence/recovery-inspection-20261012.json. Keep the original summary, manifest, history and progress unchanged. The observations show incomplete persistence; the exact Drive failure mechanism is not established. A replacement fit or storage-procedure change requires owner confirmation before affected work. The deployed archive was checksum-verified before setup, and its training/selection suite passed 65 tests remotely. The training run retained an immutable snapshot of the selected configuration and comparison report used at launch.
+
+## Tooling verification
+
+The earlier combined local training, selection and final-evaluation suite passed 83 tests and 13 subtests. After adding Mac-check guards and dataset-independent frozen-warmup verification, the targeted training/selection/final-evaluation/synthetic-handoff suite passed 113 tests and 13 subtests after the local-staging safety tests; git diff --check also passed. An expanded handoff run had nine setup errors because the pinned WangchanBERTa tokenizer was absent from both checked local caches. Those real-tokenizer checks are blocked, not passed. The earlier final-evaluation-only check covered 16 tests. These checks verify covered implementation behavior, not completed selection, final-artifact integrity or held-out inference. No test CSV was opened.
