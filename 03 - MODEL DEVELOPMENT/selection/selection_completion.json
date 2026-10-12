@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "status": "complete_verified",
+  "selected_configuration_id": "phayathaibert__primary_only__lr-3e-05",
+  "selected_config_sha256": "53824363fce53b915fba658892f742d0bbb61f0bed6646086b5393712dfcb88b",
+  "selected_model": "phayathaibert",
+  "data_condition": "primary_only",
+  "learning_rate": 3e-05,
+  "selected_duration_epochs": 2,
+  "training_seed": 67,
+  "threshold": 0.5,
+  "main_fit_count": 45,
+  "excluded_main_fit_count": 30,
+  "caller_only_fit_count": 0,
+  "supplemental_fit_count": 0,
+  "scope_approval": {
+    "status": "owner_approved",
+    "reference": "Plan 03/01 owner-approved scope reduction: 45 completed fits, 30 unrun excluded, supplemental omitted, select PhayaThaiBERT LR3e-5 epoch 2 primary-only.",
+    "path": "/home/bukutsu/Projects/scam-call-alert/01 - PLANs/03 - MODEL DEVELOPMENT/01 - HYPERPARAMETER TUNING AND MODEL SELECTION.md",
+    "sha256": "752dc291fa96ce2ca5052e29d85db6ad22a7b3c5eb32306625d7eb860aea52c4"
+  },
+  "evidence": {
+    "manifest": {
+      "path": "/home/bukutsu/Projects/scam-call-alert/03 - MODEL DEVELOPMENT/selection/experiment_manifest.csv",
+      "sha256": "a07271ad99432697fb6a0b2a29b2c015ad7182ecb4810c5d468800643b1b2c34"
+    },
+    "cv_results": {
+      "path": "/home/bukutsu/Projects/scam-call-alert/03 - MODEL DEVELOPMENT/selection/cv_results.csv",
+      "sha256": "1370faef333bdda664f0197cac39eb4541d1052dfc1e33ae8fd2dc3a293df36d"
+    },
+    "comparison_report": {
+      "path": "/home/bukutsu/Projects/scam-call-alert/03 - MODEL DEVELOPMENT/selection/comparison_report.md",
+      "sha256": "5672dac5a41fbe9d3eead0e49d04f8f397cfeb2ec0b3d68c3cc8e42798ec44d8"
+    },
+    "selected_config": {
+      "path": "/home/bukutsu/Projects/scam-call-alert/03 - MODEL DEVELOPMENT/selection/selected_config.json",
+      "sha256": "53824363fce53b915fba658892f742d0bbb61f0bed6646086b5393712dfcb88b"
+    },
+    "search_space": {
+      "path": "/home/bukutsu/Projects/scam-call-alert/03 - MODEL DEVELOPMENT/selection/search_space.json",
+      "sha256": "21ed987afcade408d8fb54ad864e9786b617546c81468e31bef697ecbda6dbf0"
+    },
+    "experiment_protocol": {
+      "path": "/home/bukutsu/Projects/scam-call-alert/03 - MODEL DEVELOPMENT/selection/experiment_protocol.md",
+      "sha256": "1ae06fc3f55c82a00f8bc8e1e41bb006f9a1c192ecf61643d5e86dd3262de4de"
+    }
+  },
+  "limitations": [
+    "Unequal LR tuning coverage: PhayaThaiBERT, HPLT, and XLM-R tested only at 3e-5; 30 fits omitted by owner approval.",
+    "Matched supplemental comparison omitted by owner approval; final condition is primary-only.",
+    "Coworker WangchanBERTa raw prediction artifacts inaccessible from currently mounted paths; aggregate provenance retained.",
+    "Small lead over XLM-R does not establish statistical superiority; XLM-R used mixed hardware (folds 0-2 T4 FP16, folds 3-4 CPU FP32)."
+  ],
+  "verification_notes": "All 45 completed fits accounted for in cv_results.csv and manifest. 30 unrun rows marked excluded_by_owner_approved_scope_reduction. Selected PhayaThaiBERT epoch 2 role-free F1 = 0.976796 \u00b1 0.012884."
+}
