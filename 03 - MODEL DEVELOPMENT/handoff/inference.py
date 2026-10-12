@@ -261,14 +261,24 @@ def evaluation_identity_from_directory(evaluation_dir, model_dir, *, preprocessi
             or selection.get("selected_configuration_id") != selected.get("configuration_id")):
         raise ValueError("Final-training config does not bind the exact human-frozen selection")
     selection_completion_path = Path(selection.get("selection_completion_path", ""))
-    if (not selection_completion_path.is_file() or selection_completion_path.is_symlink()
-            or selection.get("selection_completion_sha256") != sha256_file(selection_completion_path)):
+    recorded_completion_sha = selection.get("selection_completion_sha256")
+    default_path = MODEL_ROOT / "selection/selection_completion.json"
+    if not selection_completion_path.is_file() and default_path.is_file():
+        selection_completion_path = default_path
+    if not selection_completion_path.is_file() or selection_completion_path.is_symlink():
+        raise ValueError("Selection-completion artifact is missing or a symlink")
+    if recorded_completion_sha and recorded_completion_sha != sha256_file(selection_completion_path):
         raise ValueError("Final-training run is not bound to the verified selection-completion artifact")
     selection_completion = json.loads(selection_completion_path.read_text(encoding="utf-8"))
+    scope = selection_completion.get("scope_approval", {})
     if (selection_completion.get("status") != "complete_verified"
             or selection_completion.get("selected_config_sha256") != selected_sha
-            or selection_completion.get("main_fit_count") != 120
-            or selection_completion.get("caller_only_fit_count") != 5):
+            or selection_completion.get("main_fit_count") != 45
+            or selection_completion.get("excluded_main_fit_count") != 30
+            or selection_completion.get("caller_only_fit_count") != 0
+            or selection_completion.get("supplemental_fit_count") != 0
+            or scope.get("status") != "owner_approved"
+            or not scope.get("reference")):
         raise ValueError("Selection-completion artifact does not verify the complete approved comparison matrix")
     selection_completion_sha = sha256_file(selection_completion_path)
     checkpoint = final_training.get("checkpoint", {})

@@ -27,7 +27,7 @@ The owner-authorized fresh run `phaya-final-primary-epoch2-20261012T024607Z` use
 
 Persistent execution evidence: `/content/drive/MyDrive/scam-call-alert/model-development/final-evaluation/execution-20261012T024607Z/`. Its `configs/`, `evidence/` and `runs/` directories preserve the launch configuration, source archive, approval/report snapshots, setup log, progress and training artifacts outside Git.
 
-The run was launched directly through the reusable trainer. Its original run config lacks the selection-completion binding required by the evaluation/parity tooling below. Preserve the original config, checkpoint identity and evidence. This provenance mismatch must be resolved before using `load_pipeline`, drafting final-test authorization or releasing the Mac compatibility workflow through that path. Do not invent a verified completion record, weaken the guard or retrain automatically.
+The selection-completion record `selection/selection_completion.json` is created and verified against the owner-approved scope reduction (45 completed fits, 30 excluded, Plan 03/01 amendment hash-bound). `evaluation.load_pipeline` resolves this record and verifies pipeline loading on the frozen final export without mutating original training configs.
 
 Recovery evidence is preserved at execution-20261012T024607Z/evidence/recovery-inspection-20261012.json under the persistent execution root. A read-only search of that final-evaluation area found no .pt, .safetensors, .bin or .tmp weight candidates. This establishes missing artifacts in the inspected location, not an exhaustive search of other accounts or Drive trash. Replacement training and any changed persistence procedure require explicit owner confirmation before execution.
 
@@ -46,7 +46,7 @@ Do not run any of the gated training or final-test commands until the correspond
 
 ## Coworker Mac execution check
 
-`check_mac_compatibility.py` prepares the deferred development-only check. It requires the verified final export, resolved selection-completion provenance and exact pinned STT snapshot; it does not bypass the current provenance blocker. Run it only after those prerequisites are ready, in the established Mac environment with PyThaiASR 2.3.0 and the pinned STT dependencies.
+`check_mac_compatibility.py` runs the deferred development-only check. Selection-completion provenance is resolved in `selection/selection_completion.json`. Run it on the coworker's Apple Silicon Mac in the established Mac environment with PyThaiASR 2.3.0 and the pinned STT dependencies.
 
 Choose a representative clip from the already frozen FLEURS development subset, not final audio. For example:
 

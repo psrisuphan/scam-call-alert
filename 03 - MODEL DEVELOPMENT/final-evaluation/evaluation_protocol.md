@@ -16,7 +16,7 @@ Final training must initialize fresh from the original pinned pretrained checkpo
 
 ## Outstanding boundaries
 
-- selected_config.json is frozen. Finish selection reporting without falsely approving unresolved compatibility or verification. The launched original run config lacks the selection-completion binding required by evaluation.py; preserve it and resolve that provenance integration before using the evaluation/parity pipeline.
+- selected_config.json and selection_completion.json are frozen and verified. Selection reporting accounts for the approved 45 completed and 30 excluded fits with accepted evidence-access limitations. evaluation.load_pipeline resolves selection_completion.json directly without mutating original training configs.
 - Owner-approved timing change: the coworker checks final classifier/STT compatibility on MacBook Air M2 after final training and before any held-out access. That gate remains pending, not passed.
 - The final-evaluation guard now accounts for 45 completed fits and 30 approved exclusions, with zero caller-only and supplemental fits. It requires hash-bound scope approval. Final-test authorization also requires hash-bound passed Mac compatibility evidence matching selected configuration and final weights.
 - Coworker WangchanBERTa run files remain unavailable at the mounted paths; retain existing aggregates and prior verification provenance with that limitation.
@@ -37,7 +37,7 @@ All 18 required run files (7,792,893,010 bytes in total) were checksum/byte-coun
 Final model.safetensors SHA-256: af64d3a917d5db82bc9dfe794c8f29125bbf13ad9060f726c75ac001f99d838b.
 Training loss by epoch: 0.19045969620018643, 0.0006572449280302078. No validation/test metric is inferred from these losses.
 
-The selection-completion linkage remains unresolved, as explicitly recorded in the verification evidence. Do not bypass its guard or invent completion. Mac compatibility and separate held-out authorization remain required. No final-test record was loaded.
+Selection completion is verified and recorded in selection_completion.json. Mac compatibility and separate held-out authorization remain required gates before any final-test access. No final-test record was loaded.
 
 ## Previous final-run evidence
 

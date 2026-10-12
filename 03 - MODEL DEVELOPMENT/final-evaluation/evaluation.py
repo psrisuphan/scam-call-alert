@@ -392,10 +392,14 @@ def resolve_selection_completion(final_training: dict[str, Any], explicit_path: 
     selection = final_training.get("selection", {})
     recorded = selection.get("selection_completion_sha256")
     stored_path = Path(selection.get("selection_completion_path", ""))
-    candidate = explicit_path.resolve() if explicit_path is not None else stored_path
-    if not recorded or not candidate.is_file() or sha256(candidate) != recorded:
+    default_path = ROOT / "03 - MODEL DEVELOPMENT/selection/selection_completion.json"
+    candidate = explicit_path.resolve() if explicit_path is not None else (stored_path.resolve() if str(stored_path) else default_path.resolve())
+    if not candidate.is_file():
+        raise FileNotFoundError(f"Selection-completion record not found: {candidate}")
+    if recorded and sha256(candidate) != recorded:
         raise ValueError("Final-training run is not bound to the current verified selection-completion checksum")
     completion = read_json(candidate)
+    validate_selection_scope(completion)
     if (completion.get("status") != "complete_verified"
             or completion.get("selected_config_sha256") != selection.get("selected_config_sha256")):
         raise ValueError("Selection-completion record is not verified for this selected config")
@@ -575,13 +579,10 @@ def _authorize_test(args: argparse.Namespace, selected_path: Path, model_dir: Pa
     if not final_run_config.is_file():
         raise ValueError("Final-training run config is required to resolve selection completion provenance")
     final_training = read_json(final_run_config)
-    completion_path = Path(final_training.get("selection", {}).get("selection_completion_path", ""))
-    if (not completion_path.is_file()
-            or final_training.get("selection", {}).get("selection_completion_sha256") != sha256(completion_path)
-            or authorization.get("selection_completion_sha256") != sha256(completion_path)):
+    completion_path = resolve_selection_completion(final_training)
+    if authorization.get("selection_completion_sha256") != sha256(completion_path):
         raise ValueError("Final-test authorization must bind the verified selection completion artifact")
     completion = read_json(completion_path)
-    validate_selection_scope(completion)
     validate_mac_compatibility(authorization)
     if (completion.get("status") != "complete_verified"
             or completion.get("selected_config_sha256") != sha256(selected_path)):

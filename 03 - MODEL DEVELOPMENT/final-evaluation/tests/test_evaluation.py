@@ -26,7 +26,22 @@ def test_metrics_keep_execution_failures_out_of_classification_errors():
 def test_completion_record_can_be_relocated_by_exact_sha_without_rewriting_run_config(tmp_path):
     stored = tmp_path / "unavailable-drive-path" / "selection_completion.json"
     local = tmp_path / "copied-selection-completion.json"
-    content = {"status": "complete_verified", "selected_config_sha256": "selected-sha"}
+    app = tmp_path / "approval.md"
+    app.write_text("approved scope reduction")
+    content = {
+        "status": "complete_verified",
+        "selected_config_sha256": "selected-sha",
+        "main_fit_count": 45,
+        "excluded_main_fit_count": 30,
+        "caller_only_fit_count": 0,
+        "supplemental_fit_count": 0,
+        "scope_approval": {
+            "status": "owner_approved",
+            "reference": "ref",
+            "path": str(app),
+            "sha256": evaluation.sha256(app),
+        },
+    }
     local.write_text(json.dumps(content) + "\n", encoding="utf-8")
     final_run = {"selection": {"selection_completion_path": str(stored),
                                "selection_completion_sha256": evaluation.sha256(local),

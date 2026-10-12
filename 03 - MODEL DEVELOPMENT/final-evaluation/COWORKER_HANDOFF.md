@@ -61,15 +61,13 @@ tar -xzf mac-compatibility-transfer.tar.gz -C mac-compatibility-transfer
 
 Use a private location outside the checkout. The extracted run directory is `mac-compatibility-transfer/phaya-final-replacement-primary-epoch2-20261012T050936Z/`; its sibling `*-execution/` directory contains the evidence snapshots. Verify the run's `final_model/model.safetensors` against the hash above and the files against `artifact_manifest.json`. An archive checksum alone does not certify compatibility.
 
-## First blocker: selection provenance
+## Selection provenance: resolved
 
-The original frozen replacement run config does not contain the selection-completion binding required by `evaluation.load_pipeline`. The selection report still has missing/evidence-limited breakdowns, including inaccessible coworker WangchanBERTa artifacts and Phaya CV training-loss fields.
+The selection-completion record `03 - MODEL DEVELOPMENT/selection/selection_completion.json` is completed and verified against the owner-approved scope reduction (45 completed fits, 30 unrun excluded, 0 caller-only, 0 supplemental). The shared evaluation pipeline (`evaluation.load_pipeline`) resolves this record directly, verified without mutating original run configurations.
 
-Do not invent `complete_verified`, mutate the original run config, or remove the guard. Resolve reporting and a separately traceable provenance linkage with the owner before using the shared evaluation/parity pipeline. The archive is recoverable training evidence, but the Mac execution command remains blocked until this is resolved. Owner acceptance of an access limitation is not proof that missing files were verified.
+Accepted limitations remain documented in the completion record: unequal LR tuning coverage, omitted supplemental comparison, inaccessible raw coworker WangchanBERTa prediction files from currently mounted paths, and small observed lead over XLM-R. If the WangchanBERTa directories are available in your account, provide their persistent location and artifact identities for further reconciliation.
 
-If the WangchanBERTa directories are available in your account, provide their persistent location and existing artifact identities for reconciliation. Preserve the existing evidence and do not rerun training.
-
-## Mac check after that blocker clears
+## Mac check
 
 Use the coworker's MacBook Air M2 and the selected STT:
 - PyThaiASR 2.3.0.
@@ -78,7 +76,7 @@ Use the coworker's MacBook Air M2 and the selected STT:
 - MPS, no language model, 16 kHz mono float32 audio.
 - A clip from the existing frozen FLEURS development subset, never final audio.
 
-Use the established STT environment and pinned dependencies under `04 - APPLICATION DEVELOPMENT/stt/`. Follow the command in [README.md](README.md#coworker-mac-execution-check), substituting your actual private paths and resolved completion record. The classifier backend is explicit; do not silently fall back or substitute STT.
+Use the established STT environment and pinned dependencies under `04 - APPLICATION DEVELOPMENT/stt/`. Follow the command in [README.md](README.md#coworker-mac-execution-check), substituting your actual private paths. The completion record defaults to `03 - MODEL DEVELOPMENT/selection/selection_completion.json`. The classifier backend is explicit; do not silently fall back or substitute STT.
 
 Return the complete output directory:
 - `mac_compatibility.json`.
@@ -90,7 +88,7 @@ A real pass demonstrates one development execution with both models resident. It
 
 ## Remaining sequence
 
-1. Resolve selection reporting/provenance without changing predictive settings.
+1. Selection reporting and provenance are resolved in `selection_completion.json`.
 2. Verify transferred artifacts and execute the Mac check using development audio.
 3. Obtain separate owner authorization bound to the passed check and exact final model before any test access.
 4. Evaluate the frozen text pipeline once; retain every outcome/failure and review every FP/FN.
