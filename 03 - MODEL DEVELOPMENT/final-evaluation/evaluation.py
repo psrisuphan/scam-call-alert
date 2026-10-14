@@ -153,6 +153,22 @@ def read_evaluation_journal(path: Path, authorization: dict[str, Any], artifact_
     return outcomes, errors
 
 
+def relocated_evidence_path(recorded: str) -> Path:
+    """Map an absolute path recorded on another host into this checkout.
+
+    Callers still compare SHA-256, so relocation never accepts changed evidence.
+    """
+    path = Path(recorded)
+    if path.is_file():
+        return path
+    parts = path.parts
+    for index, part in enumerate(parts):
+        candidate = ROOT.joinpath(*parts[index:])
+        if part in {"01 - PLANs", "03 - MODEL DEVELOPMENT"} and candidate.is_file():
+            return candidate
+    return path
+
+
 def validate_selection_scope(completion: dict[str, Any]) -> None:
     """Require the owner-approved reduced scope, with its approval hash-bound."""
     scope = completion.get("scope_approval", {})
@@ -163,7 +179,7 @@ def validate_selection_scope(completion: dict[str, Any]) -> None:
             or scope.get("status") != "owner_approved"
             or not scope.get("reference")):
         raise ValueError("Selection completion must account for the approved 45 fits and 30 exclusions")
-    path = Path(scope.get("path") or "")
+    path = relocated_evidence_path(scope.get("path") or "")
     if not path.is_file() or sha256(path) != scope.get("sha256"):
         raise ValueError("Reduced-scope approval evidence is missing or changed")
 
@@ -214,7 +230,7 @@ def prepare_final_training_config(args: argparse.Namespace) -> None:
             or owner.get("selection_completion_path") != str(completion_path)):
         raise ValueError("Final training requires the verified reduced-scope completion artifact bound in owner approval")
     for evidence in completion.get("evidence", {}).values():
-        evidence_path = Path(evidence["path"])
+        evidence_path = relocated_evidence_path(evidence["path"])
         if not evidence_path.is_file() or sha256(evidence_path) != evidence["sha256"]:
             raise ValueError("Selection completion evidence is missing or has changed")
     if not owner.get("final_run_id") or not owner.get("persistent_runs"):

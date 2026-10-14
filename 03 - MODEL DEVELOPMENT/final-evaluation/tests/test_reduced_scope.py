@@ -34,3 +34,15 @@ def test_mac_evidence_must_match_final_weights_and_development_partition(tmp_pat
         with pytest.raises(ValueError): evaluation.validate_mac_compatibility(auth())
         record[field]=original
     with pytest.raises(ValueError): evaluation.validate_mac_compatibility({})
+
+def test_scope_approval_recorded_on_another_host_relocates_but_stays_hash_bound(tmp_path, monkeypatch):
+    plan=tmp_path/"01 - PLANs"/"approval.md"
+    plan.parent.mkdir()
+    plan.write_text("owner-approved reduction")
+    monkeypatch.setattr(evaluation,"ROOT",tmp_path)
+    record={"main_fit_count":45,"excluded_main_fit_count":30,"caller_only_fit_count":0,"supplemental_fit_count":0,
+            "scope_approval":{"status":"owner_approved","reference":"synthetic approval",
+                              "path":"/home/other-host/Projects/repo/01 - PLANs/approval.md","sha256":evaluation.sha256(plan)}}
+    evaluation.validate_selection_scope(record)
+    plan.write_text("changed")
+    with pytest.raises(ValueError): evaluation.validate_selection_scope(record)
