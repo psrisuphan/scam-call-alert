@@ -34,6 +34,13 @@ export default function App() {
   const [archive, setArchive] = useState<string | null>(null);
   const archiveRef = useRef<string | null>(null);
   const currentRef = useRef<Snapshot>({});
+  // Live-mic call clock: starts when the call is accepted, not when the host first reports audio.
+  const callStartRef = useRef<number | null>(null);
+  const callEndRef = useRef<number | null>(null);
+  // Recorded-mode clock: last native playback position and when it was seen, so the timer
+  // can count forward smoothly between the 500 ms state reads instead of stepping unevenly.
+  const playbackRef = useRef({ id: '', ms: 0, at: 0, shown: 0 });
+  const [, setFrame] = useState(0);
   const endpointRef = useRef(endpoint);
   endpointRef.current = endpoint;
   const active = Boolean(currentRef.current.native_active);
@@ -89,6 +96,7 @@ export default function App() {
       const permission = await Notifications.requestPermissionsAsync();
       if (!permission.granted) setError('ไม่ได้อนุญาตการแจ้งเตือน ระบบจะแสดงคำเตือนภายในแอปเท่านั้น');
       archiveRef.current = null; setArchive(null);
+      callStartRef.current = Date.now(); callEndRef.current = null;
       setState({ native_state: 'starting' });
       await Monitor.start(JSON.stringify({ endpoint, mode, approach, recording_id: selected,
         save: mode === 'recorded', staged_background: mode === 'recorded' && staged }));
@@ -118,15 +126,34 @@ export default function App() {
     : state.native_state === 'paused' ? { icon: 'pause', label: 'พักเสียง' }
     : state.native_state === 'held' ? { icon: 'time-outline', label: 'รอเริ่มเบื้องหลัง' }
     : state.native_state === 'finishing' ? { icon: 'hourglass-outline', label: 'กำลังประมวลผลเสียงส่วนท้าย' } : null;
-  const reset = async () => { await Monitor.clearDisplay(); currentRef.current = {}; setState({}); setIncoming(false); setError(''); };
+  const reset = async () => { await Monitor.clearDisplay(); callStartRef.current = null; currentRef.current = {}; setState({}); setIncoming(false); setError(''); };
+  if (!terminal) callEndRef.current = null;
+  else if (callEndRef.current === null) callEndRef.current = Date.now();
+  const localClock = displayMode === 'microphone' && !archive && callStartRef.current !== null;
+  const playing = displayMode === 'recorded' && !archive && state.native_state === 'active';
+  if (playbackRef.current.id !== (state.session_id ?? '')) playbackRef.current = { id: state.session_id ?? '', ms: 0, at: Date.now(), shown: 0 };
+  const playback = playbackRef.current;
+  if (state.audio_position_ms !== undefined && state.audio_position_ms !== playback.ms) {
+    playback.ms = state.audio_position_ms; playback.at = Date.now();
+    if (!playing) playback.shown = playback.ms;
+  }
+  if (playing) playback.shown = Math.max(playback.shown, Math.min(playback.ms + Date.now() - playback.at, state.duration_ms ?? Infinity));
+  const position = localClock ? (callEndRef.current ?? Date.now()) - callStartRef.current!
+    : playing ? playback.shown : state.audio_position_ms;
   const callScreen = incoming || Boolean(state.native_state);
+  const ticking = callScreen && !terminal && (localClock || playing);
+  useEffect(() => {
+    if (!ticking) return;
+    const frame = setInterval(() => setFrame(n => n + 1), 100);
+    return () => clearInterval(frame);
+  }, [ticking]);
   const failure = state.connection_error || state.error?.message || error;
 
   return <View style={{ flex: 1, backgroundColor: callScreen ? '#07080b' : '#f2f2f7' }}>
     <StatusBar style={callScreen ? 'light' : 'dark'} />
     {incoming ? <IncomingScreen mode={mode} loading={loading} error={error} onDecline={() => setIncoming(false)} onAccept={start} />
     : callScreen ? <SessionScreen mode={displayMode} status={status} phase={phase}
-      time={`${clock(state.audio_position_ms)}${displayMode === 'recorded' ? ` / ${clock(state.duration_ms)}` : ''}`}
+      time={`${clock(position)}${displayMode === 'recorded' ? ` / ${clock(state.duration_ms)}` : ''}`}
       transcript={state.transcript} warning={Boolean(state.warning || scam)}
       delaySeconds={!terminal && state.analysis_delayed ? Math.ceil(state.analysis_backlog_seconds ?? 0) : null}
       saved={Boolean(state.save_evidence)} failure={failure}
