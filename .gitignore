@@ -60,3 +60,6 @@ wandb/
 
 # Rendered slide review images (not a planned 06 output)
 06 - REPORT/design-review/
+
+# Local presentation build artifacts and deck snapshots
+06 - REPORT/artifacts/
