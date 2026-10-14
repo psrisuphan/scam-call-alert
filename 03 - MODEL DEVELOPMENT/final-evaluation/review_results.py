@@ -104,6 +104,13 @@ def audit(predictions, errors, assignments, original_errors=None):
             "error_review_complete": not pending, "coverage_verified": True}
 
 
+def _annotation_color(value, maximum, cmap):
+    """Choose readable text against the actual Blues cell fill."""
+    red, green, blue, _ = cmap(value / max(1, maximum))
+    luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue
+    return "white" if luminance < 0.5 else "#102a43"
+
+
 def figures(metrics, output):
     import matplotlib
     matplotlib.use("Agg")
@@ -112,11 +119,15 @@ def figures(metrics, output):
     output.mkdir(parents=True, exist_ok=True)
     for name, values in [("combined", metrics["combined"]), *metrics["by_source"].items()]:
         matrix = [[values["tn"], values["fp"]], [values["fn"], values["tp"]]]
+        maximum = max(1, max(map(max, matrix)))
+        cmap = plt.get_cmap("Blues")
         fig, ax = plt.subplots(figsize=(5.5, 4.5), constrained_layout=True)
-        ax.imshow(matrix, cmap="Blues", vmin=0, vmax=max(1, max(map(max, matrix))))
+        ax.imshow(matrix, cmap=cmap, vmin=0, vmax=maximum)
         for row in range(2):
             for col in range(2):
-                ax.text(col, row, str(matrix[row][col]), ha="center", va="center", fontsize=14)
+                value = matrix[row][col]
+                ax.text(col, row, str(value), ha="center", va="center", fontsize=14,
+                        color=_annotation_color(value, maximum, cmap))
         ax.set(xticks=[0, 1], yticks=[0, 1], xticklabels=["Not Scam", "Scam"],
                yticklabels=["Not Scam", "Scam"], xlabel="Predicted class", ylabel="True class",
                title=f"Final text test — {name}\nSuccessful {values['successful']}/{values['assigned']}; failures {values['failed']}")

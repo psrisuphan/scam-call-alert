@@ -80,6 +80,7 @@ def test_invalid_evidence_is_rejected(change):
 
 
 def test_confusion_figures_include_failed_count_and_can_be_reproduced(tmp_path):
+    import matplotlib
     spec = importlib.util.spec_from_file_location("scam_metrics_review", Path(__file__).resolve().parents[1] / "evaluation.py")
     evaluation = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(evaluation)
@@ -87,6 +88,9 @@ def test_confusion_figures_include_failed_count_and_can_be_reproduced(tmp_path):
     metrics = evaluation.compute_metrics(prediction)
     assert metrics["combined"]["assigned"] == 3
     assert metrics["combined"]["failed"] == 1
+    cmap = matplotlib.colormaps["Blues"]
+    assert review._annotation_color(150, 150, cmap) == "white"
+    assert review._annotation_color(0, 150, cmap) == "#102a43"
     review.figures(metrics, tmp_path / "figures")
     for subset in ("combined", "primary", "supplemental"):
         for extension in ("png", "pdf"):
