@@ -56,3 +56,7 @@ wandb/
 # Example report
 06 - REPORT/example/
 06 - REPORT/example/*
+06 - REPORT/EXAMPLE/
+
+# Rendered slide review images (not a planned 06 output)
+06 - REPORT/design-review/
