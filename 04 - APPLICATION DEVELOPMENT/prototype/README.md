@@ -1,5 +1,7 @@
 # Scam Call Alert application
 
+Owner-approved deadline scope change (2026-10-14): Plan 05 formal system evaluation is omitted. Use the working two-mode demo and existing functional/development evidence in final reporting, with the omission disclosed. These checks do not establish final system accuracy, warning latency or reliability; the retained formal-release requirements apply if that evaluation scope is later restored.
+
 This directory contains the React Native + Expo Android application and its local inference service integration. The app is being developed for the approved Android emulator workflow in [Plan 04/01](../../01%20-%20PLANs/04%20-%20APPLICATION%20DEVELOPMENT/01%20-%20MOBILE%20EMULATOR%20PROTOTYPE%20AND%20INTEGRATION.md).
 
 The service now uses the final-trained PhayaThaiBERT model through the owner-approved `interim` adapter (2026-10-14; see Plan 03/03). It replaced the temporary WangchanBERTa bundle after a passed Mac compatibility check. It is not yet test-evaluated. The provisional context screen and owner demo choice are complete; official evaluated-model handoff, formal runtime/fidelity requirements and affected compatibility checks still govern release. This app is not frozen for Plan 05.

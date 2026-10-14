@@ -36,6 +36,7 @@ Task states belong only in `01 - PLANs/README.md`:
 - **Unplanned:** not approved/finalized.
 - **Planned:** approved and written; implementation incomplete.
 - **Finished:** implementation satisfies completion criteria.
+- **Skipped:** the owner explicitly omitted execution; this does not mean completion.
 
 Do not place changing progress summaries, owners, or task statuses in AGENTS.md or individual plans.
 

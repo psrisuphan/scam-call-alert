@@ -1,5 +1,11 @@
 # 05 - END-TO-END SYSTEM EVALUATION
 
+## Owner-approved scope change — October 14, 2026
+
+The owner instructed omitting this formal evaluation because of the deadline and the demonstrated working application. Do not execute the reserved 12-recording/36-run final workload or paired-reference diagnostics unless the owner later authorizes restoring this scope. Preserve the original protocol below and its outcome/timing definitions already reused by development summaries.
+
+Plan 06 must disclose that formal end-to-end system evaluation was not performed. Existing app functional checks and the provisional development context comparison remain their original evidence types; they do not substitute for final system accuracy, user-visible warning latency, reliability or scam-prevention evidence. This decision does not waive final text-model evaluation or authorize final-test access.
+
 ## Purpose and scope
 
 Evaluate the frozen recorded-audio → STT → classifier → warning pipeline in the Android emulator. Measure conversation-level prediction quality, warning behavior, processing time, resources and failures.

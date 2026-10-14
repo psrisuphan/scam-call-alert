@@ -51,6 +51,7 @@ Each plan is one task. Use these states:
 - **Unplanned:** the plan has not been confirmed and written.
 - **Planned:** the plan is confirmed and written; implementation is not complete.
 - **Finished:** implementation meets the plan's completion criteria.
+- **Skipped:** the owner explicitly omitted execution; retain the plan and disclose the missing evaluation rather than marking it Finished.
 
 Update a task when its plan is saved or its implementation is completed. A written plan alone does not mean the task is finished. Individual plan files do not need status fields.
 
@@ -66,7 +67,7 @@ Update a task when its plan is saved or its implementation is completed. A writt
 | [03/04 - Optional LLM Data Augmentation](03%20-%20MODEL%20DEVELOPMENT/04%20-%20OPTIONAL%20LLM%20DATA%20AUGMENTATION.md) | Reserve an optional development branch if original-data CV results are unsatisfactory; finalize its detailed protocol only if needed. | Unplanned |
 | [04/00 - Speech-to-Text Evaluation](04%20-%20APPLICATION%20DEVELOPMENT/00%20-%20SPEECH-TO-TEXT%20EVALUATION.md) | Define how to evaluate Thai transcription from prepared audio. | Planned |
 | [04/01 - Mobile Emulator Prototype and Integration](04%20-%20APPLICATION%20DEVELOPMENT/01%20-%20MOBILE%20EMULATOR%20PROTOTYPE%20AND%20INTEGRATION.md) | Integrate microphone/recorded audio, live transcripts and system warnings; compare and freeze the context approach. | Planned |
-| [05 - End-to-End System Evaluation](05%20-%20END-TO-END%20SYSTEM%20EVALUATION.md) | Evaluate the frozen recorded-audio system in foreground/background conditions, preserving predictions, warning observations, timing and failures. | Planned |
+| [05 - End-to-End System Evaluation](05%20-%20END-TO-END%20SYSTEM%20EVALUATION.md) | Formal system evaluation omitted by owner decision due to the deadline; preserve the protocol and disclose the omission. | Skipped |
 | [06 - Final Results and Limitations Report](06%20-%20FINAL%20RESULTS%20AND%20LIMITATIONS%20REPORT.md) | Prepare Thai presentation/backup slides, traceable evidence, the cloud submission package and rehearsed demo. | Planned |
 
 ## How to follow the plans
@@ -76,6 +77,8 @@ Read the relevant plan and its prerequisite deliverables before implementing a t
 The main sequence is:
 
 **Data preparation → splitting and experiment design → preprocessing → model development → application integration → end-to-end evaluation → final reporting.**
+
+Owner-approved deadline scope change (2026-10-14): omit Plan 05 execution and proceed from application demo evidence to Plan 06. The recorded and live-microphone functional checks support the demo; they do not establish final end-to-end accuracy, warning latency, delivery reliability or prevention. Retain the Plan 05 protocol and its definitions used by development analysis. Do not generate its reserved recordings, 36-run final workload or paired-reference diagnostics solely to satisfy the former handoff. Model final-text evaluation and other unmodified tasks are not waived by this decision.
 
 Training and tuning are iterative. Owner-approved early app wiring may use the temporary WangchanBERTa bundle specified in Plan 03/03 while candidate comparisons continue; official context comparison, integration freeze, and Plan 05 still require the selected/final-evaluated model handoff and speech-to-text procedure. Individual plans define the exact dependencies and permitted parallel work. Forward references to later approved protocols supply method definitions, not a requirement to execute final evaluation before development.
 

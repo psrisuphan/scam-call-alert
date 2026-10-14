@@ -1,5 +1,9 @@
 # 01 - MOBILE EMULATOR PROTOTYPE AND INTEGRATION
 
+## Owner-approved deadline scope change — October 14, 2026
+
+The owner omitted Plan 05 formal system evaluation. Preserve the working two-mode demo, functional evidence and provisional development context comparison for Plan 06. The reserved final-recording package and formal Plan 05 release are not required for this deadline demo handoff; instructions below describing that formal route remain its retained protocol. This does not certify a formal integration freeze, waive model final-text evaluation or convert development/demo results into final system scores.
+
 ## Purpose and scope
 
 Build a React Native application with Expo on an Android emulator, connecting progressive audio input, speech recognition, the frozen Scam classifier, live transcripts and real system notification banners.

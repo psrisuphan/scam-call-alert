@@ -2,7 +2,9 @@
 
 ## Purpose and scope
 
-Prepare the final presentation and shared-cloud project package from evidence produced by Plans 00–05. Emphasize Pattern Recognition model development while connecting the scam-call problem, data handling, justified decisions, application usefulness and complete system evaluation.
+Prepare the final presentation and shared-cloud project package from available verified evidence produced by Plans 00–04. Emphasize Pattern Recognition model development while connecting the scam-call problem, data handling, justified decisions and demonstrated application usefulness.
+
+Owner-approved deadline scope change (2026-10-14): Plan 05 formal end-to-end system evaluation is omitted. Present existing recorded/live functional checks and provisional development context results with their original limitations, and state that final system accuracy, warning latency and reliability were not evaluated under the planned protocol. Do not execute Plan 05, invent its results or relabel demo checks as final evaluation. Model final-text evaluation remains a separate task; verify its actual availability before presenting results. References below to final-system summary conventions apply only if such evidence already exists, not as a requirement to create it.
 
 Deliver main/backup slides, presentation notes/rehearsal outline, a shared-cloud package with README/reproduction information, and a demo guide with a clearly labeled fallback recording. Earlier stage reports remain supporting evidence; a separate full academic report is not required by the supplied assignment.
 
@@ -39,7 +41,7 @@ Cloud deliverables must be accessible to the professor. Cloud provider, final ac
 | Model handoff | Frozen contract, identities and actual local compatibility. |
 | STT report | CER, runtime/resources/failures and selected component. |
 | Application evidence | UX/UI, modes, progressive flow and development context comparison. |
-| System evaluation | Foreground/background quality, warnings, timing and failure evidence. |
+| System-evaluation omission | Disclose the owner-approved deadline omission; use existing functional observations without claiming formal system scores. |
 
 Verify source revisions/checksums and actual completion. Planned run counts are not completed experiment counts. Preserve unsuccessful comparisons/missing results; do not invent scores or describe unexecuted work as completed.
 
@@ -58,12 +60,12 @@ Use this content sequence, adjusting slide count/layout to readability:
 7. CV results, variability and selection.
 8. Final text-test results/errors.
 9. STT and development context comparison.
-10. Application UX/UI and system results.
+10. Application UX/UI, working demo and functional evidence.
 11. Conclusions, limitations and proposed future work.
 
 ### Main slides
 
-Include key candidate/data comparisons, tuning/epoch effects, CV mean/sample SD, selected configuration/rationale, final text-test metrics/errors, STT tradeoffs, application flow and foreground/background system outcomes. Material negative findings and limitations belong here, not only in backup slides. Give model development substantial attention without omitting the end-to-end usefulness required by the assignment.
+Include key candidate/data comparisons, tuning/epoch effects, CV mean/sample SD, selected configuration/rationale, available final text-test metrics/errors, STT tradeoffs, application flow and observed functional outcomes. Disclose unavailable results and the omitted Plan 05 evaluation. Material negative findings and limitations belong here, not only in backup slides. Give model development substantial attention while showing the implemented end-to-end use case required by the assignment.
 
 ### Backup slides
 
@@ -83,7 +85,7 @@ Do not claim supporting research establishes receiver-context superiority, calib
 
 Derive figures/tables from preserved machine-readable artifacts. Include a diagram matching the implemented emulator/local-host boundaries and progressive audio/STT/text/classifier/notification flow.
 
-Recommended visuals: dataset/split counts; configuration table; learning/tuning curves; candidate/data CV comparison with SD; final text confusion matrix; STT quality/runtime tradeoff; development context comparison; separate foreground/background system quality, warning coverage, timing, failures/resources.
+Recommended visuals: dataset/split counts; configuration table; learning/tuning curves; candidate/data CV comparison with SD; final text confusion matrix when available; STT quality/runtime tradeoff; provisional development context comparison; application flow and demo screenshots. Do not create final-system quality/coverage/latency plots without the corresponding evaluation evidence.
 
 Every visual identifies units, metric/class order, averaging, sample counts and conditions. Keep CV, final text, STT benchmark and final system scores separately labeled. Reproduce exported numbers from authoritative data; presentation rounding must not change selection rationale.
 
