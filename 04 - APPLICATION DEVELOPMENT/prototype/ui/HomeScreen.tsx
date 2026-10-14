@@ -51,9 +51,9 @@ export function HomeScreen(p: Props) {
                   <View style={[styles.badge, on && styles.badgeOn]}>
                     <Text style={[styles.badgeText, on && { color: color.white }]}>{String(i + 1).padStart(2, '0')}</Text>
                   </View>
+                  <Text numberOfLines={1} style={[styles.name, styles.flex]}>{r.title.split(' · ')[0]}</Text>
                   <Text style={styles.duration}>{p.clock(r.duration_seconds * 1000)}</Text>
                   {unverified && <Icon name="alert-circle" size={17} tint={color.orange} />}
-                  <View style={styles.flex} />
                   {on && <Icon name="checkmark" size={22} tint={color.blue} />}
                 </TouchableOpacity>;
               })}
@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
   badge: { width: 36, height: 36, borderRadius: 18, backgroundColor: color.grouped, alignItems: 'center', justifyContent: 'center' },
   badgeOn: { backgroundColor: color.blue },
   badgeText: { color: color.label, fontSize: 14, fontWeight: '600', fontVariant: ['tabular-nums'] },
-  duration: { color: color.label, fontSize: 17, fontVariant: ['tabular-nums'] },
+  name: { color: color.label, fontSize: 17 },
+  duration: { color: color.secondary, fontSize: 17, fontVariant: ['tabular-nums'] },
   empty: { alignItems: 'center', paddingVertical: 72 },
   micStage: { alignItems: 'center', paddingVertical: 40 },
   ringOuter: { width: 236, height: 236, borderRadius: 118, borderWidth: 1, borderColor: 'rgba(60,60,67,0.08)', alignItems: 'center', justifyContent: 'center' },
