@@ -22,7 +22,7 @@ The datasets contain simulated conversations. Results should therefore be interp
 - [01 - PLANs/](01%20-%20PLANs/README.md) - implementation plans and workflow guide
 - `02 - DATASETs/` - dataset workspace
 - `03 - MODEL DEVELOPMENT/` - model experiments
-- `04 - APPLICATION DEVELOPMENT/` - mobile application prototype
+- `04 - APPLICATION DEVELOPMENT/` - mobile application prototype ([how to run the demo](04%20-%20APPLICATION%20DEVELOPMENT/prototype/RUN_DEMO.md))
 
 ## Current status
 
