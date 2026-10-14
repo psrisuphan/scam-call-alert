@@ -12,16 +12,17 @@ Do not introduce experiments, change the selected pipeline or conceal negative f
 
 ## 1. Establish requirements and grading coverage
 
-Use the supplied Term Project Submission instructions and owner clarification:
+Use the supplied Term Project Submission instructions and the professor's updated timing, reported by the owner on October 14, 2026:
 
 - Deadline: October 14, 2026, 11:59 PM (project local time, Asia/Bangkok).
-- Slide presentation: approximately 8–10 minutes.
-- Slides plus demo: target approximately 12 minutes, maximum 15 minutes.
-- Q&A: separate 5-minute session per owner's clarified timing.
+- Slide presentation: 15-minute session.
+- Demonstration: separate 5-minute session.
+- Q&A: separate 5-minute session.
+- Total allocation: 25 minutes (20 minutes of presentation/demo plus 5 minutes of Q&A).
 - Thai explanations with English technical terms.
 - Editable PowerPoint and exported PDF; Canva permitted for final design edits.
 
-Record the timing clarification because it differs from the originally pasted grouping of presentation/demo/Q&A within 15 minutes. Approximately nine minutes of slides and three minutes of demo is a flexible rehearsal target, not fixed section timing or slide count.
+This professor-announced allocation supersedes the original submission timing and earlier owner clarification. Plan and rehearse slides and demo separately within their respective 15-minute and 5-minute slots. Individual section timings and slide count remain flexible; backup slides support the separate Q&A session.
 
 Required slide topics: problem/solution; ML problem; system overview including diagram; dataset details; models/configurations; experimental design/results; conclusions/discussion.
 
@@ -114,7 +115,7 @@ Keep originals unchanged. Redact personal details only in labeled presentation c
 
 Primary demonstration uses prerecorded mode: introduce simulation, Answer, show playback/live transcript/classification, background app, show real notification if triggered, and explain model output/limitations. Rehearse documented audio/build/settings. Do not force a scripted warning or guarantee one independently of model output.
 
-Implement/verify the recorded pipeline first, then the mandatory live microphone mode. Demonstrate both verified modes within the flexible demo budget: prerecorded mode is the primary reproducible example, followed by a brief live microphone example. Microphone results are experimental/functional, not quantitative evaluation; do not claim a working microphone feature without its checks. Rehearse a shorter prerecorded example rather than omit the mandatory microphone demonstration. Reserved final recordings stay out of rehearsals until final evaluation completes. Demo provenance and rehearsal use are recorded.
+Implement/verify the recorded pipeline first, then the mandatory live microphone mode. Demonstrate both verified modes within the separate five-minute demo slot: prerecorded mode is the primary reproducible example, followed by a brief live microphone example. Microphone results are experimental/functional, not quantitative evaluation; do not claim a working microphone feature without its checks. Rehearse a shorter prerecorded example rather than omit the mandatory microphone demonstration. Reserved final recordings stay out of rehearsals until final evaluation completes. Demo provenance and rehearsal use are recorded.
 
 Prepare a recording of the verified prototype, clearly labeled as recorded demonstration evidence with audio/build/configuration identities. On live failure, explain it and use the fallback; never portray fallback as live operation or replace evaluation results with it.
 
@@ -173,7 +174,7 @@ If Canva edits occur, identify the authoritative final version and make final ed
 
 ## 11. Rehearse and audit
 
-Rehearse slides plus demo around the 12-minute target, within the owner-confirmed limits. Agree speaker transitions; both collaborators understand the entire pipeline and individually practice their explanations.
+Rehearse the presentation within its 15-minute slot and the demo within its separate five-minute slot; record their durations separately. Prepare for the additional five-minute Q&A session. Agree speaker transitions; both collaborators understand the entire pipeline and individually practice their explanations.
 
 Prepare backup-supported answers for methods/models, leakage, tuning/epochs, F1/SD, selection, STT/context, false alarms/misses/failures and prototype limitations.
 
@@ -189,7 +190,7 @@ Discuss applicable simulated/translated-data limitations; supplemental non-Scam/
 
 ## References and rationale
 
-- Owner-supplied Term Project Submission instructions: seven slide topics, cloud/README, grading and deadline; owner's subsequent clarification controls presentation/demo/Q&A planning.
+- Owner-supplied Term Project Submission instructions: seven slide topics, cloud/README, grading and deadline; the professor's updated 15-minute presentation, five-minute demo and five-minute Q&A allocation reported by the owner controls timing.
 - [Full Proposal](../00%20-%20DOCUMENTs/Full%20Proposal/Phoebe_FullProposal.pdf), PDF pp. 1–4, §§2–7: task, scope, rationale and development pipeline.
 - [Pattern Recognition L06_Experimental Design and System Evaluation.pdf](course-lecture-sheets/Pattern%20Recognition%20L06_Experimental%20Design%20and%20System%20Evaluation.pdf), PDF pp. 19, 43, 45–50: reproducibility, condition-specific performance, component/system distinction, latency/resources/failures and reporting.
 - Approved Plans 00–05 supply authoritative methods/evidence/limitations; use their primary references for actual method claims.
