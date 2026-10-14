@@ -52,3 +52,7 @@ wandb/
 
 # Course materials kept local and out of Git
 01 - PLANs/course-lecture-sheets/
+
+# Example report
+06 - REPORT/example/
+06 - REPORT/example/*
