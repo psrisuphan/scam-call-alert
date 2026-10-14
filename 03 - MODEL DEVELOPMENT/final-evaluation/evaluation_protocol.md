@@ -1,6 +1,6 @@
-# Final training protocol and pending evaluation
+# Final training protocol and held-out evaluation
 
-This document records the frozen final-training settings and pending evaluation boundaries. It is not a selection-completion record, test authorization or final-test result. The first authorized final run failed persistence despite its completed computation summary. The separately owner-approved replacement completed two epochs and its model/checkpoints were independently verified in owner-local persistent storage. Final training is recoverable; selection provenance, Mac compatibility and held-out evaluation remain pending. No held-out test inference has run.
+This document records frozen training settings and evaluation boundaries. The first authorized final run failed persistence despite its completed computation summary; the approved replacement completed two epochs and its artifacts were verified in owner-local persistent storage. Selection provenance and Mac compatibility subsequently verified. The owner-authorized held-out evaluation `phaya-final-heldout-20261014T195035Z-15182dca` accounts for all 291 assignments, with 290 predictions and one execution failure. Its exact executed protocol, authorization, runtime identities and original evidence are preserved in the Git-ignored `evaluations/<evaluation_id>/` directory; this summary does not replace them. See `evaluation_report.md` for results and limitations.
 
 ## Approved candidate decision
 

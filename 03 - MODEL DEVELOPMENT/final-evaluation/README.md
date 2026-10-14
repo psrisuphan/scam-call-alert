@@ -2,6 +2,16 @@
 
 This directory contains tooling, templates and the final-run protocol. Importing `evaluation.py` does not load a dataset, model weights, or the test partition.
 
+## Completed held-out text evaluation — October 14, 2026
+
+The owner authorized evaluating the frozen final PhayaThaiBERT model. All 291 held-out assignments have an outcome: 290 successful predictions and one input-role normalization failure. Combined Scam F1 is **0.9744**, Accuracy **0.9759** and completion **99.66%**. Primary results use 254 successes out of 255 assignments (all 254 correct); supplemental results use 36 successes, with Scam F1 **0.6667** and Accuracy **0.8056**. Classification denominators exclude the execution failure; it remains in completion counts.
+
+See [evaluation_report.md](evaluation_report.md), [metrics.json](metrics.json) and `figures/` for report-ready aggregates. Detailed evidence is local and Git-ignored at `evaluations/phaya-final-heldout-20261014T195035Z-15182dca/`: owner authorization, frozen protocol, append-only prediction journal, every prediction/failure, original error evidence, separately reviewed errors, audits and execution metadata. All seven FP/FN records were reviewed; the unknown source role `r` in the one failed record was not remapped or rerun. The root independently recomputed metrics and verified unchanged artifact/data/configuration hashes.
+
+This supersedes the pending-test/compatibility continuation notes retained below as historical training and transfer context. Selected config and original training artifacts remain immutable. The evaluated model is not yet the packaged official app handoff; Plan 05 formal system evaluation was omitted by owner decision.
+
+The Mac portability fix exposes `infer-test --completion-record <local selection_completion.json>` through the existing pipeline API, requiring the same frozen SHA-256. Exact launch arguments, CPU environment, local timestamps and source identity are in the private `launch_metadata.json` and `owner_authorization.json`. Do not launch another test run just to reproduce the report: analysis can be regenerated from saved predictions and reviewed errors using `review_results.py`; a new inference/correction needs its own authorization and identity.
+
 Coworker continuation instructions: [COWORKER_HANDOFF.md](COWORKER_HANDOFF.md). The compatibility-transfer archive and checksum sidecar are listed in the owner's [Google Drive handoff folder](https://drive.google.com/drive/folders/1FwMMh3IlETobUeF5DY6HPcWUX_WgZ0SA?usp=drive_link). The Drive copy has not been independently downloaded/checksum-verified; verify it after download. Model files are not downloaded by Git and the provenance blocker must clear before the Mac check.
 
 ## Verified replacement final training

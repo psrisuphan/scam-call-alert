@@ -1,0 +1,141 @@
+{
+  "evaluation_id": "phaya-final-heldout-20261014T195035Z-15182dca",
+  "evaluation_type": "authorized final held-out text evaluation",
+  "final_run_id": "phaya-final-replacement-primary-epoch2-20261012T050936Z",
+  "artifact_id": "phaya-final-replacement-primary-epoch2-20261012T050936Z:2acfa4f1413c58716b29f250909c6ed1456f274b5dad19f944e96d9fb6b0c8ab",
+  "selected_config_sha256": "53824363fce53b915fba658892f742d0bbb61f0bed6646086b5393712dfcb88b",
+  "selection_completion_sha256": "1180fb319d7a5640492d49608be7296a779949a6b2fff37b4c2c48b0442b6917",
+  "assignments_sha256": "4f7a1e012f8a4883a15d8e99ab38f5da4d10a07cb0335ec09cbcee0bd914147a",
+  "test_csv_sha256": "c1d91e5cf3a193dff15e0e8a00f70e6a80257eefb13667fd8386e7e500f6d6ae",
+  "model_safetensors_sha256": "af64d3a917d5db82bc9dfe794c8f29125bbf13ad9060f726c75ac001f99d838b",
+  "artifact_manifest_sha256": "2acfa4f1413c58716b29f250909c6ed1456f274b5dad19f944e96d9fb6b0c8ab",
+  "evaluation_source_sha256": "ed015a4993ad23fb546759dacfc399c1f4550db333bb2c07eb6f124781914b11",
+  "authorization_reference": "User request on 2026-10-14: finish the final held-out evaluation of trained PhayaThaiBERT and report results.",
+  "mac_compatibility_sha256": "2e69358478f68ec77336b1b148a96b0a19df656c231d15af93e0ffbdd9c63fc3",
+  "threshold": 0.5,
+  "training_representation": "whole conversation with role markers",
+  "inference_representation": "whole conversation without role markers",
+  "model_training_condition": "primary_only",
+  "classification_metrics_denominator": "successful predictions only",
+  "completion_rate_denominator": "all 291 frozen test assignments",
+  "confusion_matrix_order": [
+    "Not Scam",
+    "Scam"
+  ],
+  "evaluation_window_local": {
+    "authorization_created_at": "2026-10-14T19:50:41+07:00",
+    "completed_at": "2026-10-14T19:52:54+07:00"
+  },
+  "runtime": {
+    "python": "3.12.15 (main, Sep 30 2026, 22:04:19) [Clang 21.0.0 (clang-2100.3.34.2)]",
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "device": "cpu",
+    "model_key": "phayathaibert",
+    "tokenizer_class": "CamembertTokenizerFast",
+    "packages": {
+      "torch": "2.14.1",
+      "transformers": "4.57.6",
+      "tokenizers": "0.22.2",
+      "safetensors": "0.8.0"
+    }
+  },
+  "combined": {
+    "assigned": 291,
+    "successful": 290,
+    "failed": 1,
+    "completion_rate": 0.9965635738831615,
+    "assigned_true_not_scam": 153,
+    "assigned_true_scam": 138,
+    "successful_true_not_scam": 153,
+    "successful_true_scam": 137,
+    "tn": 150,
+    "fp": 3,
+    "fn": 4,
+    "tp": 133,
+    "scam_precision": 0.9779411764705882,
+    "scam_recall": 0.9708029197080292,
+    "scam_f1": 0.9743589743589743,
+    "macro_f1": 0.9757788357136892,
+    "accuracy": 0.9758620689655172,
+    "undefined_metric_flags": [],
+    "failures_by_reason": {
+      "ValueError: hf_000418: source role 'r' requires owner confirmation": 1
+    }
+  },
+  "by_source": {
+    "primary": {
+      "assigned": 255,
+      "successful": 254,
+      "failed": 1,
+      "completion_rate": 0.996078431372549,
+      "assigned_true_not_scam": 128,
+      "assigned_true_scam": 127,
+      "successful_true_not_scam": 128,
+      "successful_true_scam": 126,
+      "tn": 128,
+      "fp": 0,
+      "fn": 0,
+      "tp": 126,
+      "scam_precision": 1.0,
+      "scam_recall": 1.0,
+      "scam_f1": 1.0,
+      "macro_f1": 1.0,
+      "accuracy": 1.0,
+      "undefined_metric_flags": [],
+      "failures_by_reason": {
+        "ValueError: hf_000418: source role 'r' requires owner confirmation": 1
+      }
+    },
+    "supplemental": {
+      "assigned": 36,
+      "successful": 36,
+      "failed": 0,
+      "completion_rate": 1.0,
+      "assigned_true_not_scam": 25,
+      "assigned_true_scam": 11,
+      "successful_true_not_scam": 25,
+      "successful_true_scam": 11,
+      "tn": 22,
+      "fp": 3,
+      "fn": 4,
+      "tp": 7,
+      "scam_precision": 0.7,
+      "scam_recall": 0.6363636363636364,
+      "scam_f1": 0.6666666666666666,
+      "macro_f1": 0.7647058823529411,
+      "accuracy": 0.8055555555555556,
+      "undefined_metric_flags": [],
+      "failures_by_reason": {}
+    }
+  },
+  "classification_error_review": {
+    "count": 7,
+    "status": "complete by authorized project worker",
+    "false_positives": 3,
+    "false_negatives": 4,
+    "all_errors_supplemental": true,
+    "original_generated_error_csv_sha256": "eac1b3a1cefef2507a54e4e61dc7b13055d172ae1fc0258bc3e39a3e31642b98",
+    "reviewed_copy_sha256": "23d7228659e69e24c5d56c04241a87dd264ac86730dcf51052d980872b860a9a",
+    "review_audit_sha256": "be11efd2f2b27f4563de6f3bf8657346bb46aaa56df185d2294d0e30a96bd059"
+  },
+  "private_evidence_directory": "03 - MODEL DEVELOPMENT/final-evaluation/evaluations/phaya-final-heldout-20261014T195035Z-15182dca",
+  "limitations": [
+    "This is one frozen-threshold text-only held-out evaluation; it is not an estimate of end-to-end audio or real-call accuracy.",
+    "The model was trained on primary-only data. Supplemental results are secondary transfer-domain evidence (36 assigned, 36 successful) and are imprecise.",
+    "No confidence interval is reported. No threshold/model/preprocessing/context tuning was performed on held-out results.",
+    "One primary Scam assignment failed before classifier inference because the frozen parser rejected a role token; it remains an execution failure and is excluded from the confusion matrix.",
+    "Artifacts establish a final model evaluation, not final application release, production performance, or completion of other app/context-fidelity gates.",
+    "A generic Transformers regex warning was emitted during tokenizer load; the loaded tokenizer is CamembertTokenizerFast and no tokenizer setting was changed."
+  ],
+  "review_audit_coverage_verified": true,
+  "review_audit_error_review_complete": true,
+  "execution_failure_summary": {
+    "count": 1,
+    "source_dataset": "primary",
+    "stage": "input role normalization before classifier inference",
+    "reason": "unrecognized source role r requires owner confirmation",
+    "correction_or_rerun_performed": false,
+    "detailed_review": "execution_failure_review.json in the private evidence directory"
+  },
+  "original_inference_marker_status": "artifacts_complete_pending_error_review"
+}

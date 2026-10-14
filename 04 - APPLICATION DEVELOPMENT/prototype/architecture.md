@@ -32,7 +32,7 @@ The application owns interaction, recorded playback, host-capture controls, tran
 ## Model and speech components
 
 - STT selected for integration: PyThaiASR's Wav2Vec2 large XLSR Thai checkpoint, pinned in `../stt/stt_config.json`. Its standalone benchmark excluded the classifier; subsequent combined functional checks are distinct from that benchmark.
-- Current classifier: owner-approved interim final-trained PhayaThaiBERT, pending final-test evaluation and official packaging. Plan 04/01 permits the provisional development context screen and accumulated demo choice with disclosed limitations. The official evaluated bundle is still required for formal release. The earlier WangchanBERTa app fixture is retired; its historical evidence is retained.
+- Current classifier: owner-approved interim final-trained PhayaThaiBERT; the same weights have completed held-out text evaluation, while official packaging/parity remains separate. Plan 04/01 permits the provisional development context screen and accumulated demo choice with disclosed limitations. The official evaluated bundle is still required if formal release is pursued. The earlier WangchanBERTa app fixture is retired; its historical evidence is retained.
 - The Python service is implemented on host loopback port 8765, reached by the emulator at `10.0.2.2:8765`. It loads the selected STT on MPS and the temporary classifier on CPU. This execution configuration and diagnostic settings are not yet frozen for experiments. The model adapter can be replaced explicitly with the official handoff loader; affected checks must be repeated.
 
 ## Permissions and background operation

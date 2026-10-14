@@ -83,7 +83,7 @@ Wait for a line like `{"status": "ready", "port": 8765, ...}`. Load time varies 
 - The service listens on `127.0.0.1:8765`. The emulator reaches it at `http://10.0.2.2:8765`, which the app uses by default.
 - `--recordings` lists the twelve development recordings in the app. Leave it out to see only the two synthetic diagnostic fixtures.
 - macOS microphone permission applies to the host capture process shown by the permission prompt (Python or its launching application). Allow that process; Android microphone forwarding is not used.
-- This uses the final-trained PhayaThaiBERT model as an owner-approved interim model. It has not been evaluated on the held-out test set, so treat results as demo output, not formal evidence.
+- This uses the final-trained PhayaThaiBERT weights evaluated in Plan 03/02; see the final-evaluation report. The app adapter is still interim pending official packaging/parity. Its legacy warning does not reflect current text-evaluation status. App output remains demo evidence; formal system evaluation was omitted.
 
 Check it from another terminal:
 

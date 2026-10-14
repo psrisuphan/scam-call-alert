@@ -1,8 +1,10 @@
-# Coworker handoff: verified final training, pending Mac check
+# Coworker handoff: final training and evaluation evidence
+
+Current continuation (2026-10-14): Mac compatibility and authorized held-out text evaluation are complete; see [evaluation_report.md](evaluation_report.md) and [README.md](README.md). All 291 assignments have outcomes, seven prediction errors have reviewed evidence, and one role-normalization execution failure remains disclosed. Original weights and settings were unchanged. Official bundle/parity/release remains a separate Plan 03/03 task. The transfer/check sequence below is retained historical context; do not repeat training, compatibility checks or held-out inference from its former pending instructions. Read task states only in the plans README.
 
 Read [the plans README](../../01%20-%20PLANs/README.md), Plan 03/01's approved scope/timing amendment, [Plan 03/02](../../01%20-%20PLANs/03%20-%20MODEL%20DEVELOPMENT/02%20-%20FINAL%20MODEL%20EVALUATION%20AND%20ERROR%20ANALYSIS.md), and [the final-evaluation README](README.md) before continuing.
 
-This is a development/compatibility handoff. It is not the evaluated-model release required by Plan 03/03. Plans 03/01–03/03 remain Planned.
+This is an evidence handoff. It is not the packaged model release required by Plan 03/03.
 
 ## What is complete
 
