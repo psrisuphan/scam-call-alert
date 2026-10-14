@@ -135,6 +135,11 @@ class Application:
 
 
 class Handler(BaseHTTPRequestHandler):
+    # The emulator's network takes ~0.5 s to finish each connection close, which throttled the
+    # native poll loop (timer/transcript updates). Keep-alive reuses one connection instead.
+    protocol_version = "HTTP/1.1"
+    disable_nagle_algorithm = True
+
     def log_message(self, *args):
         pass
 
