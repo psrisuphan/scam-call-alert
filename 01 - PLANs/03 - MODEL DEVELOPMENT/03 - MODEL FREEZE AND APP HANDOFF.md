@@ -12,6 +12,21 @@ Store this bundle and its inference adapter under the approved persistent Drive 
 
 The provisional bundle may be used only to wire the app/service boundary and perform software/functional smoke checks. Its predictions, scores, and runtime are not candidate-selection, model-parity, app-context-comparison, or Plan 05 evidence. Do not use final-test records. The referenced CV summary is role-free Scam F1 `0.962344 ± 0.013827` at epoch 3 (mean ± sample SD across folds); it justifies this temporary fixture choice only and does not select the final model. Once the official candidate and final inference artifact are ready, replace the provisional bundle, then repeat the affected integration and compatibility checks against the official artifact before context comparison or formal system evaluation. Keep the official selected-model prerequisites and completion criteria below unchanged.
 
+### Owner-approved interim replacement (2026-10-14; supersedes the provisional WangchanBERTa fixture for app wiring)
+
+The owner instructed replacing the provisional WangchanBERTa fixture with the final-trained PhayaThaiBERT model (`phaya-final-replacement-primary-epoch2-20261012T050936Z`, `model.safetensors` SHA-256 `af64d3a917d5db82bc9dfe794c8f29125bbf13ad9060f726c75ac001f99d838b`) before held-out evaluation. Owner request: "swap it", followed by downloading the handoff archive.
+
+Evidence before the swap:
+
+- The transfer archive matched SHA-256 `3eda11ba892c59d52c3985ecce8262d728dcdec2a01a5b0105dd7658bf5b9054`, and every `final_model/` file matched its artifact manifest.
+- The Mac compatibility check passed on the MacBook Air M2 (`mac-compatibility-20261013T233347Z`, outside Git). Both models were resident on MPS, using one FLEURS development clip. A first attempt failed on a host-specific absolute evidence path; it is preserved. The portability fix maps recorded paths into this checkout and keeps the SHA-256 binding.
+
+The service loads this model with `--model-kind interim`. The interim adapter uses the final-evaluation `load_pipeline` identity checks and the `predict_with_trace` role-free reference path. Settings are unchanged: 510-token budget, threshold 0.5, no quantization or precision change, classifier on MPS. Every response carries `INTERIM_UNEVALUATED_FINAL_MODEL`.
+
+Outputs remain development/functional evidence only. They are not final-test, parity, context-comparison or Plan 05 evidence. The official path is unchanged. Final-test authorization and evaluation (Plan 03/02), the evaluated bundle, local execution approval and development parity (this plan) must still complete. Repeat the affected integration checks against that official bundle before formal context comparison or system evaluation. The provisional WangchanBERTa weights may be removed from the owner's local disk; its Drive bundle (`provisional-app-model/provisional-wangchanberta-app-bundle.zip`) remains the persistent copy.
+
+Owner-approved narrow extension (2026-10-14): the owner subsequently authorized provisional development context screening with this unchanged interim PhayaThaiBERT artifact, under the explicit settings, 36-run budget and pending-fidelity restrictions recorded in Plan 04/01 §11. This supersedes the earlier prohibition on context comparison only for that screening. It does not authorize final-test access, final-system evaluation, parity claims or final context freeze. Repeat affected checks if the official artifact differs; all other handoff prerequisites remain unchanged.
+
 This task does not retrain, select configurations, tune thresholds, select STT, build the application or perform final system evaluation.
 
 ## Prerequisites
