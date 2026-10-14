@@ -57,6 +57,14 @@ def test_completion_record_can_be_relocated_by_exact_sha_without_rewriting_run_c
         raise AssertionError("relocated completion record with different bytes must be rejected")
 
 
+def test_infer_test_accepts_explicit_completion_record_path():
+    args = evaluation.parser().parse_args([
+        "infer-test", "--model-dir", "/model", "--authorization", "/approval.json",
+        "--completion-record", "/local/selection_completion.json",
+    ])
+    assert args.completion_record == "/local/selection_completion.json"
+
+
 def test_predictor_adapter_preserves_request_and_trace_without_a_model():
     class FakePipeline:
         model_key = "wangchanberta"

@@ -595,7 +595,10 @@ def _authorize_test(args: argparse.Namespace, selected_path: Path, model_dir: Pa
     if not final_run_config.is_file():
         raise ValueError("Final-training run config is required to resolve selection completion provenance")
     final_training = read_json(final_run_config)
-    completion_path = resolve_selection_completion(final_training)
+    completion_record_path = getattr(args, "completion_record", None)
+    completion_path = resolve_selection_completion(
+        final_training, Path(completion_record_path) if completion_record_path else None
+    )
     if authorization.get("selection_completion_sha256") != sha256(completion_path):
         raise ValueError("Final-test authorization must bind the verified selection completion artifact")
     completion = read_json(completion_path)
@@ -644,7 +647,11 @@ def infer_test(args: argparse.Namespace) -> None:
         if marker.get("status") in {"artifacts_complete_pending_error_review", "artifacts_complete_no_errors"}:
             raise FileExistsError("This evaluation is already finalized; preserve its evidence")
 
-    pipeline, artifact = load_pipeline(model_dir, selected_path, Path(args.preprocessing_config))
+    completion_record_path = getattr(args, "completion_record", None)
+    pipeline, artifact = load_pipeline(
+        model_dir, selected_path, Path(args.preprocessing_config),
+        completion_record_path=Path(completion_record_path) if completion_record_path else None,
+    )
     sys.path.insert(0, str(INPUT_DIR))
     import inputs
     input_config = inputs.load_config(Path(args.preprocessing_config))
@@ -939,6 +946,7 @@ def parser() -> argparse.ArgumentParser:
     infer.add_argument("--assignments", default=str(ROOT / "02 - DATASETs/prepared/splits/split_assignments.csv"))
     infer.add_argument("--test-csv", default=str(ROOT / "02 - DATASETs/prepared/splits/1 - test/dataset.csv"))
     infer.add_argument("--authorization", required=True)
+    infer.add_argument("--completion-record", help="local copy of the frozen selection-completion record; exact SHA-256 is still required")
     infer.add_argument("--authorized-test-execution", action="store_true")
     infer.add_argument("--output-dir", default=str(FINAL_DIR))
     infer.set_defaults(func=infer_test)
